@@ -52,8 +52,34 @@
 	--dark-divider-color	: #FFFFFF1A;
 	--error-color			: rgb(230, 87, 87);
 	--default-font			: "Manrope", sans-serif;
+	
+	/* Nike-inspired Gutter System */
+	--nike-gutter			: 16px;
 }
 
+@media (min-width: 768px) {
+	:root {
+		--nike-gutter: 24px;
+	}
+}
+
+@media (min-width: 992px) {
+	:root {
+		--nike-gutter: 48px;
+	}
+}
+
+/* Apply Nike Gutters to Main Containers */
+.container, .container-fluid {
+	padding-left: var(--nike-gutter) !important;
+	padding-right: var(--nike-gutter) !important;
+}
+
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1440px !important;
+	}
+}
 
 /* Product Grid Equal-Height Columns */
 .project-item-box {
@@ -533,7 +559,7 @@ body{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 1000;
+	z-index: 9999;
 	background-color: var(--accent-color);
 	display: flex;
 	align-items: center;
@@ -890,7 +916,7 @@ header.main-header .header-sticky.hide {
 .main-menu ul li .nav-link:focus,
 .main-menu ul li .nav-link.active {
   color: var(--primary-color);
-  border-bottom-color: var(--primary-color);
+  border-bottom-color: var(--accent-color);
 }
 
 /* Submenu dropdown */
@@ -1159,26 +1185,31 @@ header.main-header .header-sticky.hide {
 }
 
 .slicknav_btn {
-  background: #fff;
-  padding: 0;
-  display: flex;
+  background: transparent;
+  padding: 5px 10px;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: 10px;
   margin: 0;
-  border-radius: 50%;
-  border: 1px solid #e5e5e5;
+  border: none;
+  text-decoration: none;
+}
+
+.slicknav_menutxt {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
 }
 
 .slicknav_icon .slicknav_icon-bar {
   display: block;
-  width: 100%;
   height: 2px;
-  width: 18px;
+  width: 20px;
   background-color: #111;
   border-radius: 6px;
-  margin: 4px auto !important;
+  margin: 5px auto !important;
   transition: all 0.2s ease;
 }
 
@@ -1598,34 +1629,28 @@ header.main-header .header-sticky.hide {
 }
 
 .services-list-box{
-	background: var(--white-color);
-	border: 1px solid var(--secondary-color);
-	border-radius: 40px;
-	padding: 60px;
-	box-shadow: 0px 4px 30px 0px #0000000A;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 30px 60px;
+	gap: 30px;
 }
 
 .services-list-box .service-item{
-	width: calc(25% - 45px);
+	width: calc(25% - 22.5px);
 	position: relative;
+	background: var(--white-color);
+	border: 1px solid var(--secondary-color);
+	border-radius: 24px;
+	padding: 40px 25px;
+	box-shadow: 0px 10px 40px 0px rgba(0,0,0,0.06);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services-list-box .service-item:hover{
+	transform: translateY(-8px);
+	box-shadow: 0px 15px 50px 0px rgba(0,0,0,0.12);
 }
 
 .services-list-box .service-item:after{
-	content: '';
-	position: absolute;
-	width: 1px;
-	height: 100%;
-	top: 0;
-	right: -30px;
-	bottom: 0;
-	left: auto;
-	border-right: 1px solid var(--divider-color);
-}
-
-.services-list-box .service-item:nth-child(4n + 4):after{
 	display: none;
 }
 
@@ -2735,7 +2760,7 @@ header.main-header .header-sticky.hide {
 	position: relative;
 	background: url('../images/page-header-bg.jpg') no-repeat center center;
 	background-size: cover;
-	padding: 150px 0;
+	padding: 40px 0; /* Tightened vertical spacing like Nike */
 }
 
 .page-header::before{
@@ -6844,4 +6869,52 @@ header.main-header .header-sticky.hide {
 	.google-map-iframe iframe{
         height: 350px;
     }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Mobile Horizontal Scroll for Services List
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+	.services-list-box {
+		flex-wrap: nowrap !important;
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		scroll-snap-type: x mandatory;
+		padding-bottom: 30px !important; /* give space for scrollbar */
+		justify-content: flex-start !important;
+	}
+
+	.services-list-box::-webkit-scrollbar {
+		height: 4px;
+	}
+
+	.services-list-box::-webkit-scrollbar-thumb {
+		background-color: var(--accent-color);
+		border-radius: 10px;
+	}
+
+	.services-list-box .service-item {
+		flex: 0 0 calc(85vw - 40px) !important; /* take up most of the screen width */
+		width: auto !important;
+		scroll-snap-align: start;
+	}
+
+	/* Hide the vertical dividers on mobile */
+	.services-list-box .service-item:after {
+		display: none !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Mobile Hamburger Menu (Tablet & Below)
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+  .main-menu {
+    display: none !important;
+  }
+  .responsive-menu,
+  .navbar-toggle {
+    display: block !important;
+  }
 }

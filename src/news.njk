@@ -12,137 +12,39 @@ breadcrumbActive: news
 <div class="page-blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-1.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Bagani Launches New Amihan Tempest 4T Premium Oil</a></h2>
+            {% if articlesList and articlesList.length > 0 %}
+                {% for article in articlesList %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="post-item wow fadeInUp"{% if loop.index0 % 3 == 1 %} data-wow-delay="0.2s"{% elif loop.index0 % 3 == 2 %} data-wow-delay="0.4s"{% endif %}>
+                        <div class="post-featured-image">
+                            <figure>
+                                <a href="/news/{{ article.slug }}/" class="image-anime" data-cursor-text="View">
+                                    {% if article.image %}
+                                    <img src="{{ article.image }}" alt="{{ article.title }}">
+                                    {% else %}
+                                    <img src="/images/post-1.jpg" alt="{{ article.title }}">
+                                    {% endif %}
+                                </a>
+                            </figure>
                         </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-2.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Bagani Partners with Local Motorcycle Shops Nationwide</a></h2>
-                        </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
+                        <div class="post-item-body">
+                            <div class="post-item-content">
+                                {% if article.date %}<p class="post-date">{{ article.date }}</p>{% endif %}
+                                <h2><a href="/news/{{ article.slug }}/">{{ article.title }}</a></h2>
+                                {% if article.excerpt %}<p class="post-excerpt">{{ article.excerpt }}</p>{% endif %}
+                            </div>
+                            <div class="post-readmore-btn">
+                                <a href="/news/{{ article.slug }}/">Read more</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp" data-wow-delay="0.4s">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-3.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Bagani Joins Manila Motorcycle Festival 2026</a></h2>
-                        </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp" data-wow-delay="0.6s">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-4.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Tips: Choosing the Right Oil for Your Motorcycle</a></h2>
-                        </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-5.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Bagani Expands Product Line with Anitun Transmission Fluid</a></h2>
-                        </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="post-item wow fadeInUp" data-wow-delay="1s">
-                    <div class="post-featured-image">
-                        <figure>
-                            <a href="/news/bagani-launches-amihan-tempest/" class="image-anime" data-cursor-text="View">
-                                <img src="/images/post-6.jpg" alt="">
-                            </a>
-                        </figure>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="post-item-content">
-                            <h2><a href="/news/bagani-launches-amihan-tempest/">Rider Stories: Why Filipino Commuters Trust Bagani</a></h2>
-                        </div>
-                        <div class="post-readmore-btn">
-                            <a href="/news/bagani-launches-amihan-tempest/">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+                {% endfor %}
+            {% else %}
             <div class="col-lg-12">
-                <div class="page-pagination wow fadeInUp" data-wow-delay="1.2s">
-                    <ul class="pagination">
-                        <li><a href="#"><i class="fa-solid fa-angle-left"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-                    </ul>
-                </div>
+                <p style="text-align:center; padding: 60px 0; color: #888;">No articles published yet. Add articles in the Sanity Studio.</p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

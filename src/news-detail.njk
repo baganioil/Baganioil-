@@ -1,0 +1,77 @@
+---
+pagination:
+  data: articlesList
+  size: 1
+  alias: article
+permalink: "/news/{{ article.slug }}/"
+layout: base.njk
+activePage: news
+pageHeaderTitle: 'News <span>Article</span>'
+breadcrumbParent: news
+breadcrumbParentUrl: /news/
+breadcrumbActive: article
+eleventyComputed:
+  title: "{{ article.title }}"
+---
+
+{% include "page-header.njk" %}
+
+<!-- Page Single Post Start -->
+<div class="page-single-post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if article.image %}
+                <div class="post-image">
+                    <figure class="image-anime reveal">
+                        <img src="{{ article.image }}" alt="{{ article.title }}">
+                    </figure>
+                </div>
+                {% endif %}
+
+                <div class="post-content">
+                    <div class="post-entry">
+                        <h1 class="wow fadeInUp">{{ article.title }}</h1>
+                        {% if article.date %}<p class="post-date wow fadeInUp">{{ article.date }}</p>{% endif %}
+
+                        {% if article.excerpt %}
+                        <p class="wow fadeInUp"><strong>{{ article.excerpt }}</strong></p>
+                        {% endif %}
+
+                        {% if article.body %}
+                        <div class="wow fadeInUp" data-wow-delay="0.2s">
+                            {{ article.body | portableText | safe }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if article.tags and article.tags.length > 0 %}
+                    <div class="post-tag-links">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8">
+                                <div class="post-tags wow fadeInUp" data-wow-delay="0.5s">
+                                    <span class="tag-links">
+                                        Tags:
+                                        {% for tag in article.tags %}
+                                        <a href="#">{{ tag }}</a>
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="post-social-sharing wow fadeInUp" data-wow-delay="0.5s">
+                                    <ul>
+                                        <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Single Post End -->

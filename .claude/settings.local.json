@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rl \"Toplax\" *.html)",
+      "Bash(grep -rl \"Awaiken\" *.html)",
+      "Bash(grep -rl \"darkModeToggle\" *.html)",
+      "Bash(grep -rl \"data-theme\" *.html)",
+      "Bash(python3 -c \":*)"
+    ]
+  }
+}

@@ -18,6 +18,9 @@
     "url": "https://github.com/VinceCarter12/Bagani/issues"
   },
   "homepage": "https://github.com/VinceCarter12/Bagani#readme",
+  "dependencies": {
+    "@sanity/client": "^6.28.3"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.5"
   }
