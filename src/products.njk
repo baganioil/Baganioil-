@@ -27,7 +27,7 @@ breadcrumbActive: our products
         </div>
 
         <!-- Product Grid -->
-        <div class="row project-item-boxes">
+        <div class="row project-item-boxes" id="sanity-products-grid">
             {% for product in productsList %}
             <div class="col-lg-4 col-md-6 project-item-box {{ product.category }}">
                 <div class="product-card wow fadeInUp"{% if loop.index0 % 3 == 1 %} data-wow-delay="0.2s"{% elif loop.index0 % 3 == 2 %} data-wow-delay="0.4s"{% endif %}>
