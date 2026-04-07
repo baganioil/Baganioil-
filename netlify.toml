@@ -2,6 +2,9 @@
   command = "npx @11ty/eleventy"
   publish = "_site"
 
+[build.environment]
+  NODE_VERSION = "18"
+
 [functions]
   directory = "netlify/functions"
 
