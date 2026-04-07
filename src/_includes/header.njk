@@ -35,8 +35,12 @@
                     {% if site.social.instagram and site.social.instagram != "#" %}
                     <a href="{{ site.social.instagram }}" class="nike-nav-icon" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
                     {% endif %}
+                    <!-- Language toggle -->
+                    <button id="langToggle" onclick="toggleLang()" title="Switch language" class="preheader-lang-btn" style="margin-left:8px">EN</button>
                     <!-- CTA button -->
-                    <a href="/products/" class="nike-nav-cta" data-en="Shop Now" data-tl="Mamili Na">Shop Now</a>
+                    <div class="header-btn nav-shop-btn wow fadeInUp" data-wow-delay="0.4s" style="margin-left: 15px;">
+                        <a href="/products/" class="btn-default"><span data-en="Shop Now" data-tl="Mamili Na">Shop Now</span></a>
+                    </div>
                 </div>
 
                 <!-- Mobile: hamburger -->

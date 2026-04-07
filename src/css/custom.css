@@ -57,6 +57,10 @@
 	--nike-gutter			: 16px;
 }
 
+html, body {
+	overflow-x: hidden;
+}
+
 @media (min-width: 768px) {
 	:root {
 		--nike-gutter: 24px;
@@ -520,6 +524,30 @@ body{
 	right: auto;
 }
 
+/* Navigation Shop Button Overrides */
+.nav-shop-btn .btn-default {
+	padding: 1px 30px 1px 1px;
+}
+.nav-shop-btn .btn-default::before {
+	width: 10px;
+	height: 10px;
+	background-size: 16px auto;
+	transform: translate(-10px, -50%);
+}
+.nav-shop-btn .btn-default:hover::before {
+	transform: translate(-10px, -50%) rotate(45deg);
+}
+.nav-shop-btn .btn-default span {
+	font-size: 14px;
+	padding: 10px 16px;
+}
+
+@media (max-width: 991px) {
+    .nav-shop-btn {
+        display: none !important;
+    }
+}
+
 .btn-highlighted{
 	background-color: var(--white-color);
 }
@@ -738,7 +766,7 @@ body{
 }
 
 #bagani-header-wrap.scrolled {
-  transform: translateY(-38px);
+  transform: none;
 }
 
 /* ────────────────────────────────────────────────────────
@@ -838,8 +866,8 @@ header.main-header .header-sticky.hide {
   left: auto !important;
   right: auto !important;
   transform: none !important;
-  border-bottom: 1px solid #e5e5e5;
-  background: #ffffff !important;
+  border-bottom: 1px solid #333;
+  background: #1c1c1c !important;
   transition: background 0.35s ease,
               border     0.35s ease,
               box-shadow 0.35s ease;
@@ -870,6 +898,8 @@ header.main-header .header-sticky.hide {
   max-width: 140px;
   height: auto;
   transition: max-width 0.3s cubic-bezier(0.4,0,0.2,1);
+  /* Optional: Invert logo to white if the original is black */
+  filter: brightness(0) invert(1);
 }
 
 /* ── Center Nav Links ─────────────────────── */
@@ -900,7 +930,7 @@ header.main-header .header-sticky.hide {
   font-size: 15px;
   font-weight: 600;
   padding: 10px 16px;
-  color: var(--primary-color);
+  color: #ffffff;
   text-transform: capitalize;
   text-decoration: none;
   transition: color 0.2s ease, border-color 0.2s ease;
@@ -1012,7 +1042,7 @@ header.main-header .header-sticky.hide {
   border-radius: 50%;
   background: transparent;
   border: none;
-  color: #111;
+  color: #ffffff;
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
@@ -1020,8 +1050,8 @@ header.main-header .header-sticky.hide {
 }
 
 .nike-nav-icon:hover {
-  background: #f5f5f5;
-  color: #111;
+  background: #333333;
+  color: var(--accent-color);
   text-decoration: none;
 }
 
@@ -1324,14 +1354,18 @@ header.main-header .header-sticky.hide {
     z-index: 1;
 }
 
+.hero.hero-video {
+	clip-path: inset(0); /* Restricts the fixed video to the hero bounds */
+}
+
 .hero.hero-video .hero-bg-video{
-	position: absolute;
+	position: fixed;
 	top: 0;
 	right: 0;
 	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
+	z-index: 0;
 }
 
 .hero.hero-video .hero-bg-video video{
@@ -2760,7 +2794,13 @@ header.main-header .header-sticky.hide {
 	position: relative;
 	background: url('../images/page-header-bg.jpg') no-repeat center center;
 	background-size: cover;
-	padding: 40px 0; /* Tightened vertical spacing like Nike */
+	padding: 120px 0; /* Restored thicker padding so background is visible */
+}
+
+/* Modifier to remove background image inside product pages only */
+.page-header.product-page-header {
+	background-image: none !important;
+	background-color: var(--primary-color) !important;
 }
 
 .page-header::before{
@@ -2918,7 +2958,7 @@ header.main-header .header-sticky.hide {
 
 .mission-vision-item{
 	background-color: var(--white-color);
-	padding: 80px;
+	padding: 50px; /* Reduced from 80px to make the box less overwhelmingly large */
 }
 
 .mission-vision-content-header{
@@ -5085,7 +5125,10 @@ header.main-header .header-sticky.hide {
 	}
 }
 
-@media only screen and (max-width: 991px){
+@media only screen and (max-width: 991px) {
+  .slicknav_menu .slicknav_icon-bar {
+    background-color: #ffffff !important;
+  }
 	
 	/* Reset scroll transform because preheader is disabled */
 	#bagani-header-wrap.scrolled {

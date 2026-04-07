@@ -43,7 +43,6 @@
 
     <!-- Fixed header wrapper: topbar + navbar -->
     <div id="bagani-header-wrap">
-        {% include "topbar.njk" %}
         {% include "header.njk" %}
     </div>
     <!-- Spacer so content doesn't hide under fixed header -->
@@ -180,141 +179,340 @@
     </script>
 
     {% if site.facebookPageId and site.facebookPageId != "YOUR_FACEBOOK_PAGE_ID" %}
-    <!-- Custom Messenger Chat Widget -->
+    <!-- Bagani AI Chatbot Widget -->
     <style>
-      .bagani-chat-wrap { position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
-      /* Popup card */
+      /* ── Wrap ── */
+      .bagani-chat-wrap {
+        position: fixed; bottom: 28px; right: 28px; z-index: 9998;
+        display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      .bagani-chat-wrap.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+
+      /* ── Popup window ── */
       .bagani-chat-popup {
-        width: 300px; background: #fff; border-radius: 16px;
-        box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-        overflow: hidden; transform: scale(0.85) translateY(20px);
+        width: 350px; background: #222222; border-radius: 24px;
+        box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+        overflow: hidden; transform: scale(0.88) translateY(16px);
         opacity: 0; pointer-events: none;
-        transition: opacity 0.25s ease, transform 0.25s ease;
+        transition: opacity 0.28s ease, transform 0.28s ease;
         transform-origin: bottom right;
+        display: flex; flex-direction: column;
       }
       .bagani-chat-popup.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
-      .bagani-chat-popup-header {
-        background: linear-gradient(135deg, #0084ff 0%, #0066cc 100%);
+
+      /* ── Header ── */
+      .bagani-chat-header {
+        background: #FFC107;
         padding: 20px; display: flex; align-items: center; gap: 14px;
       }
-      .bagani-chat-popup-avatar {
-        width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4);
-        object-fit: cover; flex-shrink: 0;
+      .bagani-chat-avatar {
+        width: 46px; height: 46px; border-radius: 50%;
+        background: #222; border: 2px solid #222; object-fit: cover; flex-shrink: 0;
       }
-      .bagani-chat-popup-info { flex: 1; }
-      .bagani-chat-popup-name { color: #fff; font-weight: 700; font-size: 15px; margin: 0; }
-      .bagani-chat-popup-status { color: rgba(255,255,255,0.8); font-size: 12px; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
-      .bagani-chat-popup-status::before { content: ''; width: 7px; height: 7px; background: #44ff88; border-radius: 50%; display: inline-block; }
-      .bagani-chat-close-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
-      .bagani-chat-close-btn:hover { background: rgba(255,255,255,0.35); }
-      .bagani-chat-popup-body { padding: 20px; }
-      .bagani-chat-bubble { background: #f0f0f0; border-radius: 18px 18px 18px 4px; padding: 12px 16px; font-size: 14px; color: #333; line-height: 1.5; margin-bottom: 16px; }
-      .bagani-chat-start-btn {
-        display: flex; align-items: center; justify-content: center; gap: 10px;
-        width: 100%; padding: 13px; border-radius: 10px;
-        background: linear-gradient(135deg, #0084ff, #0066cc);
-        color: #fff; font-weight: 700; font-size: 14px;
-        text-decoration: none; transition: opacity 0.2s; border: none; cursor: pointer;
+      .bagani-chat-info { flex: 1; }
+      .bagani-chat-name { color: #222222; font-weight: 800; font-size: 16px; margin: 0; }
+      .bagani-chat-status { color: rgba(34,34,34,0.7); font-size: 12px; display: flex; align-items: center; gap: 5px; margin-top: 2px; font-weight: 600; }
+      .bagani-chat-status::after { content: ''; width: 8px; height: 8px; background: #222222; border-radius: 50%; display: inline-block; flex-shrink: 0; animation: baganiPulseHdr 2s infinite; margin-left: auto; }
+      @keyframes baganiPulseHdr { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
+      .bagani-chat-hdr-close { background: rgba(34,34,34,0.1); border: none; color: #222; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+      .bagani-chat-hdr-close:hover { background: rgba(34,34,34,0.2); }
+
+      /* ── Messages area ── */
+      .bagani-chat-messages {
+        flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px;
+        max-height: 280px; min-height: 160px;
+        scrollbar-width: thin; scrollbar-color: #444 #222;
       }
-      .bagani-chat-start-btn:hover { opacity: 0.88; color: #fff; }
-      /* FAB button */
+      .bagani-chat-messages::-webkit-scrollbar { width: 5px; }
+      .bagani-chat-messages::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+
+      /* Message bubbles */
+      .bagani-msg { max-width: 85%; font-size: 14px; padding: 12px 18px; line-height: 1.5; word-break: break-word; }
+      .bagani-msg.bot { background: #333333; color: #ffffff; border-radius: 20px 20px 20px 6px; align-self: flex-start; }
+      .bagani-msg.user { background: #FFC107; color: #222222; border-radius: 20px 20px 6px 20px; align-self: flex-end; font-weight: 600; }
+
+      /* Typing dots */
+      .bagani-typing { display: flex; gap: 5px; padding: 14px 18px; background: #333333; border-radius: 20px 20px 20px 6px; align-self: flex-start; }
+      .bagani-typing span { width: 8px; height: 8px; background: #FFC107; border-radius: 50%; animation: baganiDot 1.3s ease-in-out infinite; opacity: 0.4; }
+      .bagani-typing span:nth-child(2) { animation-delay: 0.2s; }
+      .bagani-typing span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes baganiDot { 0%,80%,100% { opacity: 0.4; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1.1); } }
+
+      /* Messenger fallback */
+      .bagani-msg-cta {
+        display: inline-block;
+        margin-top: 8px; padding: 10px 18px; border-radius: 20px;
+        background: #0084ff; color: #fff; font-size: 13px; font-weight: 700;
+        text-decoration: none; transition: background 0.2s; align-self: flex-start;
+        border: none; cursor: pointer; text-align: center;
+      }
+      .bagani-msg-cta:hover { background: #0060cc; color: #fff; }
+
+      /* ── Input row ── */
+      .bagani-chat-input-row {
+        display: flex; gap: 10px; padding: 16px 20px;
+        background: #222222;
+        border-top: 1px solid #333333;
+      }
+      .bagani-chat-input {
+        flex: 1; background: #333333; border: none; border-radius: 24px;
+        color: #ffffff; font-size: 14px; padding: 12px 18px; outline: none;
+        font-family: inherit; transition: background 0.2s;
+      }
+      .bagani-chat-input::placeholder { color: #888888; }
+      .bagani-chat-input:focus { background: #444444; }
+      .bagani-chat-send {
+        width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+        background: #FFC107; border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; transition: transform 0.2s, opacity 0.2s;
+      }
+      .bagani-chat-send:hover { transform: scale(1.05); }
+      .bagani-chat-send svg { width: 18px; height: 18px; fill: #222222; transform: translateX(2px); }
+      .bagani-chat-send:disabled { opacity: 0.5; transform: none; cursor: default; }
+
+      /* ── FAB ── */
       .bagani-chat-fab {
-        width: 58px; height: 58px; border-radius: 50%;
-        background: linear-gradient(135deg, #0084ff, #0066cc);
+        width: 64px; height: 64px; border-radius: 50%;
+        background: #FFC107;
         border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 4px 20px rgba(0,132,255,0.45);
-        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 8px 24px rgba(255,193,7,0.35);
+        transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease;
         position: relative;
       }
-      .bagani-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(0,132,255,0.55); }
-      .bagani-chat-fab svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
-      .bagani-chat-fab.open svg.icon-msg { transform: scale(0) rotate(90deg); }
-      .bagani-chat-fab svg.icon-close { position: absolute; transform: scale(0) rotate(-90deg); transition: transform 0.3s; }
+      .bagani-chat-fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(255,193,7,0.5); }
+      .bagani-chat-fab svg { width: 28px; height: 28px; fill: #222222; transition: transform 0.3s; }
+      .bagani-chat-fab.open svg.icon-chat { transform: scale(0) rotate(90deg); }
+      .bagani-chat-fab svg.icon-close { position: absolute; transform: scale(0) rotate(-90deg); transition: transform 0.3s; fill: #222222; }
       .bagani-chat-fab.open svg.icon-close { transform: scale(1) rotate(0); }
-      /* Pulse ring */
+      
+      /* Pulse */
       .bagani-chat-fab::before {
         content: ''; position: absolute; inset: -6px; border-radius: 50%;
-        border: 2px solid rgba(0,132,255,0.5);
-        animation: baganiPulse 2s ease-out infinite;
+        border: 2px solid rgba(255,193,7,0.4);
+        animation: baganiPulse 2.2s ease-out infinite;
       }
-      @keyframes baganiPulse {
-        0% { transform: scale(1); opacity: 0.7; }
-        100% { transform: scale(1.55); opacity: 0; }
-      }
-      /* Tooltip */
-      .bagani-chat-tooltip {
-        position: absolute; right: 70px; bottom: 50%; transform: translateY(50%);
-        background: #111; color: #fff; font-size: 12px; font-weight: 600;
-        padding: 6px 12px; border-radius: 6px; white-space: nowrap;
-        opacity: 0; pointer-events: none; transition: opacity 0.2s;
-      }
-      .bagani-chat-tooltip::after { content: ''; position: absolute; left: 100%; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-left-color: #111; }
-      .bagani-chat-fab:hover .bagani-chat-tooltip { opacity: 1; }
+      @keyframes baganiPulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.5); opacity: 0; } }
+      
       /* Badge */
       .bagani-chat-badge {
-        position: absolute; top: -2px; right: -2px;
-        width: 18px; height: 18px; border-radius: 50%;
-        background: #ff4444; border: 2px solid #fff;
+        position: absolute; top: 0; right: 0;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: #e03030; border: 3px solid #222222;
         font-size: 10px; font-weight: 700; color: #fff;
         display: flex; align-items: center; justify-content: center;
+      }
+      
+      /* Tooltip */
+      .bagani-chat-tip {
+        position: absolute; right: 76px; bottom: 50%; transform: translateY(50%);
+        background: #222222; color: #FFC107; font-size: 12px; font-weight: 600;
+        padding: 8px 14px; border-radius: 12px; white-space: nowrap;
+        opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .bagani-chat-tip::after { content: ''; position: absolute; left: 100%; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-left-color: #222222; }
+      .bagani-chat-fab:hover .bagani-chat-tip { opacity: 1; }
+
+      /* Mobile optimizations */
+      @media (max-width: 991px) {
+        .bagani-chat-wrap { right: 16px; bottom: 16px; }
+        .bagani-chat-popup { width: calc(100vw - 32px); max-width: 340px; }
       }
     </style>
 
     <div class="bagani-chat-wrap" id="baganiChatWrap">
-      <!-- Popup -->
-      <div class="bagani-chat-popup" id="baganiChatPopup">
-        <div class="bagani-chat-popup-header">
-          <img class="bagani-chat-popup-avatar" src="/images/bagani-icon.png" alt="Bagani Oil" onerror="this.style.display='none'">
-          <div class="bagani-chat-popup-info">
-            <p class="bagani-chat-popup-name">Bagani Oil</p>
-            <span class="bagani-chat-popup-status">Typically replies instantly</span>
+      <!-- Chat popup -->
+      <div class="bagani-chat-popup" id="baganiChatPopup" role="dialog" aria-label="Bagani AI Chat">
+        <!-- Header -->
+        <div class="bagani-chat-header">
+          <img class="bagani-chat-avatar" src="/images/bagani-icon.png" alt="Bagani AI" onerror="this.style.background='#2a1800'">
+          <div class="bagani-chat-info">
+            <p class="bagani-chat-name">Bagani AI</p>
+            <span class="bagani-chat-status">Powered by Gemini &bull; Always free</span>
           </div>
-          <button class="bagani-chat-close-btn" id="baganiChatClose" aria-label="Close">&#x2715;</button>
+          <button class="bagani-chat-hdr-close" id="baganiChatClose" aria-label="Close">&#x2715;</button>
         </div>
-        <div class="bagani-chat-popup-body">
-          <div class="bagani-chat-bubble">Hi! 👋 How can we help you with Bagani Oil? Ask us about products, dealers, or orders.</div>
-          <a href="https://m.me/{{ site.facebookPageId }}" target="_blank" rel="noopener" class="bagani-chat-start-btn">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.2V22l3.37-1.85c.9.248 1.853.381 2.842.381 5.523 0 10-4.145 10-9.288C22 6.145 17.523 2 12 2zm1.007 12.516l-2.548-2.717-4.97 2.717 5.467-5.8 2.61 2.717 4.907-2.717-5.466 5.8z"/></svg>
-            Continue on Messenger
-          </a>
+        <!-- Messages -->
+        <div class="bagani-chat-messages" id="baganiMessages"></div>
+        <!-- Input -->
+        <div class="bagani-chat-input-row">
+          <input class="bagani-chat-input" id="baganiChatInput" type="text" placeholder="Ask about our products…" maxlength="400" autocomplete="off">
+          <button class="bagani-chat-send" id="baganiChatSend" aria-label="Send">
+            <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+          </button>
         </div>
       </div>
-      <!-- FAB -->
-      <button class="bagani-chat-fab" id="baganiChatFab" aria-label="Chat with us">
-        <span class="bagani-chat-tooltip">Chat with us</span>
-        <div class="bagani-chat-badge">1</div>
-        <!-- Messenger icon -->
-        <svg class="icon-msg" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.2V22l3.37-1.85c.9.248 1.853.381 2.842.381 5.523 0 10-4.145 10-9.288C22 6.145 17.523 2 12 2zm1.007 12.516l-2.548-2.717-4.97 2.717 5.467-5.8 2.61 2.717 4.907-2.717-5.466 5.8z"/></svg>
+
+      <!-- FAB button -->
+      <button class="bagani-chat-fab" id="baganiChatFab" aria-label="Chat with Bagani AI">
+        <span class="bagani-chat-tip">Ask Bagani AI</span>
+        <div class="bagani-chat-badge" id="baganiChatBadge">1</div>
+        <!-- Chat icon -->
+        <svg class="icon-chat" viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
         <!-- Close icon -->
-        <svg class="icon-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="#0e0e0e" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
       </button>
     </div>
 
     <script>
-      (function() {
-        var fab = document.getElementById('baganiChatFab');
-        var popup = document.getElementById('baganiChatPopup');
-        var closeBtn = document.getElementById('baganiChatClose');
-        var badge = fab ? fab.querySelector('.bagani-chat-badge') : null;
-        var isOpen = false;
+    (function() {
+      var MESSENGER_URL = 'https://m.me/{{ site.facebookPageId }}';
+      var fab = document.getElementById('baganiChatFab');
+      var popup = document.getElementById('baganiChatPopup');
+      var closeBtn = document.getElementById('baganiChatClose');
+      var messages = document.getElementById('baganiMessages');
+      var input = document.getElementById('baganiChatInput');
+      var sendBtn = document.getElementById('baganiChatSend');
+      var badge = document.getElementById('baganiChatBadge');
+      var wrap = document.getElementById('baganiChatWrap');
+      var isOpen = false;
+      var isBusy = false;
 
-        function toggleChat() {
-          isOpen = !isOpen;
-          popup.classList.toggle('open', isOpen);
-          fab.classList.toggle('open', isOpen);
-          if (badge && isOpen) badge.style.display = 'none';
+      // ── Auto-hide on scroll ─────────────────────────────────
+      var hideTimer;
+      var userHidden = false;
+      function resetHideTimer() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function() {
+          if (!isOpen && !userHidden) {
+            wrap.classList.add('hidden');
+          }
+        }, 8000); // hide after 8s of inactivity if closed
+      }
+      window.addEventListener('scroll', function() {
+        if (!isOpen) {
+          wrap.classList.add('hidden');
+          clearTimeout(hideTimer);
+          // Reveal again after scroll stops for 2s
+          clearTimeout(hideTimer);
+          hideTimer = setTimeout(function() {
+            if (!userHidden) wrap.classList.remove('hidden');
+          }, 2000);
         }
-
-        if (fab) fab.addEventListener('click', toggleChat);
-        if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleChat(); });
-
-        // Auto-open after 4 seconds on first visit
-        if (!sessionStorage.getItem('baganiChatSeen')) {
-          setTimeout(function() {
-            if (!isOpen) { toggleChat(); sessionStorage.setItem('baganiChatSeen', '1'); }
-          }, 4000);
+      }, { passive: true });
+      // Show again on mouse move near bottom-right
+      document.addEventListener('mousemove', function(e) {
+        if (e.clientX > window.innerWidth - 160 && e.clientY > window.innerHeight - 160) {
+          wrap.classList.remove('hidden');
+          userHidden = false;
+          resetHideTimer();
         }
-      })();
+      });
+
+      // ── Toggle open/close ───────────────────────────────────
+      function toggleChat() {
+        isOpen = !isOpen;
+        popup.classList.toggle('open', isOpen);
+        fab.classList.toggle('open', isOpen);
+        if (badge) badge.style.display = 'none';
+        wrap.classList.remove('hidden');
+        userHidden = false;
+        if (isOpen && messages.children.length === 0) addBotMessage("Hi! 👋 I'm Bagani AI. Ask me anything about our oil products, compatibility, or where to buy!", false);
+        if (isOpen) setTimeout(function() { input.focus(); }, 50);
+      }
+
+      if (fab) fab.addEventListener('click', toggleChat);
+      if (closeBtn) closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        isOpen = false;
+        popup.classList.remove('open');
+        fab.classList.remove('open');
+        userHidden = true;
+        wrap.classList.add('hidden');
+      });
+
+      // ── Message helpers ─────────────────────────────────────
+      function scrollBottom() { messages.scrollTop = messages.scrollHeight; }
+
+      function addBotMessage(text, showMessenger) {
+        var div = document.createElement('div');
+        div.className = 'bagani-msg bot';
+        div.textContent = text;
+        messages.appendChild(div);
+        if (showMessenger) {
+          var cta = document.createElement('a');
+          cta.className = 'bagani-msg-cta';
+          cta.href = MESSENGER_URL;
+          cta.target = '_blank';
+          cta.rel = 'noopener';
+          cta.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.2V22l3.37-1.85c.9.248 1.853.381 2.842.381 5.523 0 10-4.145 10-9.288C22 6.145 17.523 2 12 2z"/></svg> Continue on Messenger';
+          messages.appendChild(cta);
+        }
+        scrollBottom();
+      }
+
+      function addUserMessage(text) {
+        var div = document.createElement('div');
+        div.className = 'bagani-msg user';
+        div.textContent = text;
+        messages.appendChild(div);
+        scrollBottom();
+      }
+
+      function addTyping() {
+        var div = document.createElement('div');
+        div.className = 'bagani-typing';
+        div.id = 'baganiTyping';
+        div.innerHTML = '<span></span><span></span><span></span>';
+        messages.appendChild(div);
+        scrollBottom();
+        return div;
+      }
+
+      function removeTyping() {
+        var el = document.getElementById('baganiTyping');
+        if (el) el.remove();
+      }
+
+      // ── Send message ────────────────────────────────────────
+      function sendMessage() {
+        var text = (input.value || '').trim();
+        if (!text || isBusy) return;
+        input.value = '';
+        addUserMessage(text);
+        isBusy = true;
+        sendBtn.disabled = true;
+        var typing = addTyping();
+
+        fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          removeTyping();
+          if (data.error) {
+            addBotMessage("Sorry, I'm having trouble right now. Please try again or chat with us on Messenger.", true);
+          } else {
+            addBotMessage(data.reply || "Let me connect you with our team.", data.suggestMessenger);
+          }
+        })
+        .catch(function() {
+          removeTyping();
+          addBotMessage("Connection error. Please try again or reach us on Messenger.", true);
+        })
+        .finally(function() {
+          isBusy = false;
+          sendBtn.disabled = false;
+          input.focus();
+        });
+      }
+
+      if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+      if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') sendMessage(); });
+
+      // ── Auto-open after 5s on first visit ───────────────────
+      if (!sessionStorage.getItem('baganiChatSeen')) {
+        setTimeout(function() {
+          if (!isOpen) {
+            toggleChat();
+            sessionStorage.setItem('baganiChatSeen', '1');
+          }
+        }, 5000);
+      }
+    })();
     </script>
     {% endif %}
     <!-- Sanity Live: client-side content fetching -->
