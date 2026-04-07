@@ -766,7 +766,7 @@ body{
 }
 
 #bagani-header-wrap.scrolled {
-  transform: none;
+  transform: translateY(-38px);
 }
 
 /* ────────────────────────────────────────────────────────
@@ -5130,11 +5130,6 @@ header.main-header .header-sticky.hide {
     background-color: #ffffff !important;
   }
 	
-	/* Reset scroll transform because preheader is disabled */
-	#bagani-header-wrap.scrolled {
-		transform: none;
-	}
-
 	.btn-default span{
 		padding: 12px 15px;
 	}
