@@ -773,12 +773,11 @@ body{
    PRE-HEADER (Nike top utility bar)
    ──────────────────────────────────────────────────────── */
 .nike-preheader {
-  background: #1c1c1c;
+  background: #f5f5f5;
   height: 38px;
   display: flex;
   align-items: center;
   overflow: hidden;
-  border-bottom: 1px solid #333;
 }
 
 .nike-preheader .container {
@@ -816,7 +815,7 @@ body{
 .preheader-right a {
   font-size: 11px;
   font-weight: 500;
-  color: #aaa;
+  color: #111;
   text-decoration: none;
   padding: 4px 10px;
   transition: color 0.2s;
@@ -827,15 +826,15 @@ body{
 }
 
 .preheader-divider {
-  color: #444;
+  color: #ccc;
   font-size: 11px;
   user-select: none;
 }
 
 .preheader-lang-btn {
   background: none;
-  border: 1.5px solid #555;
-  color: #aaa;
+  border: 1.5px solid #999;
+  color: #111;
   border-radius: 14px;
   padding: 2px 12px;
   font-size: 10px;
