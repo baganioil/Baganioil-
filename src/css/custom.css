@@ -898,8 +898,6 @@ header.main-header .header-sticky.hide {
   max-width: 140px;
   height: auto;
   transition: max-width 0.3s cubic-bezier(0.4,0,0.2,1);
-  /* Optional: Invert logo to white if the original is black */
-  filter: brightness(0) invert(1);
 }
 
 /* ── Center Nav Links ─────────────────────── */
