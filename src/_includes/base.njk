@@ -497,7 +497,13 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: text })
         })
-        .then(function(r) { return r.json(); })
+        .then(function(r) {
+          if (!r.ok) {
+            console.error('Chat function error:', r.status, r.statusText);
+            throw new Error('HTTP ' + r.status);
+          }
+          return r.json();
+        })
         .then(function(data) {
           removeTyping();
           if (data.error) {
@@ -506,7 +512,8 @@
             addBotMessage(data.reply || "Let me connect you with our team.", data.suggestMessenger);
           }
         })
-        .catch(function() {
+        .catch(function(err) {
+          console.error('Chat error:', err.message);
           removeTyping();
           addBotMessage("Connection error. Please try again or reach us on Facebook.", true);
         })
