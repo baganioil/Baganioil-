@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  SANITY_PROJECT_ID = "c7mgn6k7"
+  SANITY_DATASET = "production"
 
 [functions]
   directory = "netlify/functions"
