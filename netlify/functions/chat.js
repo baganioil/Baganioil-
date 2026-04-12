@@ -1,6 +1,6 @@
 // Netlify serverless function — Bagani AI chatbot
-// Uses Google Gemini 1.5 Flash (FREE tier via ai.google.dev)
-// Set env var GEMINI_API_KEY in Netlify dashboard → Environment variables
+// Uses Groq API with Llama 3.1 (FREE tier via console.groq.com)
+// Set env var GROQ_API_KEY in Netlify dashboard → Environment variables
 
 const SYSTEM_PROMPT = `You are Bagani AI, the helpful assistant for Bagani Oil — a premium Filipino lubricants brand made in the Philippines.
 
@@ -44,9 +44,8 @@ exports.handler = async function (event) {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-  console.log('GEMINI present:', !!GEMINI_API_KEY, '| Total env vars:', Object.keys(process.env).length, '| Has SANITY:', !!process.env.SANITY_PROJECT_ID);
-  if (!GEMINI_API_KEY) {
+  const GROQ_API_KEY = process.env.GROQ_API_KEY;
+  if (!GROQ_API_KEY) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'API key not configured' }) };
   }
 
@@ -62,32 +61,33 @@ exports.handler = async function (event) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Empty message' }) };
   }
 
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
   try {
-    const response = await fetch(GEMINI_URL, {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`
+      },
       body: JSON.stringify({
-        contents: [
-          { role: 'user', parts: [{ text: SYSTEM_PROMPT + '\n\nUser: ' + userMessage }] }
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: userMessage }
         ],
-        generationConfig: {
-          maxOutputTokens: 300,
-          temperature: 0.7
-        }
+        max_tokens: 300,
+        temperature: 0.7
       })
     });
 
     const rawText = await response.text();
 
     if (!response.ok) {
-      console.error('Gemini error:', response.status, rawText);
+      console.error('Groq error:', response.status, rawText);
       return { statusCode: 502, headers, body: JSON.stringify({ error: 'AI service unavailable', detail: rawText }) };
     }
 
     const data = JSON.parse(rawText);
-    let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let reply = data?.choices?.[0]?.message?.content || '';
 
     const suggestMessenger = reply.includes('SUGGEST_MESSENGER');
     reply = reply.replace(/SUGGEST_MESSENGER\n?/g, '').trim();
