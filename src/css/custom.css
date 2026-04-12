@@ -3000,7 +3000,8 @@ header.main-header .header-sticky.active {
 
 .page-header{
 	position: relative;
-	background: #111111;
+	background: url('../images/page-header-bg.jpg') no-repeat center center;
+	background-size: cover;
 	padding: 120px 0;
 }
 
