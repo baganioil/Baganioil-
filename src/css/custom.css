@@ -1560,7 +1560,9 @@ header.main-header .header-sticky.active {
 }
 
 .hero.hero-video {
-	clip-path: inset(0); /* Clips the fixed video to the hero section bounds */
+	position: relative;
+	overflow: hidden;
+	min-height: 100vh;
 }
 
 body[data-page="home"] #header-spacer {
@@ -1572,12 +1574,11 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .hero.hero-video .hero-bg-video{
-	position: fixed;
+	position: absolute;
 	top: 0;
-	right: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	z-index: 0;
 }
 
@@ -7687,7 +7688,6 @@ body[data-page="home"] .hero.hero-video {
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 	}
-	.hero.hero-video .hero-bg-video { display: none; }
 	.parallaxie { background-attachment: scroll !important; }
 }
 
