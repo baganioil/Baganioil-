@@ -2856,6 +2856,14 @@ header.main-header .header-sticky.active {
 	padding: 100px 0 0;
 }
 
+.about-cta-section {
+    background: url(../images/footer-bg.svg), var(--primary-color);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: auto;
+    padding: 80px 0;
+}
+
 .footer-header{
 	display: flex;
 	align-items: center;
@@ -2992,9 +3000,8 @@ header.main-header .header-sticky.active {
 
 .page-header{
 	position: relative;
-	background: url('../images/page-header-bg.jpg') no-repeat center center;
-	background-size: cover;
-	padding: 120px 0; /* Restored thicker padding so background is visible */
+	background: #111111;
+	padding: 120px 0;
 }
 
 /* Modifier to remove background image inside product pages only */
