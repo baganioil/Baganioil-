@@ -44,7 +44,7 @@ pageHeaderBg: /images/our-products.jpg
                 <button id="mobile-close-sidebar" class="mobile-close-btn d-lg-none"><i class="fa-solid fa-xmark"></i></button>
                 
                 <!-- Group 1: Category / Line -->
-                <div class="filter-group expanded">
+                <div class="filter-group expanded single-select">
                     <h4 class="filter-title">Category / Line <i class="fa-solid fa-chevron-up toggle-icon"></i></h4>
                     <div class="filter-body">
                         <label class="filter-checkbox">
@@ -158,19 +158,18 @@ window.addEventListener('load', function() {
     });
 
     // Sidebar Checkbox Filtering
-    var filters = [];
     $('.filter-check').on('change', function() {
-        var isChecked = $(this).is(':checked');
-        var val = $(this).val();
-
-        if (isChecked) {
-            filters.push(val);
-        } else {
-            filters = filters.filter(function(v) { return v !== val; });
+        // Single-select groups: uncheck all siblings when one is checked
+        var $group = $(this).closest('.filter-group');
+        if ($group.hasClass('single-select') && $(this).is(':checked')) {
+            $group.find('.filter-check').not(this).prop('checked', false);
         }
 
-        // Logic: combine all checked filters with a comma (OR logic is simplest for Isotope, but AND logic could be done by joining without spaces.)
-        // We use OR logic for checkboxes in same group typically, but Isotope standard is simple. Let's do OR logic:
+        // Rebuild filter from all currently checked inputs
+        var filters = [];
+        $('.filter-check:checked').each(function() {
+            filters.push($(this).val());
+        });
         var filterValue = filters.length ? filters.join(', ') : '*';
         $grid.isotope({ filter: filterValue });
 
