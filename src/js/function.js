@@ -4,11 +4,9 @@
 	var $window = $(window); 
 	var $body = $('body'); 
 
-	/* Preloader Effect — only show on first visit per session */
+	/* Preloader Effect */
 	$window.on('load', function(){
-		$(".preloader").fadeOut(600, function(){
-			sessionStorage.setItem('baganiLoaded', '1');
-		});
+		$(".preloader").fadeOut(600);
 	});
 
 	/* Sticky Header */	

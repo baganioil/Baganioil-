@@ -40,7 +40,27 @@
 <body data-page="{{ activePage }}">
 
     {% include "preloader.njk" %}
-    <script>if(sessionStorage.getItem('baganiLoaded')){var p=document.querySelector('.preloader');if(p)p.style.display='none';}</script>
+    <script>
+    (function(){
+      var navType = (performance.getEntriesByType('navigation')[0]||{}).type;
+      var isReload = navType === 'reload';
+      var wasClosed = localStorage.getItem('baganiWasClosed') === '1';
+      var isNewTab = !sessionStorage.getItem('baganiTabActive');
+      // Show preloader only on hard refresh OR after browser was closed
+      if (!isReload && !(wasClosed && isNewTab)) {
+        var p = document.querySelector('.preloader');
+        if (p) p.style.display = 'none';
+      }
+      // Mark this tab as active
+      sessionStorage.setItem('baganiTabActive', '1');
+      // Clear the "was closed" flag now that we've handled it
+      if (wasClosed && isNewTab) localStorage.removeItem('baganiWasClosed');
+      // Mark as closed when page is truly unloaded (not just navigating)
+      window.addEventListener('pagehide', function(e) {
+        if (!e.persisted) localStorage.setItem('baganiWasClosed', '1');
+      });
+    })();
+    </script>
 
     <!-- Fixed header wrapper: topbar + navbar -->
     <div id="bagani-header-wrap">
