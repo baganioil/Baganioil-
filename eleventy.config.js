@@ -288,6 +288,9 @@ module.exports = function (eleventyConfig) {
 		return [];
 	});
 
+	// Cache-busting: unique version per build so browsers always fetch fresh assets
+	eleventyConfig.addGlobalData("buildVersion", () => Date.now());
+
 	// Nunjucks filter: filter array by property value
 	eleventyConfig.addFilter("where", (arr, key, val) => {
 		return (arr || []).filter((item) => item[key] === val);
