@@ -38,9 +38,18 @@
 31. Responsive css
 -------------------------------------------------------------------------------------- */
 
+/* Love Nature — self-hosted display font */
+@font-face {
+	font-family: 'Love Nature';
+	src: url('/webfonts/love-nature.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 /************************************/
 /*** 	 01. Global Variables	  ***/
-/************************************/	
+/************************************/
 
 :root{
 	--primary-color			: #222222;
@@ -52,7 +61,8 @@
 	--dark-divider-color	: #FFFFFF1A;
 	--error-color			: rgb(230, 87, 87);
 	--default-font			: "Manrope", sans-serif;
-	
+	--heading-font			: "Love Nature", "Manrope", sans-serif;
+
 	/* Nike-inspired Gutter System */
 	--nike-gutter			: 16px;
 }
@@ -159,7 +169,7 @@ html, body {
 	display: inline-block;
 	padding: 3px 12px;
 	background: var(--accent-color);
-	color: #121212;
+	color: #222222;
 	font-size: 12px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -239,7 +249,7 @@ html, body {
 .product-categories ul li a.active-btn {
 	background: var(--accent-color);
 	border-color: var(--accent-color);
-	color: #121212;
+	color: #222222;
 }
 
 /* Product Single Page */
@@ -325,10 +335,20 @@ h3,
 h4,
 h5,
 h6{
-	margin :0;
+	margin: 0;
 	font-weight: 700;
 	line-height: 1.2em;
 	color: var(--primary-color);
+}
+
+/* Love Nature only on large display headings */
+h1, h2 {
+	font-family: var(--heading-font);
+	font-weight: normal;
+}
+
+h3, h4, h5, h6 {
+	font-family: var(--default-font);
 }
 
 figure{
@@ -607,10 +627,26 @@ body{
 	right: 0;
 	bottom: 0;
 	z-index: 9999;
-	background-color: rgb(28,28,28);
+	background: rgba(15, 15, 15, 0.55);
+	backdrop-filter: blur(28px) saturate(180%);
+	-webkit-backdrop-filter: blur(28px) saturate(180%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: opacity 0.8s ease, backdrop-filter 0.8s ease, -webkit-backdrop-filter 0.8s ease;
+}
+
+.preloader.loaded {
+	opacity: 0;
+	backdrop-filter: blur(0px) saturate(100%);
+	-webkit-backdrop-filter: blur(0px) saturate(100%);
+	pointer-events: none;
+}
+
+.preloader.loaded .loading-container {
+	transform: scale(0.9);
+	opacity: 0;
+	transition: all 0.6s ease;
 }
 
 .loading-container,
@@ -1472,7 +1508,7 @@ header.main-header .header-sticky.active {
   width: calc(100% - 32px);
   margin: 10px auto !important;
   padding: 10px 0 !important;
-  background: #1c1c1c; /* Bagani Dark */
+  background: #222222; /* Bagani Dark */
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5); /* Stronger shadow for dark mode */
 }
@@ -1727,7 +1763,8 @@ body[data-page="home"] .hero.hero-video {
 
 .about-img-2 img{
 	border: 10px solid var(--white-color);
-	aspect-ratio: 1 / 1.22;
+	width: 100%;
+	height: auto;
 	object-fit: cover;
 	border-radius: 40px;
 }
@@ -1858,7 +1895,7 @@ body[data-page="home"] .hero.hero-video {
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--primary-color);
+    background: #3C0F0F;
 	opacity: 70%;
     width: 100%;
     height: 100%;
@@ -2098,7 +2135,7 @@ body[data-page="home"] .hero.hero-video {
 /************************************/
 
 .what-we-do{
-	background: url('../images/what-we-do-bg.svg'), var(--primary-color);
+	background: url('../images/what-we-do-bg.svg'), #3C0F0F;
 	background-repeat: no-repeat;
 	background-position: bottom left;
 	background-size: auto;
@@ -2786,7 +2823,7 @@ body[data-page="home"] .hero.hero-video {
 .mag-tag {
   display: inline-block;
   background: #FFC107;
-  color: #121212;
+  color: #222222;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -3303,7 +3340,9 @@ body[data-page="home"] .hero.hero-video {
 .page-header{
 	position: relative;
 	background: linear-gradient(135deg, #0d0d0d 0%, #1c1c1c 50%, #2d2d2d 100%);
-	padding: 120px 0;
+	padding: 200px 0 120px;
+	margin-top: -80px;
+	z-index: 0;
 }
 
 /* Modifier to remove background image inside product pages only */
@@ -3366,7 +3405,7 @@ body[data-page="home"] .hero.hero-video {
 
 .mission-vision-bg{
 	position: relative;
-	background-color: #1c1c1c;
+	background-color: #3C0F0F;
 	padding: 100px 0 200px;
 }
 
@@ -5799,7 +5838,8 @@ body[data-page="home"] .hero.hero-video {
 	}
 
 	.about-img-2 img{
-		aspect-ratio: 1 / 1.1;
+		width: 100%;
+		height: auto;
 	}
 
 	.about-content-list ul li{
@@ -6150,7 +6190,7 @@ body[data-page="home"] .hero.hero-video {
 	}
 
 	.page-header{
-		padding: 80px 0;
+		padding: 160px 0 80px;
 	}
 
 	.page-header-box h1{
@@ -7621,7 +7661,7 @@ body[data-page="home"] .hero.hero-video {
 .product-card-inner:hover .product-image img { transform: scale(1.08); }
 
 .product-badge {
-    position: absolute; top: 16px; left: 16px; background: #FFC107; color: #1c1c1c;
+    position: absolute; top: 16px; left: 16px; background: #FFC107; color: #222222;
     font-size: 12px; font-weight: 800; padding: 6px 12px; border-radius: 4px; z-index: 2;
     text-transform: uppercase; letter-spacing: 1px;
 }

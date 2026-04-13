@@ -6,7 +6,10 @@
 
 	/* Preloader Effect */
 	$window.on('load', function(){
-		$(".preloader").fadeOut(600);
+		$(".preloader").addClass("loaded");
+		setTimeout(function() {
+			$(".preloader").css("display", "none");
+		}, 800);
 	});
 
 	/* Sticky Header */	
