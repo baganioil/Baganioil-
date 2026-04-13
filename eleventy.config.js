@@ -1,6 +1,86 @@
 const fs = require("fs");
 const path = require("path");
 
+// ── RSS helpers ────────────────────────────────────────────────────────────────
+const OIL_KEYWORDS = [
+	'oil', 'petroleum', 'petron', 'shell', 'caltex', 'seaoil', 'jetti', 'phoenix',
+	'fuel', 'gasoline', 'diesel', 'lubricant', 'crude', 'kerosene', 'lng', 'lpg',
+	'department of energy', 'doe energy', 'fuel price', 'oil price', 'pump price',
+];
+
+async function fetchRssText(url) {
+	try {
+		const res = await fetch(url, {
+			headers: { 'User-Agent': 'BaganiOil-NewsBot/1.0' },
+			signal: AbortSignal.timeout(8000),
+		});
+		if (!res.ok) return null;
+		return await res.text();
+	} catch (e) {
+		console.warn('[RSS] Failed to fetch', url, ':', e.message);
+		return null;
+	}
+}
+
+function parseRssItems(xml) {
+	const items = [];
+	const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+
+	const extractImageFromBlock = (block, descriptionRaw) => {
+		let m = block.match(/<media:content[^>]+url=["']([^"']+)["'][^>]*>/i);
+		if (m) return m[1];
+
+		m = block.match(/<media:thumbnail[^>]+url=["']([^"']+)["'][^>]*>/i);
+		if (m) return m[1];
+
+		m = block.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]*type=["']image\//i);
+		if (m) return m[1];
+
+		m = (descriptionRaw || '').match(/<img[^>]+src=["']([^"']+)["']/i);
+		return m ? m[1] : '';
+	};
+
+	let match;
+	while ((match = itemRegex.exec(xml)) !== null) {
+		const block = match[1];
+
+		const getText = (tag) => {
+			const m =
+				block.match(new RegExp('<' + tag + '[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/' + tag + '>')) ||
+				block.match(new RegExp('<' + tag + '(?:\\s[^>]*)?>([\\s\\S]*?)<\\/' + tag + '>'));
+			return m ? m[1].trim() : '';
+		};
+
+		const extractImg = (html) => {
+			const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+			return m ? m[1] : '';
+		};
+
+		const rawLink = getText('link');
+		const rawGuid = getText('guid');
+		const url = rawLink || (rawGuid.startsWith('http') ? rawGuid : '');
+		const rawDesc = getText('description');
+		const image = extractImageFromBlock(block, rawDesc) || extractImg(rawDesc);
+		const cleanDesc = rawDesc.replace(/<[^>]+>/g, '').trim();
+
+		if (url) {
+			items.push({
+				title: getText('title'),
+				url,
+				description: cleanDesc,
+				pubDate: getText('pubDate') || getText('dc:date'),
+				image,
+			});
+		}
+	}
+	return items;
+}
+
+function isOilRelated(item) {
+	const text = (item.title + ' ' + item.description).toLowerCase();
+	return OIL_KEYWORDS.some((kw) => text.includes(kw));
+}
+
 // Sanity client — only created when SANITY_PROJECT_ID env var is set
 function getSanityClient() {
 	if (!process.env.SANITY_PROJECT_ID) return null;
@@ -147,6 +227,44 @@ module.exports = function (eleventyConfig) {
 		return JSON.parse(fs.readFileSync(homepagePath, "utf8"));
 	});
 
+	// External oil news from Philippine RSS feeds (fetched at build time)
+	eleventyConfig.addGlobalData("externalNewsList", async () => {
+		const sources = [
+			{ url: 'https://data.gmanews.tv/gno/rss/news/feed.xml', source: 'GMA News' },
+			{ url: 'https://www.philstar.com/rss/headlines', source: 'Philstar' },
+			{ url: 'https://www.philstar.com/rss/business', source: 'Philstar Business' },
+		];
+
+		const all = [];
+		for (const src of sources) {
+			const xml = await fetchRssText(src.url);
+			if (!xml) continue;
+			const items = parseRssItems(xml)
+				.filter(isOilRelated)
+				.map((item) => ({
+					slug: null,
+					title: item.title,
+					date: item.pubDate ? new Date(item.pubDate).toISOString() : null,
+					image: item.image || null,
+					excerpt: item.description.slice(0, 220),
+					tags: ['Oil & Gas'],
+					isExternal: true,
+					url: item.url,
+					source: src.source,
+				}));
+			all.push(...items);
+		}
+
+		// Sort newest first, deduplicate by title
+		all.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+		const seen = new Set();
+		return all.filter((item) => {
+			if (seen.has(item.title)) return false;
+			seen.add(item.title);
+			return true;
+		});
+	});
+
 	// News articles: Sanity first, no local fallback (hardcoded in template previously)
 	eleventyConfig.addGlobalData("articlesList", async () => {
 		const client = getSanityClient();
@@ -198,6 +316,11 @@ module.exports = function (eleventyConfig) {
 				default: return `<p>${text}</p>`;
 			}
 		}).join("\n");
+	});
+
+	// Safe JSON injection into <script> tags (prevents </script> injection)
+	eleventyConfig.addFilter("jsonSafe", (obj) => {
+		return JSON.stringify(obj).replace(/<\/script>/gi, '<\\/script>');
 	});
 
 	return {

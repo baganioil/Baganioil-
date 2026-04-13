@@ -8,6 +8,8 @@ breadcrumbActive: news
 
 {% include "page-header.njk" %}
 
+<script>window.externalNews = {{ externalNewsList | jsonSafe | safe }};</script>
+
 <div class="page-blog mag-blog">
     <div class="container">
         <div class="row g-4 mag-grid" id="sanity-news-grid">

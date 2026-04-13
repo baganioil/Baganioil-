@@ -50,125 +50,336 @@
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   }
 
-  function initNews() {
+  function articleHref(a) {
+    return a.isExternal ? a.url : '/news/article/?s=' + encodeURIComponent(a.slug);
+  }
+  function articleTarget(a) {
+    return a.isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+  }
+  function articleTag(a) {
+    return a.isExternal ? (a.source || 'Oil & Gas') : ((a.tags && a.tags[0]) ? a.tags[0] : 'News');
+  }
+
+  var EXTERNAL_NEWS_CACHE_KEY = 'bagani-external-news-cache';
+  var EXTERNAL_NEWS_CACHE_TTL_MS = 30 * 60 * 1000;
+
+  function readExternalNewsCache() {
+    try {
+      var raw = localStorage.getItem(EXTERNAL_NEWS_CACHE_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.items) || !parsed.savedAt) return null;
+      return parsed;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeExternalNewsCache(items) {
+    try {
+      localStorage.setItem(EXTERNAL_NEWS_CACHE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        items: items || []
+      }));
+    } catch (e) {
+      // Ignore storage errors in private mode / quota issues.
+    }
+  }
+
+  function fetchExternalNewsLive(options) {
+    options = options || {};
+    var forceRefresh = !!options.forceRefresh;
+    var cached = readExternalNewsCache();
+
+    if (!forceRefresh && cached && (Date.now() - cached.savedAt) < EXTERNAL_NEWS_CACHE_TTL_MS) {
+      return Promise.resolve(cached.items);
+    }
+
+    var endpoint = '/.netlify/functions/external-news' + (forceRefresh ? ('?refresh=' + Date.now()) : '');
+
+    return fetch(endpoint, { cache: forceRefresh ? 'no-store' : 'default' })
+      .then(function (r) {
+        if (r.status === 429) throw new Error('rate-limited');
+        if (!r.ok) throw new Error('external-news fetch failed');
+        return r.json();
+      })
+      .then(function (payload) {
+        var items = (payload && payload.items) ? payload.items : [];
+        if (items.length) writeExternalNewsCache(items);
+        return items;
+      })
+      .catch(function () {
+        var fallbackCache = readExternalNewsCache();
+        if (fallbackCache && Array.isArray(fallbackCache.items) && fallbackCache.items.length) {
+          return fallbackCache.items;
+        }
+        return window.externalNews || [];
+      });
+  }
+
+  var BAGANI_LATEST_PAGE_SIZE = 8;
+  var EXTERNAL_NEWS_PAGE_SIZE = 6;
+  var _newsPaginationState = { baganiPage: 1, externalPage: 1 };
+  var _newsDataCache = null;
+
+  function clampPage(page, total) {
+    if (total < 1) return 1;
+    if (page < 1) return 1;
+    if (page > total) return total;
+    return page;
+  }
+
+  function renderPager(target, currentPage, totalPages) {
+    if (totalPages <= 1) return '';
+
+    var prevDisabled = currentPage <= 1 ? ' disabled' : '';
+    var nextDisabled = currentPage >= totalPages ? ' disabled' : '';
+    var html = '<div class="news-pagination" data-target="' + target + '">';
+    html += '<button class="news-page-btn" data-news-page-target="' + target + '" data-news-page="' + (currentPage - 1) + '"' + prevDisabled + '>Prev</button>';
+
+    for (var i = 1; i <= totalPages; i++) {
+      var active = i === currentPage ? ' is-active' : '';
+      html += '<button class="news-page-btn' + active + '" data-news-page-target="' + target + '" data-news-page="' + i + '">' + i + '</button>';
+    }
+
+    html += '<button class="news-page-btn" data-news-page-target="' + target + '" data-news-page="' + (currentPage + 1) + '"' + nextDisabled + '>Next</button>';
+    html += '</div>';
+    return html;
+  }
+
+  function bindNewsControls() {
+    var refreshBtn = document.getElementById('refreshExternalNewsBtn');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', function () {
+        if (refreshBtn.dataset.loading === '1') return;
+        refreshBtn.dataset.loading = '1';
+        refreshBtn.classList.add('is-loading');
+        var label = refreshBtn.querySelector('.refresh-news-label');
+        if (label) label.textContent = 'Refreshing...';
+        _newsPaginationState.externalPage = 1;
+        initNews(true);
+      });
+    }
+
+    var pageButtons = document.querySelectorAll('[data-news-page-target][data-news-page]');
+    pageButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-news-page-target');
+        var page = parseInt(btn.getAttribute('data-news-page'), 10);
+        if (!target || isNaN(page)) return;
+        if (btn.hasAttribute('disabled')) return;
+
+        if (target === 'bagani') _newsPaginationState.baganiPage = page;
+        if (target === 'external') _newsPaginationState.externalPage = page;
+
+        if (_newsDataCache) {
+          renderNewsGrid(_newsDataCache.bagani, _newsDataCache.external);
+        }
+      });
+    });
+  }
+
+  function renderNewsGrid(baganiArticles, external) {
     var grid = document.getElementById('sanity-news-grid');
     if (!grid) return;
 
-    grid.innerHTML = '<div class="col-12 text-center py-5"><p style="color:#aaa">Loading articles...</p></div>';
+    var html = '';
 
-    sanityFetch('*[_type == "article"] | order(date desc) { "slug": slug.current, title, date, "image": image.asset->url, excerpt, tags }')
-      .then(function (articles) {
-        if (!articles || !articles.length) {
-          grid.innerHTML = '<div class="col-12 text-center py-5"><p style="color:#888">No articles published yet.</p></div>';
-          return;
-        }
+    // ── BAGANI NEWS & ANNOUNCEMENTS ───────────────────────────────────────
+    html += '<div class="col-12">' +
+      '<div class="news-section-intro">' +
+        '<div class="news-section-eyebrow">Official</div>' +
+        '<h2 class="news-section-heading">Bagani <span>News</span></h2>' +
+        '<div class="news-section-rule"></div>' +
+      '</div>' +
+    '</div>';
 
-        var html = '';
+    if (!baganiArticles.length) {
+      html += '<div class="col-12 text-center py-4">' +
+        '<p style="color:#888">No announcements published yet.</p>' +
+      '</div>';
+    } else {
+      var feat = baganiArticles[0];
+      var featHref = '/news/article/?s=' + encodeURIComponent(feat.slug);
+      var featTag = (feat.tags && feat.tags[0]) ? feat.tags[0] : 'News';
+      var featImg = feat.image || '/images/post-1.jpg';
+      var featDate = formatDate(feat.date);
 
-        // ── SECTION 1: Featured + Sidebar (articles 0–3) ─────────────────────
-        var feat = articles[0];
-        var featHref = '/news/article/?s=' + encodeURIComponent(feat.slug);
-        var featTag  = (feat.tags && feat.tags[0]) ? feat.tags[0] : 'News';
-        var featImg  = feat.image || '/images/post-1.jpg';
-        var featDate = formatDate(feat.date);
+      var sidebarHtml = baganiArticles.slice(1, 4).map(function (a) {
+        var href = '/news/article/?s=' + encodeURIComponent(a.slug);
+        var tag = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
+        var img = a.image || '/images/post-1.jpg';
+        var date = formatDate(a.date);
+        return '<article class="mag-sidebar-item">' +
+          '<div class="mag-sidebar-body">' +
+            '<span class="mag-tag mag-tag-sm">' + tag + '</span>' +
+            '<h3 class="mag-sidebar-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h3>' +
+            (a.excerpt ? '<p class="mag-sidebar-excerpt">' + a.excerpt + '</p>' : '') +
+            (date ? '<span class="mag-sidebar-date"><i class="fa-regular fa-calendar"></i> ' + date + '</span>' : '') +
+          '</div>' +
+          '<a href="' + href + '" class="mag-sidebar-thumb">' +
+            '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
+          '</a>' +
+        '</article>';
+      }).join('');
 
-        var sidebarHtml = articles.slice(1, 4).map(function (a) {
+      html += '<div class="col-12">' +
+        '<div class="row g-0 mag-top-row">' +
+          '<div class="col-lg-7 mag-featured-col">' +
+            '<article class="mag-featured">' +
+              '<a href="' + featHref + '" class="mag-featured-img">' +
+                '<img src="' + featImg + '" alt="' + (feat.title || '') + '" loading="lazy">' +
+              '</a>' +
+              '<div class="mag-featured-body">' +
+                '<div class="mag-meta">' +
+                  '<span class="mag-tag">' + featTag + '</span>' +
+                  (featDate ? '<span class="mag-meta-date"><i class="fa-regular fa-calendar"></i> ' + featDate + '</span>' : '') +
+                '</div>' +
+                '<h2 class="mag-featured-title"><a href="' + featHref + '">' + (feat.title || 'Untitled') + '</a></h2>' +
+                (feat.excerpt ? '<p class="mag-excerpt">' + feat.excerpt + '</p>' : '') +
+                '<a href="' + featHref + '" class="mag-readmore">Read Article <i class="fa-solid fa-arrow-right"></i></a>' +
+              '</div>' +
+            '</article>' +
+          '</div>' +
+          '<div class="col-lg-5 mag-sidebar-col">' +
+            '<div class="mag-sidebar">' + sidebarHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+      var overlayItems = baganiArticles.slice(4, 6);
+      if (overlayItems.length) {
+        var overlayHtml = overlayItems.map(function (a) {
           var href = '/news/article/?s=' + encodeURIComponent(a.slug);
-          var tag  = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
-          var img  = a.image || '/images/post-1.jpg';
-          var date = formatDate(a.date);
-          return '<article class="mag-sidebar-item">' +
-            '<div class="mag-sidebar-body">' +
-              '<span class="mag-tag mag-tag-sm">' + tag + '</span>' +
-              '<h3 class="mag-sidebar-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h3>' +
-              (a.excerpt ? '<p class="mag-sidebar-excerpt">' + a.excerpt + '</p>' : '') +
-              (date ? '<span class="mag-sidebar-date"><i class="fa-regular fa-calendar"></i> ' + date + '</span>' : '') +
-            '</div>' +
-            '<a href="' + href + '" class="mag-sidebar-thumb">' +
-              '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
-            '</a>' +
-          '</article>';
+          var tag = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
+          var img = a.image || '/images/post-1.jpg';
+          return '<div class="col-lg-6 col-md-6">' +
+            '<article class="mag-overlay-card">' +
+              '<a href="' + href + '" class="mag-overlay-img">' +
+                '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
+              '</a>' +
+              '<div class="mag-overlay-body">' +
+                '<span class="mag-tag">' + tag + '</span>' +
+                '<h3 class="mag-overlay-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h3>' +
+                (a.excerpt ? '<p class="mag-overlay-excerpt">' + a.excerpt + '</p>' : '') +
+                '<a href="' + href + '" class="mag-readmore mag-readmore-sm">Read Article <i class="fa-solid fa-arrow-right"></i></a>' +
+              '</div>' +
+            '</article>' +
+          '</div>';
         }).join('');
 
-        html += '<div class="col-12">' +
-          '<div class="row g-0 mag-top-row">' +
-            '<div class="col-lg-7 mag-featured-col">' +
-              '<article class="mag-featured">' +
-                '<a href="' + featHref + '" class="mag-featured-img">' +
-                  '<img src="' + featImg + '" alt="' + (feat.title || '') + '" loading="lazy">' +
-                '</a>' +
-                '<div class="mag-featured-body">' +
-                  '<div class="mag-meta">' +
-                    '<span class="mag-tag">' + featTag + '</span>' +
-                    (featDate ? '<span class="mag-meta-date"><i class="fa-regular fa-calendar"></i> ' + featDate + '</span>' : '') +
-                  '</div>' +
-                  '<h2 class="mag-featured-title"><a href="' + featHref + '">' + (feat.title || 'Untitled') + '</a></h2>' +
-                  (feat.excerpt ? '<p class="mag-excerpt">' + feat.excerpt + '</p>' : '') +
-                  '<a href="' + featHref + '" class="mag-readmore">Read Article <i class="fa-solid fa-arrow-right"></i></a>' +
-                '</div>' +
-              '</article>' +
-            '</div>' +
-            '<div class="col-lg-5 mag-sidebar-col">' +
-              '<div class="mag-sidebar">' + sidebarHtml + '</div>' +
-            '</div>' +
-          '</div>' +
+        html += '<div class="col-12"><div class="row g-0 mag-overlay-row">' + overlayHtml + '</div></div>';
+      }
+
+      var latestItems = baganiArticles.slice(6);
+      if (latestItems.length) {
+        var latestTotalPages = Math.ceil(latestItems.length / BAGANI_LATEST_PAGE_SIZE);
+        _newsPaginationState.baganiPage = clampPage(_newsPaginationState.baganiPage, latestTotalPages);
+        var latestStart = (_newsPaginationState.baganiPage - 1) * BAGANI_LATEST_PAGE_SIZE;
+        var latestPagedItems = latestItems.slice(latestStart, latestStart + BAGANI_LATEST_PAGE_SIZE);
+
+        var latestHtml = latestPagedItems.map(function (a) {
+          var href = '/news/article/?s=' + encodeURIComponent(a.slug);
+          var tag = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
+          var img = a.image || '/images/post-1.jpg';
+          var date = formatDate(a.date);
+          return '<div class="col-lg-3 col-md-6 col-6">' +
+            '<article class="mag-latest-item">' +
+              '<a href="' + href + '" class="mag-latest-img">' +
+                '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
+              '</a>' +
+              '<div class="mag-latest-body">' +
+                '<span class="mag-tag mag-tag-sm">' + tag + '</span>' +
+                '<h4 class="mag-latest-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h4>' +
+                (date ? '<span class="mag-latest-date"><i class="fa-regular fa-calendar"></i> ' + date + '</span>' : '') +
+              '</div>' +
+            '</article>' +
+          '</div>';
+        }).join('');
+
+        html += '<div class="col-12 mag-latest-section">' +
+          '<div class="mag-latest-header"><h2>More Announcements</h2><div class="mag-latest-line"></div></div>' +
+          '<div class="row g-4 mag-latest-row">' + latestHtml + '</div>' +
+          renderPager('bagani', _newsPaginationState.baganiPage, latestTotalPages) +
         '</div>';
+      }
+    }
 
-        // ── SECTION 2: Full-bleed overlay cards (articles 4–5) ───────────────
-        var overlayItems = articles.slice(4, 6);
-        if (overlayItems.length) {
-          var overlayHtml = overlayItems.map(function (a) {
-            var href = '/news/article/?s=' + encodeURIComponent(a.slug);
-            var tag  = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
-            var img  = a.image || '/images/post-1.jpg';
-            return '<div class="col-lg-6 col-md-6">' +
-              '<article class="mag-overlay-card">' +
-                '<a href="' + href + '" class="mag-overlay-img">' +
-                  '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
-                '</a>' +
-                '<div class="mag-overlay-body">' +
-                  '<span class="mag-tag">' + tag + '</span>' +
-                  '<h3 class="mag-overlay-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h3>' +
-                  (a.excerpt ? '<p class="mag-overlay-excerpt">' + a.excerpt + '</p>' : '') +
-                  '<a href="' + href + '" class="mag-readmore mag-readmore-sm">Read Article <i class="fa-solid fa-arrow-right"></i></a>' +
-                '</div>' +
-              '</article>' +
+    if (external.length) {
+      var externalTotalPages = Math.ceil(external.length / EXTERNAL_NEWS_PAGE_SIZE);
+      _newsPaginationState.externalPage = clampPage(_newsPaginationState.externalPage, externalTotalPages);
+      var extStart = (_newsPaginationState.externalPage - 1) * EXTERNAL_NEWS_PAGE_SIZE;
+      var externalPagedItems = external.slice(extStart, extStart + EXTERNAL_NEWS_PAGE_SIZE);
+
+      var industryHtml = externalPagedItems.map(function (a) {
+        var date = formatDate(a.date);
+        var hasImage = !!a.image;
+        var cardClass = hasImage ? 'news-feed-item has-image' : 'news-feed-item no-image';
+        var thumbHtml = hasImage
+          ? '<div class="news-feed-thumb">' +
+              '<a href="' + a.url + '" target="_blank" rel="noopener noreferrer">' +
+                '<img src="' + a.image + '" alt="' + (a.title || '') + '" loading="lazy">' +
+              '</a>' +
+            '</div>'
+          : '<div class="news-feed-noimage" aria-hidden="true">' +
+              '<i class="fa-regular fa-newspaper"></i>' +
             '</div>';
-          }).join('');
-          html += '<div class="col-12">' +
-            '<div class="row g-0 mag-overlay-row">' + overlayHtml + '</div>' +
-          '</div>';
-        }
+        return '<div class="col-lg-6 col-12">' +
+          '<article class="' + cardClass + '">' +
+            thumbHtml +
+            '<div class="news-feed-body">' +
+              '<div class="news-feed-meta">' +
+                '<span class="news-feed-source">' + (a.source || 'News') + '</span>' +
+                (date ? '<span class="news-feed-date"><i class="fa-regular fa-calendar"></i> ' + date + '</span>' : '') +
+              '</div>' +
+              '<h4 class="news-feed-title"><a href="' + a.url + '" target="_blank" rel="noopener noreferrer">' + (a.title || 'Untitled') + '</a></h4>' +
+              (a.excerpt ? '<p class="news-feed-excerpt">' + a.excerpt + '</p>' : '') +
+              '<a href="' + a.url + '" target="_blank" rel="noopener noreferrer" class="news-feed-link">Read Full Article <i class="fa-solid fa-arrow-up-right-from-square"></i></a>' +
+            '</div>' +
+          '</article>' +
+        '</div>';
+      }).join('');
 
-        // ── SECTION 3: Latest Articles 4-col grid (articles 6+) ──────────────
-        var latestItems = articles.slice(6);
-        if (latestItems.length) {
-          var latestHtml = latestItems.map(function (a) {
-            var href = '/news/article/?s=' + encodeURIComponent(a.slug);
-            var tag  = (a.tags && a.tags[0]) ? a.tags[0] : 'News';
-            var img  = a.image || '/images/post-1.jpg';
-            var date = formatDate(a.date);
-            return '<div class="col-lg-3 col-md-6 col-6">' +
-              '<article class="mag-latest-item">' +
-                '<a href="' + href + '" class="mag-latest-img">' +
-                  '<img src="' + img + '" alt="' + (a.title || '') + '" loading="lazy">' +
-                '</a>' +
-                '<div class="mag-latest-body">' +
-                  '<span class="mag-tag mag-tag-sm">' + tag + '</span>' +
-                  '<h4 class="mag-latest-title"><a href="' + href + '">' + (a.title || 'Untitled') + '</a></h4>' +
-                  (date ? '<span class="mag-latest-date"><i class="fa-regular fa-calendar"></i> ' + date + '</span>' : '') +
-                '</div>' +
-              '</article>' +
-            '</div>';
-          }).join('');
-          html += '<div class="col-12 mag-latest-section">' +
-            '<div class="mag-latest-header"><h2>Latest Articles</h2><div class="mag-latest-line"></div></div>' +
-            '<div class="row g-4 mag-latest-row">' + latestHtml + '</div>' +
-          '</div>';
-        }
+      html += '<div class="col-12 mag-industry-section">' +
+        '<div class="news-section-intro">' +
+          '<div class="news-section-eyebrow">From Philippine Sources</div>' +
+          '<h2 class="news-section-heading">Oil Industry <span>News</span></h2>' +
+          '<p class="news-section-desc">Latest oil &amp; energy updates from GMA News, Philstar, and more.</p>' +
+          '<button type="button" class="news-refresh-btn" id="refreshExternalNewsBtn"><i class="fa-solid fa-rotate-right"></i> <span class="refresh-news-label">Refresh News</span></button>' +
+          '<div class="news-section-rule"></div>' +
+        '</div>' +
+        '<div class="row g-3">' + industryHtml + '</div>' +
+        renderPager('external', _newsPaginationState.externalPage, externalTotalPages) +
+      '</div>';
+    }
 
-        grid.innerHTML = html;
-        reInitWow();
+    grid.innerHTML = html;
+    bindNewsControls();
+    reInitWow();
+  }
+
+  function initNews(forceExternalRefresh) {
+    var grid = document.getElementById('sanity-news-grid');
+    if (!grid) return Promise.resolve();
+
+    if (_newsDataCache && !forceExternalRefresh) {
+      renderNewsGrid(_newsDataCache.bagani, _newsDataCache.external);
+      return Promise.resolve();
+    }
+
+    grid.innerHTML = '<div class="col-12 text-center py-5"><p style="color:#aaa">Loading articles...</p></div>';
+
+    Promise.all([
+      sanityFetch('*[_type == "article"] | order(date desc) { "slug": slug.current, title, date, "image": image.asset->url, excerpt, tags }'),
+      fetchExternalNewsLive({ forceRefresh: !!forceExternalRefresh })
+    ])
+      .then(function (results) {
+        var sanityArticles = results[0];
+        var liveExternal = results[1];
+        var baganiArticles = sanityArticles || [];
+        var external = liveExternal && liveExternal.length ? liveExternal : (window.externalNews || []);
+        _newsDataCache = { bagani: baganiArticles, external: external };
+        renderNewsGrid(baganiArticles, external);
       })
       .catch(function () {
         grid.innerHTML = '<div class="col-12 text-center py-5"><p style="color:#888">Could not load articles.</p></div>';
