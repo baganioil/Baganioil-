@@ -59,6 +59,34 @@
 		},
 	});
 
+	/* What We Do — card slider on mobile only */
+	var whatWeDoSwiper = null;
+
+	function initWhatWeDoSwiper() {
+		if (window.innerWidth < 992) {
+			if (!whatWeDoSwiper && document.querySelector('.what-we-do-swiper')) {
+				whatWeDoSwiper = new Swiper('.what-we-do-swiper', {
+					slidesPerView: 1.15,
+					spaceBetween: 16,
+					centeredSlides: false,
+					loop: false,
+					pagination: {
+						el: '.what-we-do-pagination',
+						clickable: true,
+					},
+				});
+			}
+		} else {
+			if (whatWeDoSwiper) {
+				whatWeDoSwiper.destroy(true, true);
+				whatWeDoSwiper = null;
+			}
+		}
+	}
+
+	initWhatWeDoSwiper();
+	window.addEventListener('resize', initWhatWeDoSwiper);
+
 	/* testimonial Slider JS */
 	if ($('.testimonial-slider').length) {
 		const testimonial_slider = new Swiper('.testimonial-slider .swiper', {
@@ -179,16 +207,48 @@
 		});		
 	}
 	
-	if ($('.text-anime-style-2').length) {				
+	if ($('.text-anime-style-2').length) {
 		let	 staggerAmount 		= 0.03,
 			 translateXValue	= 20,
 			 delayValue 		= 0.1,
 			 easeType 			= "power2.out",
 			 animatedTextElements = document.querySelectorAll('.text-anime-style-2');
-		
+
 		animatedTextElements.forEach((element) => {
+			// Use word-index matching to avoid false positives on repeated words
+			var fullWords = element.textContent.trim().split(/\s+/);
+			var gradientIndices = new Set();
+			element.querySelectorAll('span').forEach(function(span) {
+				var spanWords = span.textContent.trim().split(/\s+/);
+				for (var i = 0; i <= fullWords.length - spanWords.length; i++) {
+					var match = spanWords.every(function(w, j) {
+						return fullWords[i + j].toLowerCase() === w.toLowerCase();
+					});
+					if (match) {
+						for (var j = 0; j < spanWords.length; j++) gradientIndices.add(i + j);
+						break;
+					}
+				}
+			});
+
 			let animationSplitText = new SplitText(element, { type: "chars, words" });
-				gsap.from(animationSplitText.chars, {
+
+			// Apply gradient to each char element (chars have direct text nodes, words don't)
+			if (gradientIndices.size > 0) {
+				animationSplitText.words.forEach(function(wordEl, idx) {
+					if (gradientIndices.has(idx)) {
+						wordEl.querySelectorAll('div, span').forEach(function(charEl) {
+							charEl.style.background = 'linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%)';
+							charEl.style.webkitBackgroundClip = 'text';
+							charEl.style.webkitTextFillColor = 'transparent';
+							charEl.style.backgroundClip = 'text';
+							charEl.style.color = '#FFC107';
+						});
+					}
+				});
+			}
+
+			gsap.from(animationSplitText.chars, {
 					duration: 1,
 					delay: delayValue,
 					x: translateXValue,
@@ -197,23 +257,55 @@
 					ease: easeType,
 					scrollTrigger: { trigger: element, start: "top 85%"},
 				});
-		});		
+		});
 	}
 	
-	if ($('.text-anime-style-3').length) {		
+	if ($('.text-anime-style-3').length) {
 		let	animatedTextElements = document.querySelectorAll('.text-anime-style-3');
-		
-		 animatedTextElements.forEach((element) => {
+
+		animatedTextElements.forEach((element) => {
 			//Reset if needed
 			if (element.animation) {
 				element.animation.progress(1).kill();
 				element.split.revert();
 			}
 
+			// Use word-index matching to avoid false positives on repeated words
+			var fullWords3 = element.textContent.trim().split(/\s+/);
+			var gradientIndices3 = new Set();
+			element.querySelectorAll('span').forEach(function(span) {
+				var spanWords = span.textContent.trim().split(/\s+/);
+				for (var i = 0; i <= fullWords3.length - spanWords.length; i++) {
+					var match = spanWords.every(function(w, j) {
+						return fullWords3[i + j].toLowerCase() === w.toLowerCase();
+					});
+					if (match) {
+						for (var j = 0; j < spanWords.length; j++) gradientIndices3.add(i + j);
+						break;
+					}
+				}
+			});
+
 			element.split = new SplitText(element, {
 				type: "lines,words,chars",
 				linesClass: "split-line",
 			});
+
+			// Apply gradient to each char element within gradient word positions
+			if (gradientIndices3.size > 0) {
+				element.split.words.forEach(function(wordEl, idx) {
+					if (gradientIndices3.has(idx)) {
+						wordEl.querySelectorAll('div, span').forEach(function(charEl) {
+							charEl.style.background = 'linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%)';
+							charEl.style.webkitBackgroundClip = 'text';
+							charEl.style.webkitTextFillColor = 'transparent';
+							charEl.style.backgroundClip = 'text';
+							charEl.style.color = '#FFC107';
+						});
+					}
+				});
+			}
+
 			gsap.set(element, { perspective: 400 });
 
 			gsap.set(element.split.chars, {
@@ -222,7 +314,7 @@
 			});
 
 			element.animation = gsap.to(element.split.chars, {
-				scrollTrigger: { trigger: element,	start: "top 90%" },
+				scrollTrigger: { trigger: element, start: "top 90%" },
 				x: "0",
 				y: "0",
 				rotateX: "0",
@@ -231,7 +323,7 @@
 				ease: Back.easeOut,
 				stagger: 0.02,
 			});
-		});		
+		});
 	}
 
 	/* Parallaxie js */

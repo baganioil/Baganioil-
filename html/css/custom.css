@@ -273,7 +273,8 @@ html, body {
 
 .product-info h1 {
 	font-size: 32px;
-	font-weight: 800;
+	font-weight: 400;
+	letter-spacing: 0.06em;
 	margin-bottom: 10px;
 }
 
@@ -329,8 +330,6 @@ p{
 	margin-bottom: 1.6em;
 }
 
-h1,
-h2,
 h3,
 h4,
 h5,
@@ -341,10 +340,24 @@ h6{
 	color: var(--primary-color);
 }
 
+h1,
+h2{
+	margin: 0;
+	font-weight: 400;
+	line-height: 1.2em;
+	color: var(--primary-color);
+}
+
 /* Love Nature only on large display headings */
 h1, h2 {
 	font-family: var(--heading-font);
 	font-weight: normal;
+}
+h1 {
+	letter-spacing: 0.06em;
+}
+h2 {
+	letter-spacing: 0.04em;
 }
 
 h3, h4, h5, h6 {
@@ -751,9 +764,9 @@ body{
 
 .section-title h1{
 	font-size: 70px;
-	font-weight: 300;
+	font-weight: 400;
 	line-height: 1.2em;
-	letter-spacing: -0.01em;
+	letter-spacing: 0.06em;
 	color: var(--primary-color);
 	margin-bottom: 0;
 	cursor: none;
@@ -761,9 +774,9 @@ body{
 
 .section-title h2{
 	font-size: 50px;
-	font-weight: 300;
+	font-weight: 400;
 	line-height: 1.2em;
-	letter-spacing: -0.01em;
+	letter-spacing: 0.04em;
 	color: var(--primary-color);
 	margin-bottom: 0;
 	cursor: none;
@@ -772,7 +785,7 @@ body{
 
 .section-title h1 span,
 .section-title h2 span{
-	font-weight: 700;
+	font-weight: 400;
 }
 
 .section-title p{
@@ -1845,7 +1858,7 @@ body[data-page="home"] .hero.hero-video {
 	background-clip: text;
     -webkit-text-fill-color: transparent;
 	font-size: 80px;
-	font-weight: 900;
+	font-weight: 400;
 }
 
 .genuine-rating{
@@ -2459,7 +2472,7 @@ body[data-page="home"] .hero.hero-video {
 
 .process-step-no h2{
 	font-size: 50px;
-	font-weight: 700;
+	font-weight: 400;
 	color: var(--accent-color);
 	transition: all 0.3s ease-in-out;
 }
@@ -2548,7 +2561,7 @@ body[data-page="home"] .hero.hero-video {
 
 .pricing-title h2{
     font-size: 60px;
-	font-weight: 700;
+	font-weight: 400;
     color: var(--accent-color);
 	margin-bottom: 10px;
 }
@@ -3027,7 +3040,7 @@ body[data-page="home"] .hero.hero-video {
 }
 .mag-latest-header h2 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   color: #fff;
   margin: 0;
   white-space: nowrap;
@@ -3145,7 +3158,7 @@ body[data-page="home"] .hero.hero-video {
 
 .post-item-content h2{
     font-size: 20px;
-	font-weight: 600;
+	font-weight: 400;
 	line-height: 1.4em;
 }
 
@@ -3362,7 +3375,7 @@ body[data-page="home"] .hero.hero-video {
 .page-header-box h1{
     color: var(--white-color);
     font-size: 70px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.2em;
     letter-spacing: -0.01em;
     margin-bottom: 5px;
@@ -3370,7 +3383,7 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .page-header-box h1 span{
-	font-weight: 700;
+	font-weight: 400;
 }
 
 .page-header-box ol{
@@ -4251,12 +4264,12 @@ body[data-page="home"] .hero.hero-video {
 
 .service-entry h2{
     font-size: 50px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 20px;
 }
 
 .service-entry h2 span{
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .service-entry p{
@@ -4508,8 +4521,6 @@ body[data-page="home"] .hero.hero-video {
     color: var(--accent-color);
 }
 
-.post-entry h1,
-.post-entry h2,
 .post-entry h3,
 .post-entry h4,
 .post-entry h5,
@@ -4517,6 +4528,14 @@ body[data-page="home"] .hero.hero-video {
 	font-weight: 700;
 	line-height: 1.2em;
 	margin: 0 0 0.6em;
+}
+
+.post-entry h1,
+.post-entry h2{
+	margin-top: 40px;
+	margin-bottom: 20px;
+	color: var(--primary-color);
+	font-weight: 400;
 }
 
 .post-entry h1{
@@ -4813,12 +4832,12 @@ body[data-page="home"] .hero.hero-video {
 
 .project-entry h2{
     font-size: 50px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 20px;
 }
 
 .project-entry h2 span{
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .project-entry p{
@@ -5085,12 +5104,12 @@ body[data-page="home"] .hero.hero-video {
 
 .team-member-content h2{
 	font-size: 40px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 20px;
 }
 
 .team-member-content h2 span{
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .team-member-content p{

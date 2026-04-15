@@ -97,6 +97,22 @@ html, body {
 	:root {
 		--nike-gutter: 48px;
 	}
+
+	/* Desktop: disable Swiper transforms, show cards as 2×2 grid */
+	.what-we-do-swiper{
+		overflow: visible;
+	}
+	.what-we-do-swiper .swiper-wrapper{
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		transform: none !important;
+		transition: none !important;
+	}
+	.what-we-do-swiper .swiper-slide{
+		width: calc(50% - 8px) !important;
+		height: auto !important;
+	}
 }
 
 /* Apply Nike Gutters to Main Containers */
@@ -772,7 +788,12 @@ body{
 
 .section-title h1 span,
 .section-title h2 span{
-	font-weight: 700;
+	font-weight: 400;
+	color: #FFC107;
+	background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 .section-title p{
@@ -886,28 +907,6 @@ body{
   user-select: none;
 }
 
-.preheader-lang-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #dcdcdc !important;
-  border-radius: 20px;
-  padding: 0 16px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  margin-left: 12px;
-  transition: all 0.3s ease;
-}
-
-.preheader-lang-btn:hover {
-  border-color: var(--accent-color);
-  color: var(--accent-color) !important;
-  background: rgba(255, 193, 7, 0.05);
-}
 
 /* ────────────────────────────────────────────────────────
    MAIN HEADER (Nike main navbar)
@@ -962,6 +961,7 @@ header.main-header .header-sticky.active {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 /* ── Logo ─────────────────────────────────── */
@@ -982,7 +982,14 @@ header.main-header .header-sticky.active {
 .main-menu {
   display: flex !important;
   justify-content: center;
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.main-menu .nav-menu-wrapper,
+.main-menu .nav-menu-wrapper * {
+  pointer-events: auto;
 }
 
 .main-menu .nav-menu-wrapper {
@@ -1238,9 +1245,6 @@ header.main-header .header-sticky.active {
 }
 
 @media (max-width: 991px) {
-  #langToggle {
-      display: none !important;
-  }
 
 
   .expandable-search-input:focus,
@@ -2145,30 +2149,36 @@ body[data-page="home"] .hero.hero-video {
 	padding: 0;
 }
 
+/* Force a proper equal-height two-column grid so image fills its column */
+.what-we-do .row.no-gutters{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: stretch;
+}
+
+.what-we-do .row.no-gutters > .col-lg-6{
+	width: 100% !important;
+	max-width: 100% !important;
+	flex: none !important;
+	position: relative;
+}
+
 .what-we-do-content{
-	padding: 100px 120px;
+	padding: 50px 80px;
 	height: 100%;
 }
 
-.what-we-do-list{
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 30px;
-}
-
-.what-we-do-list-box-1,
-.what-we-do-list-box-2{
-	display: flex;
-	flex-wrap: wrap;
-	gap: 30px;
+/* ── What We Do Swiper ─────────────────────────────────────── */
+/* Pagination hidden by default (shown on mobile only) */
+.what-we-do-pagination{
+	display: none;
 }
 
 .what-we-do-item{
-	width: calc(50% - 15px);
+	height: 100%;
 	border: 1px solid var(--dark-divider-color);
-	border-radius: 40px;
-	padding: 30px;
+	border-radius: 24px;
+	padding: 20px;
 }
 
 .what-we-do-list-box-1 .what-we-do-item:nth-child(even){
@@ -2180,7 +2190,7 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .what-we-do-item .icon-box{
-	margin-bottom: 30px;
+	margin-bottom: 14px;
 }
 
 .what-we-do-item .icon-box img{
@@ -2202,7 +2212,7 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .what-we-do-footer{
-	margin-top: 40px;
+	margin-top: 20px;
 }
 
 .what-we-do-footer p{
@@ -2211,49 +2221,32 @@ body[data-page="home"] .hero.hero-video {
 }
 .what-we-do-footer p span{
 	color: var(--accent-color);
-	text-decoration: underline;
 }
-
 .what-we-do-image{
 	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
-.contact-now-circle{
-	content: '';
+.what-we-do-image figure{
 	position: absolute;
-	display: block;
+	top: 0;
 	left: 0;
-	top: 50%;
-	transform: translate(-50% , -50%);
-	z-index: 1;
+	width: 100%;
+	height: 100%;
+	margin: 0;
 }
 
-.contact-now-circle img{
-	width: 130px;
-	height: 130px;
-	animation: contactrotate 20s infinite linear;
-}
-
-@keyframes contactrotate{
-	from{
-		transform: rotate(0deg);
-	  }
-	to{
-		transform: rotate(360deg);
-	}
-}
-
-.what-we-do-image,
-.what-we-do-image figure,
 .what-we-do-image figure img{
 	width: 100%;
 	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	display: block;
 }
 
-.what-we-do-image figure img{
-	aspect-ratio: 1 / 0.97;
-	object-fit: cover;
-}
+
 
 /************************************/
 /***       09. Our Work css       ***/
@@ -3216,14 +3209,7 @@ body[data-page="home"] .hero.hero-video {
 	margin-bottom: 0;
 }
 
-.footer-contact-circle{
-	margin-left: 20px;
-}
 
-.footer-contact-circle img{
-	max-width: 130px;
-	animation: contactrotate 20s infinite linear;
-}
 
 .about-footer{
 	width: 100%;
@@ -3371,7 +3357,12 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .page-header-box h1 span{
-	font-weight: 700;
+	font-weight: 400;
+	color: #FFC107;
+	background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 .page-header-box ol{
@@ -4257,7 +4248,12 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .service-entry h2 span{
-    font-weight: 700;
+    font-weight: 400;
+	color: #FFC107;
+	background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 .service-entry p{
@@ -4819,7 +4815,12 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .project-entry h2 span{
-    font-weight: 700;
+    font-weight: 400;
+	color: #FFC107;
+	background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 .project-entry p{
@@ -5091,7 +5092,12 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .team-member-content h2 span{
-    font-weight: 700;
+    font-weight: 400;
+	color: #FFC107;
+	background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8C00 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 .team-member-content p{
@@ -5628,25 +5634,19 @@ body[data-page="home"] .hero.hero-video {
 @media only screen and (max-width: 1366px){
 
 	.what-we-do-content{
-		padding: 100px 80px 100px 15px;
+		padding: 50px 60px 50px 15px;
 	}
 
-	.contact-now-circle img{
-		width: 100px;
-		height: 100px;
-	}
+
 }
 
 @media only screen and (max-width: 1024px){
 
 	.what-we-do-content{
-		padding: 100px 50px 100px 15px;
+		padding: 50px 40px 50px 15px;
 	}
 
-	.contact-now-circle img{
-		width: 80px;
-		height: 80px;
-	}
+
 }
 
 @media only screen and (max-width: 991px) {
@@ -5962,26 +5962,57 @@ body[data-page="home"] .hero.hero-video {
 		margin-top: 30px;
 	}
 
-	.what-we-do-image,
-	.what-we-do-image figure,
-	.what-we-do-image figure img{
-		height: auto;
+	/* Mobile: stack layout — swiper cards on top, image fixed below */
+	.what-we-do .row.no-gutters{
+		grid-template-columns: 1fr;
 	}
 
-	.what-we-do-image figure img{
-		aspect-ratio: 1 / 0.77;
+	/* Force image column to have zero padding so image touches edges */
+	.what-we-do .row.no-gutters > .col-lg-6{
+		padding: 0 !important;
+		margin: 0 !important;
 	}
 
-	.contact-now-circle{
-		left: 50%;
+	/* Swiper active on mobile */
+	.what-we-do-swiper{
+		overflow: hidden;
+	}
+
+	.what-we-do-pagination{
+		display: block;
+		margin-top: 16px;
+		text-align: center;
+	}
+
+	/* Image column: fixed height, stacked below */
+	.what-we-do-image{
+		position: relative;
+		width: 100%;
+		height: 360px;
+		overflow: hidden;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.what-we-do-image figure{
+		position: absolute;
 		top: 0;
-		transform: translate(-50%, -50%);
+		left: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
 	}
 
-	.contact-now-circle img{
-        width: 100px;
-        height: 100px;
-    }
+	.what-we-do-image figure img{
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center center;
+		display: block;
+	}
+
+
 
 	.our-work{
 		padding: 50px 0 20px;
@@ -7075,14 +7106,7 @@ body[data-page="home"] .hero.hero-video {
 		display: block;
 	}
 
-	.footer-contact-circle{
-		margin-left: 0;
-		margin-top: 20px;
-	}
 
-	.footer-contact-circle img{
-		max-width: 100px;
-	}
 
 	.footer-links{
 		margin-bottom: 30px;
