@@ -191,7 +191,7 @@ module.exports = function (eleventyConfig) {
 				const settings = await client.fetch(`
 					*[_type == "siteSettings" && _id == "siteSettings"][0] {
 						name, description, keywords, phone, email, address, year, facebookPageId,
-						social{facebook, instagram, twitter, pinterest}
+						social{facebook, instagram, youtube}
 					}
 				`);
 				if (settings) return settings;

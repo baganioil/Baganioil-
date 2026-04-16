@@ -456,24 +456,22 @@
     var grid = document.querySelector('.project-item-boxes');
     if (!grid) return;
 
-    sanityFetch('*[_type == "product"] | order(line asc, name asc) { "slug": slug.current, name, line, category, spec, shortDesc, "image": image.asset->url }')
+    sanityFetch('*[_type == "product" && slug.current in ["amihan-2t-200ml","amihan-2t-1l","amihan-gust-4t","amihan-gale-4t"]] | order(line asc, name asc) { "slug": slug.current, name, line, category, spec, shortDesc, "image": image.asset->url }')
       .then(function (products) {
         if (!products || !products.length) return;
 
         grid.innerHTML = products.map(function (p) {
           return '<div class="col-lg-4 col-md-6 project-item-box ' + (p.category || '') + '">' +
-            '<div class="product-card">' +
-              '<div class="product-image"><a href="/products/' + p.slug + '/">' +
+            '<div class="bagani-product-item">' +
+              '<a href="/products/' + p.slug + '/" class="bagani-product-img-wrap">' +
                 '<img src="' + (p.image || '') + '" alt="Bagani ' + p.name + '">' +
-              '</a></div>' +
-              '<div class="product-body">' +
-                '<span class="product-line">' + (p.line || '') + '</span>' +
-                '<h3>' + p.name + '</h3>' +
-                '<p class="product-spec">' + (p.spec || '') + '</p>' +
-                '<p class="product-desc">' + (p.shortDesc || '') + '</p>' +
-              '</div>' +
-              '<div class="product-footer">' +
-                '<a href="/products/' + p.slug + '/">View Details <i class="fa-solid fa-arrow-right"></i></a>' +
+              '</a>' +
+              '<div class="bagani-product-info">' +
+                '<span class="bagani-product-line">' + (p.line || '') + '</span>' +
+                '<h3 class="bagani-product-name">' + p.name + '</h3>' +
+                '<p class="bagani-product-spec">' + (p.spec || '') + '</p>' +
+                '<p class="bagani-product-desc">' + (p.shortDesc || '') + '</p>' +
+                '<a href="/products/' + p.slug + '/" class="bagani-product-link">View Details <i class="fa-solid fa-arrow-right"></i></a>' +
               '</div>' +
             '</div></div>';
         }).join('');

@@ -111,29 +111,7 @@ pageHeaderBg: /images/our-products.jpg
                 <div class="mobile-sidebar-overlay" id="mobile-overlay"></div>
                 
                 <div class="row project-item-boxes" id="sanity-products-grid">
-                    {% for product in productsList %}
-                    <div class="col-lg-4 col-md-6 col-sm-12 project-item-box {{ product.category }}" data-name="{{ product.name }}">
-                        <div class="product-card">
-                            <div class="product-card-inner">
-                                <div class="product-badge">{{ product.line }}</div>
-                                <div class="product-image">
-                                    <a href="/products/{{ product.slug }}/">
-                                        <img src="{{ product.image }}" alt="Bagani {{ product.name }}">
-                                    </a>
-                                </div>
-                                <div class="product-body">
-                                    <span class="product-line">{{ product.line }}</span>
-                                    <h3 class="product-name">{{ product.name }}</h3>
-                                    <p class="product-spec">{{ product.spec }}</p>
-                                    <p class="product-desc">{{ product.shortDesc }}</p>
-                                </div>
-                                <div class="product-footer">
-                                    <a href="/products/{{ product.slug }}/" class="product-link">View Details <i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+                    <!-- Products loaded from Sanity -->
                 </div>
             </div>
         </div>

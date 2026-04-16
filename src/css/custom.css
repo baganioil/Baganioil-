@@ -176,62 +176,83 @@ html, body {
 	transition: transform 0.3s ease;
 }
 
-.product-card:hover .product-image img {
+/* ── Nike-style flat product items ─────────────────────────────────────── */
+.bagani-product-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 32px;
+}
+
+.bagani-product-img-wrap {
+	display: block;
+	background: #f5f5f5;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+
+.bagani-product-img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	padding: 0;
+	transition: transform 0.4s ease;
+}
+
+.bagani-product-img-wrap:hover img {
 	transform: scale(1.05);
 }
 
+.bagani-product-info {
+	padding: 14px 4px 0;
+}
 
-.product-card .product-line {
-	display: inline-block;
-	padding: 3px 12px;
-	background: var(--accent-color);
-	color: #222222;
-	font-size: 12px;
+.bagani-product-line {
+	display: block;
+	font-size: 13px;
 	font-weight: 700;
+	color: var(--accent-color);
 	text-transform: uppercase;
-	border-radius: 3px;
-	margin-bottom: 10px;
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
+	margin-bottom: 4px;
 }
 
-.product-card .product-body h3 {
-	font-size: 20px;
+.bagani-product-name {
+	font-size: 17px;
 	font-weight: 700;
-	margin-bottom: 5px;
-	color: var(--primary-color);
+	color: #111;
+	margin-bottom: 4px;
+	line-height: 1.3;
+	font-family: "Manrope", sans-serif;
 }
 
-.product-card .product-body .product-spec {
+.bagani-product-spec {
 	font-size: 14px;
-	color: var(--text-color);
-	margin-bottom: 8px;
+	color: #757575;
+	margin-bottom: 4px;
 }
 
-.product-card .product-body .product-desc {
+.bagani-product-desc {
 	font-size: 14px;
-	color: var(--text-color);
-	margin-bottom: 15px;
-	line-height: 1.6;
+	color: #757575;
+	margin-bottom: 10px;
+	line-height: 1.5;
 }
 
-.product-card .product-footer {
-	padding: 0 25px 25px;
-}
-
-.product-card .product-footer a {
+.bagani-product-link {
 	display: inline-flex;
 	align-items: center;
-	gap: 8px;
-	color: var(--accent-color);
-	font-weight: 600;
+	gap: 6px;
 	font-size: 14px;
+	font-weight: 600;
+	color: #111;
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 	transition: gap 0.3s ease;
 }
 
-.product-card .product-footer a:hover {
-	gap: 12px;
+.bagani-product-link:hover {
+	gap: 10px;
+	color: var(--accent-color);
 }
 
 /* Product Categories Filter */
@@ -7890,8 +7911,10 @@ body[data-page="home"] .hero.hero-video {
     overflow-y: auto;
     transition: width 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
 }
-.nike-shop-sidebar::-webkit-scrollbar { width: 4px; }
-.nike-shop-sidebar::-webkit-scrollbar-thumb { background: #FFC107; }
+.nike-shop-sidebar::-webkit-scrollbar { width: 6px; }
+.nike-shop-sidebar::-webkit-scrollbar-track { background: transparent; }
+.nike-shop-sidebar::-webkit-scrollbar-thumb { background: #888; border-radius: 999px; }
+.nike-shop-sidebar::-webkit-scrollbar-thumb:hover { background: #555; }
 
 .bagani-nike-shop.sidebar-hidden .nike-shop-sidebar {
     width: 0;
