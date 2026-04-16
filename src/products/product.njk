@@ -94,6 +94,16 @@ eleventyComputed:
                         </figure>
                     </div>
 
+                    <!-- Product Video -->
+                    {% if product.video %}
+                    <div class="product-video wow fadeInUp" style="margin-top: 24px;">
+                        <video controls style="width: 100%; border-radius: 10px; background: #000;">
+                            <source src="{{ product.video }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    {% endif %}
+
                     <!-- Product Info -->
                     <div class="service-entry">
                         <!-- Product Badge & Title -->

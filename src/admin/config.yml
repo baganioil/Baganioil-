@@ -23,6 +23,13 @@ collections:
       - { label: "Spec Summary", name: "spec", widget: "string", hint: "e.g. 20W-50 | JASO MA-2 | 1 Liter" }
       - { label: "Short Description", name: "shortDesc", widget: "text" }
       - { label: "Product Image", name: "image", widget: "image" }
+      - label: "Product Video"
+        name: "video"
+        widget: "file"
+        required: false
+        media_folder: "/src/videos"
+        public_folder: "/videos"
+        hint: "Upload MP4 file (keep under 50MB). Optional."
       - { label: "Full Description", name: "description", widget: "text" }
       - { label: "Secondary Description", name: "description2", widget: "text" }
       - label: "Specifications"

@@ -11,66 +11,91 @@ pageHeaderBg: /images/about-header.jpg
 {% include "page-header.njk" %}
 
 <!-- About Us Start -->
- <div class="about-us">
+<div class="about-us">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="about-image">
-                    <div class="about-img-1">
+
+        <!-- Row 1: large image left | heading + descriptions right -->
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-4">
+                <div class="about-img-accent-wrap">
+                    <div class="about-single-img about-single-img--portrait">
                         <figure class="image-anime reveal">
-                            <img src="/images/about-img-1.jpg" alt="">
+                            <img src="/images/about-img-2.jpg" alt="" loading="lazy">
                         </figure>
-                    </div>
-                    <div class="about-img-2">
-                        <figure class="image-anime reveal">
-                            <img src="/images/about-img-2.jpg" alt="">
-                        </figure>
-                    </div>
-                    <div class="company-experience">
-                        <div class="company-experience-counter">
-                            <h2><span class="counter">10</span>+</h2>
-                        </div>
-                        <div class="company-experience-content">
-                            <p>years of excellence</p>
-                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="about-content">
                     <div class="section-title">
-                        <h3 class="wow fadeInUp">about us</h3>
-                        <h2 class="text-anime-style-2" data-cursor="-opaque">Premium motorcycle oils <span>proudly Filipino</span></h2>
-                        <p class="wow fadeInUp" data-wow-delay="0.25s">Bagani is a proudly Filipino motorcycle oil brand committed to engineering premium lubricants for Filipino riders. Our products are formulated to deliver maximum engine protection in Philippine road conditions.</p>
-                    </div>
-
-                    <div class="about-content-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="about-list-btn">
-                                    <div class="about-content-list wow fadeInUp" data-wow-delay="0.5s">
-                                        <ul>
-                                            <li>premium formulations</li>
-                                            <li>Filipino-made quality</li>
-                                            <li>maximum engine protection</li>
-                                            <li>affordable pricing</li>
-                                        </ul>
-                                    </div>
-                                    <div class="about-content-btn wow fadeInUp" data-wow-delay="0.75s">
-                                        <a href="/contact/" class="btn-default"><span>contact us</span></a>
-                                    </div>
-                                </div>
-                            </div>
-
-{# Rating widget removed per client request #}
-                        </div>
+                        <span class="about-label-tag">Tungkol sa Amin</span>
+                        <h2 class="text-anime-style-2" data-cursor="-opaque">Ang Bagani Oil ay ginawa akma <span>sa klima ng Pilipinas</span></h2>
+                        <p class="wow fadeInUp" data-wow-delay="0.25s">Dinisenyo para maghatid ng pambihirang performance, tibay, at proteksyon nang hindi kailangan gumastos nang malaki.</p>
+                        <p class="wow fadeInUp" data-wow-delay="0.35s">Hindi lang ito basta produkto. Isa itong katuwang sa bawat biyahe, mula sa araw-araw na pagpasok sa trabaho, hanggang sa mahahabang biyahe sa kalsada.</p>
+                        <p class="wow fadeInUp" data-wow-delay="0.45s"><strong>Para ito sa pang-araw-araw na gamit.</strong> Para sa mga taong walang tigil sa pag-abante. Para sa mga tunay na kumakayod para sa pamilya at pangarap. <strong>Para ito sa tunay na Bagani ng Kalsada.</strong></p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Row 2: bullet list left | image right -->
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="about-content-list wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="about-features-grid">
+                        <div class="about-feature-card">
+                            <div class="about-feature-icon">
+                                <img src="/images/icon-check.svg" alt="">
+                            </div>
+                            <div class="about-feature-body">
+                                <strong>Angkop sa Klima ng Pilipinas</strong>
+                                <p>Kayang makipagsabayan sa pabago-bagong panahon, mula sa matinding init hanggang sa biglaang ulan.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature-card">
+                            <div class="about-feature-icon">
+                                <img src="/images/icon-check.svg" alt="">
+                            </div>
+                            <div class="about-feature-body">
+                                <strong>Subok sa Init, Trapik, at Long Drive</strong>
+                                <p>Hindi bibigay kahit pa sa mabigat na kondisyon ng kalsada sa araw-araw.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature-card">
+                            <div class="about-feature-icon">
+                                <img src="/images/icon-check.svg" alt="">
+                            </div>
+                            <div class="about-feature-body">
+                                <strong>Proteksyon Laban sa Sira ng Makina</strong>
+                                <p>Pinapahaba ang buhay ng iyong sasakyan at pinapanatili itong maaasahan.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature-card">
+                            <div class="about-feature-icon">
+                                <img src="/images/icon-check.svg" alt="">
+                            </div>
+                            <div class="about-feature-body">
+                                <strong>Abot-Kayang Kalidad Para sa Lahat</strong>
+                                <p>Mataas ang kalidad, pero hindi mabigat sa bulsa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content-btn wow fadeInUp mt-4" data-wow-delay="0.75s">
+                    <a href="/contact/" class="btn-default"><span>Contact Us</span></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-single-img">
+                    <figure class="image-anime reveal">
+                        <img src="/images/about-img-1.jpg" alt="" loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+
     </div>
- </div>
+</div>
 <!-- About Us End -->
 
 <!-- Our Mission Vision Section Start -->
@@ -81,12 +106,12 @@ pageHeaderBg: /images/about-header.jpg
                 <div class="col-lg-6">
                     <div class="section-title dark-section">
                         <h3 class="wow fadeInUp">our approach</h3>
-                        <h2 class="text-anime-style-2" data-cursor="-opaque">Empowering Filipino riders <span>with quality oils</span></h2>
+                        <h2 class="text-anime-style-2" data-cursor="-opaque">Pinapalakas ang mga Pilipinong rider at drayber <span>sa kanilang byahe sa kalsada</span></h2>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="section-title-content dark-section wow fadeInUp" data-wow-delay="0.25s">
-                        <p>We drive excellence in motorcycle lubricant manufacturing, focusing on quality formulation, Filipino innovation, and rider satisfaction to support the everyday Filipino commuter.</p>
+                        <p>Ang Bagani Oil pinapalakas ang mga Filipino rider at drayber sa pamamagitan ng dekalidad na langis na tumutulong sa takbo ng makina. Mas tumatagal ito, mas smooth, ligtas, at walang hassle ang biyahe araw-araw.</p>
                     </div>
                 </div>
             </div>
@@ -116,15 +141,7 @@ pageHeaderBg: /images/about-header.jpg
                             <div class="col-lg-6">
                                 <div class="mission-vision-content">
                                     <div class="mission-vision-content-header">
-                                        <p>To provide every Filipino rider with world-class motorcycle oils and lubricants at accessible prices. We are dedicated to formulating products that protect engines, extend vehicle life, and keep Filipinos moving every day.</p>
-                                    </div>
-                                    <div class="mission-vision-content-list">
-                                        <ul>
-                                            <li>Accessible Premium Lubricants</li>
-                                            <li>Advanced Formulation Technology</li>
-                                            <li>Filipino Rider-First Approach</li>
-                                            <li>Engine Protection Excellence</li>
-                                        </ul>
+                                        <p>To deliver tough, reliable engine oils that perform under pressure, giving everyday drivers the confidence to go further, every day.</p>
                                     </div>
                                 </div>
                             </div>
@@ -143,15 +160,7 @@ pageHeaderBg: /images/about-header.jpg
                             <div class="col-lg-6">
                                 <div class="mission-vision-content">
                                     <div class="mission-vision-content-header">
-                                        <p>To become the most trusted Filipino motorcycle oil brand in Southeast Asia. We envision a future where Bagani is the go-to choice for every rider who values quality, reliability, and Filipino craftsmanship.</p>
-                                    </div>
-                                    <div class="mission-vision-content-list">
-                                        <ul>
-                                            <li>Southeast Asian Market Leadership</li>
-                                            <li>Trusted Filipino Brand</li>
-                                            <li>Continuous Product Innovation</li>
-                                            <li>Nationwide Availability</li>
-                                        </ul>
+                                        <p>To power every Filipino driver to move with strength and confidence, through engine oils built for the realities of the road.</p>
                                     </div>
                                 </div>
                             </div>
@@ -168,17 +177,16 @@ pageHeaderBg: /images/about-header.jpg
                     <div class="mission-vision-item tab-pane fade" id="value" role="tabpanel">
                         <div class="row align-items-center">
                             <div class="col-lg-6">
-                                <div class="mission-vision-content">
+                                <div class="mission-vision-content mission-vision-content--value">
                                     <div class="mission-vision-content-header">
-                                        <p>Our core values drive everything we do at Bagani. Quality, Innovation, Filipino Pride, and Reliability form the foundation of our brand and guide every product we develop and every partnership we build.</p>
-                                    </div>
-                                    <div class="mission-vision-content-list">
-                                        <ul>
-                                            <li>Quality - Uncompromising Standards</li>
-                                            <li>Innovation - Continuous Improvement</li>
-                                            <li>Filipino Pride - Gawang Pilipino</li>
-                                            <li>Reliability - Trusted Performance</li>
-                                        </ul>
+                                        <p><strong>VALUE</strong></p>
+                                        <p>Matinding init. Traffic. Mahahabang byahe. Bigat ng karga. Paulit-ulit na andar at hinto.</p>
+                                        <p>Dito ginawa ang Bagani.</p>
+                                        <p>Ang Bagani ay engine oil na binuo para sa tunay na kondisyon ng kalsada. Hindi lang para sa ideal na testing, kundi para sa actual na gamit ng mga rider, driver, at negosyante na umaasa sa sasakyan nila araw-araw.</p>
+                                        <p>Naniniwala kami na hindi kailangang mahal para maging maaasahan ang performance. Kaya ang Bagani, nagbibigay ng tibay, proteksyon, at consistent na andar sa presyong kayang abutin.</p>
+                                        <p>Para ito sa mga taong kumakayod. Sa mga bumabyahe araw-araw. Sa mga umaasa sa makina nila para kumita at makausad.</p>
+                                        <p>Hindi ito pang-display. Pangtrabaho ito.</p>
+                                        <p>Bagani. Lakas na maaasahan sa bawat biyahe.</p>
                                     </div>
                                 </div>
                             </div>

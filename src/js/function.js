@@ -87,6 +87,41 @@
 	initWhatWeDoSwiper();
 	window.addEventListener('resize', initWhatWeDoSwiper);
 
+	/* Product Lines — services card slider (always on) */
+	if (document.querySelector('.services-list-swiper')) {
+		const servicesListSwiper = new Swiper('.services-list-swiper', {
+			slidesPerView: 1.2,
+			spaceBetween: 40,
+			loop: true,
+			centeredSlides: true,
+			grabCursor: true,
+			speed: 800,
+			slideToClickedSlide: true,
+			navigation: {
+				nextEl: '.services-swiper-next',
+				prevEl: '.services-swiper-prev',
+			},
+			pagination: {
+				el: '.services-swiper-pagination',
+				clickable: true,
+			},
+			breakpoints: {
+				576: {
+					slidesPerView: 2,
+					spaceBetween: 50,
+				},
+				992: {
+					slidesPerView: 3,
+					spaceBetween: 60,
+				},
+				1200: {
+					slidesPerView: 3.5,
+					spaceBetween: 80,
+				},
+			},
+		});
+	}
+
 	/* testimonial Slider JS */
 	if ($('.testimonial-slider').length) {
 		const testimonial_slider = new Swiper('.testimonial-slider .swiper', {
