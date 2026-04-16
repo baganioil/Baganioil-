@@ -4443,10 +4443,8 @@ body[data-page="home"] .hero.hero-video {
 
 .sidebar-cta-box{
 	position: relative;
-	background-image: url(../images/sidebar-cta-bg-img.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
+	background-image: none;
+	background-color: #121212;
     border-radius: 20px;
 	padding: 40px;
     overflow: hidden;
