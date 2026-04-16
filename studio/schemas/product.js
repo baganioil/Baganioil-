@@ -56,6 +56,7 @@ export default defineType({
       type: 'image',
       group: 'basic',
       options: {hotspot: true},
+      description: 'Max upload size: 10MB (Sanity free plan limit). Please compress large images before uploading.',
     }),
     defineField({
       name: 'shortDesc',
