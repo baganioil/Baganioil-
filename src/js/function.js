@@ -5,12 +5,14 @@
 	var $body = $('body'); 
 
 	/* Preloader Effect */
-	$window.on('load', function(){
+	function hidePreloader() {
 		$(".preloader").addClass("loaded");
 		setTimeout(function() {
 			$(".preloader").css("display", "none");
 		}, 800);
-	});
+	}
+	$window.on('load', hidePreloader);
+	setTimeout(hidePreloader, 2000);
 
 	/* Sticky Header */	
 	if($('.active-sticky-header').length){
