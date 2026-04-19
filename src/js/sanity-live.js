@@ -28,7 +28,7 @@
     }
 
     var host = 'https://' + PROJECT_ID + '.api.sanity.io';
-    var url = host + '/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query);
+    var url = host + '/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query) + '&_ts=' + Date.now();
     if (IS_PREVIEW) url += '&perspective=previewDrafts';
 
     var opts = { cache: 'no-store' };
