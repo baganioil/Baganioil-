@@ -513,7 +513,7 @@
         sendBtn.disabled = true;
         var typing = addTyping();
 
-        fetch('/.netlify/functions/chat', {
+        fetch('/chat.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: text })

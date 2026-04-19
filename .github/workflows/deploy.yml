@@ -25,6 +25,10 @@ jobs:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
 
+      - name: Inject API key into chat.php
+        run: |
+          sed -i "s/__GROQ_API_KEY__/${{ secrets.GROQ_API_KEY }}/" _site/chat.php
+
       - name: Install deploy tools
         run: sudo apt-get install -y lftp sshpass rsync
 
