@@ -1,6 +1,4 @@
 DirectoryIndex index.html
-
-# Serve clean URLs - if a directory exists, serve its index.html
 Options -Indexes
 
 <IfModule mod_rewrite.c>
@@ -12,8 +10,8 @@ Options -Indexes
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # If URL has no extension and no trailing slash, add trailing slash
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_URI} !/$
-    RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+    # Fallback for /products/{slug}/ URLs that don't have a built static page:
+    # serve the dynamic detail loader (URL stays the same in the browser)
+    RewriteCond %{REQUEST_URI} ^/products/[^/]+/?$
+    RewriteRule ^ /products/detail/index.html [L]
 </IfModule>

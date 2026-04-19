@@ -1,0 +1,222 @@
+---
+layout: base.njk
+title: Product Detail
+activePage: products
+permalink: "/products/detail/"
+---
+
+<!-- Page Header Start -->
+<div class="page-header product-page-header parallaxie">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="page-header-box">
+                    <h1 class="text-anime-style-2" data-cursor="-opaque" id="detail-heading">Loading<span id="detail-heading-line"></span></h1>
+                    <nav class="wow fadeInUp">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">home</a></li>
+                            <li class="breadcrumb-item"><a href="/products/">products</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="detail-breadcrumb">Product</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Page Product Single Start -->
+<div class="page-service-single">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="service-sidebar">
+                    <div class="service-catagery-list wow fadeInUp">
+                        <h3>Product Lines</h3>
+                        <ul>
+                            <li><a href="/products/?filter=amihan">Amihan — Motorcycle Oils</a></li>
+                            <li><a href="/products/?filter=laon">Laon — Engine Oils</a></li>
+                            <li><a href="/products/?filter=aman">Aman — Gear Oils</a></li>
+                            <li><a href="/products/?filter=anitun">Anitun — Transmission Fluids</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-cta-box wow fadeInUp" data-wow-delay="0.25s">
+                        <div class="sidebar-cta-logo">
+                            <img src="/images/bagani-logo.png" alt="Bagani">
+                        </div>
+                        <div class="sidebar-cta-Body">
+                            <div class="sidebar-cta-content">
+                                <h3>Need <span>help?</span></h3>
+                                <p>Looking for the right oil for your motorcycle? Contact us for assistance.</p>
+                            </div>
+                            <div class="sidebar-cta-contact-list">
+                                <div class="sidebar-cta-contact-item">
+                                    <div class="icon-box">
+                                        <img src="/images/icon-phone-accent.svg" alt="">
+                                    </div>
+                                    <div class="cta-contact-item-title">
+                                        <h3>{{ site.phone }}</h3>
+                                    </div>
+                                </div>
+                                <div class="sidebar-cta-contact-item">
+                                    <div class="icon-box">
+                                        <img src="/images/icon-mail-accent.svg" alt="">
+                                    </div>
+                                    <div class="cta-contact-item-title">
+                                        <h3>{{ site.email }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div id="detail-content" style="padding: 60px 0; text-align: center;">
+                    <p style="color:#aaa">Loading product...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Product Single End -->
+
+<script>
+(function () {
+    var PROJECT_ID = 'c7mgn6k7';
+    var DATASET = 'production';
+    var API_VER = '2024-01-01';
+
+    // Get slug from the URL path: /products/{slug}/ or /products/detail/?p={slug}
+    var slug = '';
+    var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+    var lastPart = pathParts[pathParts.length - 1];
+    if (lastPart && lastPart !== 'detail') {
+        slug = lastPart;
+    } else {
+        slug = new URLSearchParams(window.location.search).get('p') || '';
+    }
+
+    if (!slug) {
+        document.getElementById('detail-content').innerHTML = '<p style="color:#888;padding:60px 0">Product not found.</p>';
+        return;
+    }
+
+    var query = '*[_type == "product" && slug.current == "' + slug.replace(/"/g, '') + '"][0]{' +
+        'name, line, description, description2,' +
+        '"image": image.asset->url,' +
+        '"video": video.asset->url,' +
+        '"specs": specs[]{key, value},' +
+        '"features": features[]{title, desc, "icon": icon.asset->url},' +
+        'applications,' +
+        '"faqs": faqs[]{q, a}' +
+    '}';
+
+    var url = 'https://' + PROJECT_ID + '.apicdn.sanity.io/v' + API_VER + '/data/query/' + DATASET +
+              '?query=' + encodeURIComponent(query);
+
+    fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            var p = d.result;
+            if (!p) {
+                document.getElementById('detail-content').innerHTML =
+                    '<p style="color:#888;padding:60px 0">Product not found. <a href="/products/">Back to products</a></p>';
+                return;
+            }
+
+            // Update page title and header
+            document.title = p.name + ' | Bagani Oil';
+            var heading = document.getElementById('detail-heading');
+            if (heading) heading.innerHTML = p.name + ' <span>' + (p.line || '') + '</span>';
+            var bc = document.getElementById('detail-breadcrumb');
+            if (bc) bc.textContent = p.name;
+
+            // Build specs table
+            var specsHtml = '';
+            if (p.specs && p.specs.length) {
+                specsHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.3s">Product <span>Specifications</span></h2>' +
+                    '<table class="product-specs-table wow fadeInUp" data-wow-delay="0.4s"><tbody>' +
+                    p.specs.map(function (s) {
+                        return '<tr><th>' + (s.key || '') + '</th><td>' + (s.value || '') + '</td></tr>';
+                    }).join('') +
+                    '</tbody></table>';
+            }
+
+            // Build features
+            var featuresHtml = '';
+            if (p.features && p.features.length) {
+                featuresHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.4s">Key <span>Features</span></h2>' +
+                    '<div class="service-entry-box">' +
+                    p.features.map(function (f) {
+                        return '<div class="service-entry-item">' +
+                            (f.icon ? '<div class="icon-box"><img src="' + f.icon + '" alt=""></div>' : '') +
+                            '<div class="service-entry-item-content"><h3>' + (f.title || '') + '</h3><p>' + (f.desc || '') + '</p></div>' +
+                        '</div>';
+                    }).join('') +
+                    '</div>';
+            }
+
+            // Build applications
+            var appsHtml = '';
+            if (p.applications && p.applications.length) {
+                appsHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.4s">Recommended <span>Applications</span></h2>' +
+                    '<ul>' + p.applications.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul>';
+            }
+
+            // Build FAQs
+            var faqsHtml = '';
+            if (p.faqs && p.faqs.length) {
+                faqsHtml = '<div class="our-faq-section"><div class="section-title">' +
+                    '<h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>' +
+                    '</div><div class="faq-accordion" id="faqaccordion">' +
+                    p.faqs.map(function (f, i) {
+                        return '<div class="accordion-item wow fadeInUp"' + (i > 0 ? ' data-wow-delay="' + (i * 0.2) + 's"' : '') + '>' +
+                            '<h2 class="accordion-header" id="heading' + (i+1) + '">' +
+                            '<button class="accordion-button' + (i > 0 ? ' collapsed' : '') + '" type="button" ' +
+                            'data-bs-toggle="collapse" data-bs-target="#collapse' + (i+1) + '" ' +
+                            'aria-expanded="' + (i === 0 ? 'true' : 'false') + '">' + f.q + '</button></h2>' +
+                            '<div id="collapse' + (i+1) + '" class="accordion-collapse collapse' + (i === 0 ? ' show' : '') + '" ' +
+                            'data-bs-parent="#faqaccordion"><div class="accordion-body"><p>' + f.a + '</p></div></div>' +
+                        '</div>';
+                    }).join('') +
+                    '</div></div>';
+            }
+
+            document.getElementById('detail-content').innerHTML =
+                '<div class="service-single-content">' +
+                    '<div class="service-featured-image">' +
+                        '<figure class="image-anime reveal" style="border-radius:10px;overflow:hidden;margin:0;">' +
+                            (p.image ? '<img src="' + p.image + '" alt="Bagani ' + p.name + '" style="width:100%;height:480px;object-fit:cover;display:block;">' : '') +
+                        '</figure>' +
+                    '</div>' +
+                    (p.video ? '<div class="product-video wow fadeInUp" style="margin-top:24px;"><video controls style="width:100%;border-radius:10px;background:#000;"><source src="' + p.video + '" type="video/mp4"></video></div>' : '') +
+                    '<div class="service-entry">' +
+                        '<div style="margin-bottom:20px;">' +
+                            '<span class="product-line" style="font-size:13px;padding:4px 14px;background:#FFC107;color:#121212;font-weight:700;border-radius:3px;text-transform:uppercase;letter-spacing:1px;">' + (p.line || '') + '</span>' +
+                        '</div>' +
+                        '<h2 class="wow fadeInUp">' + p.name + ' — <span>' + (p.specs && p.specs[0] ? p.specs[0].value : '') + '</span></h2>' +
+                        '<p class="wow fadeInUp">' + (p.description || '') + '</p>' +
+                        (p.description2 ? '<p class="wow fadeInUp" data-wow-delay="0.2s">' + p.description2 + '</p>' : '') +
+                        specsHtml +
+                        featuresHtml +
+                        appsHtml +
+                    '</div>' +
+                    faqsHtml +
+                    '<div class="about-content-btn wow fadeInUp" style="margin-top:30px;">' +
+                        '<a href="/products/" class="btn-default"><span>← Back to All Products</span></a>' +
+                    '</div>' +
+                '</div>';
+
+            if (typeof WOW !== 'undefined') new WOW({ offset: 0 }).init();
+        })
+        .catch(function () {
+            document.getElementById('detail-content').innerHTML =
+                '<p style="color:#888;padding:60px 0">Could not load product. <a href="/products/">Back to products</a></p>';
+        });
+})();
+</script>
