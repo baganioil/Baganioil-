@@ -27,9 +27,7 @@
       return r.json().then(function (d) { return d.result; });
     }
 
-    var host = IS_PREVIEW
-      ? 'https://' + PROJECT_ID + '.api.sanity.io'
-      : 'https://' + PROJECT_ID + '.apicdn.sanity.io';
+    var host = 'https://' + PROJECT_ID + '.api.sanity.io';
     var url = host + '/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query);
     if (IS_PREVIEW) url += '&perspective=previewDrafts';
 
