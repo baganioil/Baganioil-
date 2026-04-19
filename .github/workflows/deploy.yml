@@ -30,23 +30,9 @@ jobs:
           sed -i "s/__GROQ_API_KEY__/${{ secrets.GROQ_API_KEY }}/" _site/chat.php
 
       - name: Install deploy tools
-        run: sudo apt-get install -y lftp sshpass rsync
+        run: sudo apt-get install -y lftp
 
-      - name: Deploy via SSH/rsync (primary)
-        id: ssh_deploy
-        continue-on-error: true
-        env:
-          SSH_PASS: ${{ secrets.FTP_PASSWORD }}
-          SSH_USER: ${{ secrets.FTP_USERNAME }}
-          SSH_HOST: ${{ secrets.FTP_SERVER }}
-        run: |
-          sshpass -p "$SSH_PASS" rsync -avz --delete \
-            -e "ssh -p 65002 -o StrictHostKeyChecking=no -o ConnectTimeout=30" \
-            ./_site/ \
-            "$SSH_USER@$SSH_HOST:/public_html/"
-
-      - name: Deploy via FTPS (fallback)
-        if: steps.ssh_deploy.outcome == 'failure'
+      - name: Deploy via FTPS
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USER: ${{ secrets.FTP_USERNAME }}
@@ -56,11 +42,18 @@ jobs:
             set ftp:ssl-allow yes;
             set ftp:ssl-force no;
             set ftp:passive-mode yes;
+            set ftp:ssl-session-reuse no;
+            set ftp:use-feat no;
             set ssl:verify-certificate no;
-            set net:timeout 60;
-            set net:max-retries 5;
-            set net:reconnect-interval-base 5;
+            set net:timeout 120;
+            set net:max-retries 10;
+            set net:reconnect-interval-base 3;
+            set net:reconnect-interval-multiplier 1;
+            set net:idle 0;
+            set ftp:socket-buffer-size 0;
             open -u '$FTP_USER','$FTP_PASS' '$FTP_SERVER';
-            mirror --reverse --delete --verbose --exclude='.git/' ./_site/ /public_html/;
+            mirror --reverse --delete --verbose --use-cache --continue \
+              --exclude='.git/' \
+              ./_site/ /public_html/;
             bye;
           "
