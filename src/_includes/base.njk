@@ -34,6 +34,10 @@
 	<link href="/css/custom.css?v={{ buildVersion }}" rel="stylesheet" media="screen">
 	<!-- Leaflet CSS (loaded globally so map container is sized correctly) -->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+	<!-- Preload page header background if set -->
+	{% if pageHeaderBg %}
+	<link rel="preload" href="{{ pageHeaderBg }}" as="image">
+	{% endif %}
 	<!-- Netlify Identity Widget -->
 	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async></script>
 </head>
@@ -566,6 +570,6 @@
     </div>
 
     <!-- Sanity Live: client-side content fetching -->
-    <script src="/js/sanity-live.js?v={{ buildVersion }}"></script>
+    <script src="/js/sanity-live.js?v={{ buildVersion }}" defer></script>
 </body>
 </html>
