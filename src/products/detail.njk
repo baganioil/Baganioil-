@@ -221,7 +221,7 @@ permalink: "/products/detail/"
             '</div></div>';
     }
 
-    fetch(url)
+    fetch(url, { cache: 'no-store' })
         .then(function (r) { return r.json(); })
         .then(function (d) {
             var p = d.result;

@@ -31,7 +31,7 @@
     var url = host + '/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query);
     if (IS_PREVIEW) url += '&perspective=previewDrafts';
 
-    var opts = {};
+    var opts = { cache: 'no-store' };
     if (IS_PREVIEW && PREVIEW_TOKEN) {
       opts.headers = { 'Authorization': 'Bearer ' + PREVIEW_TOKEN };
     }
