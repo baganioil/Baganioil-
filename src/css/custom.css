@@ -71,6 +71,17 @@ html, body {
 	overflow-x: hidden;
 }
 
+/* ── Sticky Footer ── */
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.bagani-main-content {
+	flex: 1 0 auto;
+}
+
 /* ── Text Selection Highlight ── */
 ::selection {
 	background: #FFC107;
@@ -3497,6 +3508,28 @@ body[data-page="home"] .hero.hero-video {
 	transform: rotate(45deg);
 }
 
+/* ── Product Image Lightbox ── */
+.bagani-img-zoom-hint {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+.bagani-img-lightbox:hover .bagani-img-zoom-hint {
+    opacity: 1;
+}
+
 /************************************/
 /***        14. Footer css        ***/
 /************************************/
@@ -4291,7 +4324,12 @@ body[data-page="home"] .hero.hero-video {
 	margin-bottom: 0;
 }
 
+.our-faq-section h2.accordion-header {
+	font-family: var(--default-font);
+}
+
 .our-faq-section .accordion-header .accordion-button{
+	font-family: var(--default-font) !important;
 	font-size: 20px;
 	font-weight: 600;
 	line-height: 1.2em;

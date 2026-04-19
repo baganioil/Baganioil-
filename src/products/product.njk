@@ -91,8 +91,11 @@ eleventyComputed:
                     <!-- Product Image -->
                     {% if product.image %}
                     <div class="service-featured-image">
-                        <figure class="image-anime reveal" style="border-radius: 10px; overflow: hidden; margin: 0;">
-                            <img src="{{ product.image }}" alt="Bagani {{ product.name }}" style="width: 100%; height: 480px; object-fit: cover; display: block;">
+                        <figure class="image-anime reveal" style="border-radius: 10px; overflow: hidden; margin: 0; position: relative;">
+                            <a href="{{ product.image }}" class="bagani-img-lightbox" title="{{ product.name }}" style="display: block; position: relative; cursor: zoom-in;">
+                                <img src="{{ product.image }}" alt="Bagani {{ product.name }}" style="width: 100%; height: 480px; object-fit: cover; display: block;">
+                                <span class="bagani-img-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                            </a>
                         </figure>
                     </div>
                     {% endif %}
@@ -214,6 +217,23 @@ eleventyComputed:
                         </div>
                     </div>
                     {% endif %}
+
+                    <!-- Product Image Lightbox Init -->
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        if (typeof jQuery !== 'undefined' && jQuery.fn.magnificPopup) {
+                            jQuery('.bagani-img-lightbox').magnificPopup({ type: 'image', closeOnContentClick: true });
+                        } else {
+                            // Fallback: open image in new tab
+                            document.querySelectorAll('.bagani-img-lightbox').forEach(function(el) {
+                                el.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    window.open(el.href, '_blank');
+                                });
+                            });
+                        }
+                    });
+                    </script>
 
                     <!-- Back to Products Button -->
                     <div class="about-content-btn wow fadeInUp" style="margin-top: 30px;">
