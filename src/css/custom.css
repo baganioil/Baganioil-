@@ -191,7 +191,8 @@ body {
 .bagani-product-item {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 32px;
+	height: 100%;
+	margin-bottom: 0;
 }
 
 .bagani-product-img-wrap {
@@ -215,6 +216,9 @@ body {
 }
 
 .bagani-product-info {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 	padding: 14px 4px 0;
 }
 
@@ -244,9 +248,10 @@ body {
 }
 
 .bagani-product-desc {
+	flex: 1;
 	font-size: 14px;
 	color: #757575;
-	margin-bottom: 10px;
+	margin-bottom: 0;
 	line-height: 1.5;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
@@ -264,6 +269,7 @@ body {
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	transition: gap 0.3s ease;
+	margin-top: 12px;
 }
 
 .bagani-product-link:hover {
@@ -3773,6 +3779,8 @@ body[data-page="home"] .hero.hero-video {
 
 .our-mission-vision{
 	position: relative;
+	background-color: #3C0F0F;
+	padding-bottom: 100px;
 }
 
 .our-mission-vision .section-title h2{
@@ -3797,26 +3805,31 @@ body[data-page="home"] .hero.hero-video {
 	margin-top: -200px;
 	overflow: hidden;
 	z-index: 1;
+	display: flex;
+}
+
+.mission-vision-nav {
+	width: 25%;
+	flex-shrink: 0;
+	background-color: var(--white-color);
+	border-right: 1px solid var(--divider-color);
 }
 
 .mission-vision-nav ul{
 	list-style: none;
-    text-align: center;
+    text-align: left;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     padding: 0;
     margin: 0;
-	background-color: var(--white-color);
-	border-bottom: 1px solid var(--divider-color);
 	overflow: hidden;
+	height: 100%;
 }
 
 .mission-vision-nav ul li{
-	width: 33.33%;
+	width: 100%;
 	position: relative;
-    display: inline-block;
-	text-align: center;
+    display: block;
 }
 
 .mission-vision-nav ul li:last-child{
@@ -3824,7 +3837,8 @@ body[data-page="home"] .hero.hero-video {
 }
 
 .mission-vision-nav ul li .nav-link{
-	display: block;
+	display: flex;
+	align-items: center;
 	width: 100%;
     background: transparent;
 	border: none;
@@ -3856,8 +3870,12 @@ body[data-page="home"] .hero.hero-video {
 	filter: brightness(0) invert(1);
 }
 
-.mission-vision-item{
+.mission-vision-content-wrapper {
+	width: 75%;
 	background-color: var(--white-color);
+}
+
+.mission-vision-item{
 	padding: 50px; /* Reduced from 80px to make the box less overwhelmingly large */
 }
 
@@ -6638,6 +6656,21 @@ body[data-page="home"] .hero.hero-video {
 	.mission-vision-box{
 		border-radius: 30px;
 		margin-top: -150px;
+		flex-direction: column;
+	}
+
+	.mission-vision-nav {
+		width: 100%;
+		border-right: none;
+		border-bottom: 1px solid var(--divider-color);
+	}
+	
+	.mission-vision-nav ul {
+		flex-direction: row;
+	}
+	
+	.mission-vision-content-wrapper {
+		width: 100%;
 	}
 
 	.mission-vision-nav ul li .nav-link{
@@ -8070,8 +8103,25 @@ body[data-page="home"] .hero.hero-video {
    Product Grid & Cards
    ─────────────────────────────────────────────── */
 .nike-shop-grid { flex-grow: 1; width: 100%; }
-.row.project-item-boxes { min-height: 60vh; }
-.project-item-box { margin-bottom: 30px; }
+
+.row.project-item-boxes {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    min-height: 60vh;
+}
+
+/* Reset Bootstrap col-* overrides so CSS Grid controls sizing */
+.project-item-box {
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 0 !important;
+}
 
 .product-card { background: transparent; border: none; height: 100%; perspective: 1000px; }
 .product-card-inner {
@@ -8143,15 +8193,19 @@ body[data-page="home"] .hero.hero-video {
     }
 
     /* 2-column product grid on mobile */
-    .project-item-box { padding-left: 8px; padding-right: 8px; margin-bottom: 16px; }
-    .row.project-item-boxes { margin-left: -8px; margin-right: -8px; }
-    .bagani-product-item { margin-bottom: 0; }
+    .row.project-item-boxes {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    .project-item-box { padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 0 !important; }
     .bagani-product-info { padding: 10px 2px 0; }
     .bagani-product-name { font-size: 13px; }
     .bagani-product-spec { font-size: 12px; margin-bottom: 2px; }
     .bagani-product-desc { display: none; }
     .bagani-product-line { font-size: 11px; margin-bottom: 2px; }
-    .bagani-product-link { font-size: 12px; }
+    .bagani-product-link { font-size: 12px; margin-top: 8px; }
 }
 
 /* =====================================================================

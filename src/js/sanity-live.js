@@ -688,11 +688,11 @@
           return cls;
         }
 
-        grid.innerHTML = products.map(function (p) {
-          return '<div class="col-lg-4 col-md-6 col-6 project-item-box ' + getFilterClasses(p) + '">' +
+        grid.innerHTML = products.map(function (p, i) {
+          return '<div class="project-item-box ' + getFilterClasses(p) + '" data-idx="' + i + '">' +
             '<div class="bagani-product-item">' +
               '<a href="/products/' + p.slug + '/" class="bagani-product-img-wrap">' +
-                '<img src="' + (p.image || '') + '" alt="Bagani ' + p.name + '">' +
+                '<img src="' + (p.image || '') + '" alt="Bagani ' + p.name + '" loading="lazy">' +
               '</a>' +
               '<div class="bagani-product-info">' +
                 '<span class="bagani-product-line">' + (p.line || '') + '</span>' +
@@ -704,24 +704,12 @@
             '</div></div>';
         }).join('');
 
-        if (typeof $ !== 'undefined' && $.fn && $.fn.isotope) {
-          var $g = $(grid).isotope({ itemSelector: '.project-item-box', layoutMode: 'fitRows' });
-          // Relayout after each image loads so card heights are correct
-          $(grid).find('img').each(function () {
-            var img = this;
-            if (img.complete) {
-              $g.isotope('layout');
-            } else {
-              img.addEventListener('load', function () { $g.isotope('layout'); });
-              img.addEventListener('error', function () { $g.isotope('layout'); });
-            }
-          });
-          $('.product-categories ul li a').off('click.sanity').on('click.sanity', function (e) {
-            e.preventDefault();
-            $g.isotope({ filter: $(this).attr('data-filter') });
-            $('.product-categories ul li a').removeClass('active-btn');
-            $(this).addClass('active-btn');
-          });
+        // Apply any pending URL filter and update count
+        if (typeof window.baganiApplyFilters === 'function') {
+          window.baganiApplyFilters();
+        } else {
+          var countEl = document.getElementById('product-count');
+          if (countEl) countEl.textContent = products.length;
         }
       });
   }

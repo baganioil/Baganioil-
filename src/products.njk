@@ -152,119 +152,111 @@ pageHeaderBg: /images/our-products.jpg
 <!-- Product Shop End -->
 
 <script>
-// Product Filter with Isotope (wait for jQuery to load)
 window.addEventListener('load', function() {
-    var $grid = $('.project-item-boxes').isotope({
-        itemSelector: '.project-item-box',
-        layoutMode: 'masonry',
-        getSortData: {
-            name: '.product-name'
-        }
-    });
+    var grid = document.getElementById('sanity-products-grid');
 
-    // Relayout after images load
-    $grid.find('img').each(function() {
-        var img = this;
-        if (!img.complete) {
-            img.addEventListener('load', function() { $grid.isotope('layout'); });
-            img.addEventListener('error', function() { $grid.isotope('layout'); });
-        }
-    });
-
-    // Sidebar Checkbox Filtering
+    // ── Filter ──────────────────────────────────────────────────────────────
     function applyCurrentFilters() {
         var filters = [];
-        $('.filter-check:checked').each(function() {
-            filters.push($(this).val());
+        document.querySelectorAll('.filter-check:checked').forEach(function(el) {
+            filters.push(el.value.replace('.', ''));
         });
-        var filterValue = filters.length ? filters.join(', ') : '*';
-        $grid.isotope({ filter: filterValue });
-
-        setTimeout(function() {
-            var visibleItems = $grid.data('isotope').filteredItems.length;
-            $('#product-count').text(visibleItems);
-        }, 100);
+        var count = 0;
+        document.querySelectorAll('#sanity-products-grid .project-item-box').forEach(function(item) {
+            var show = filters.length === 0 || filters.some(function(f) { return item.classList.contains(f); });
+            item.style.display = show ? '' : 'none';
+            if (show) count++;
+        });
+        var countEl = document.getElementById('product-count');
+        if (countEl) countEl.textContent = count;
     }
 
-    $('.filter-check').on('change', function() {
-        // Single-select groups: uncheck all siblings when one is checked
-        var $group = $(this).closest('.filter-group');
-        if ($group.hasClass('single-select') && $(this).is(':checked')) {
-            $group.find('.filter-check').not(this).prop('checked', false);
-        }
+    // Expose so sanity-live.js can call it after products load
+    window.baganiApplyFilters = applyCurrentFilters;
 
-        applyCurrentFilters();
+    document.querySelectorAll('.filter-check').forEach(function(el) {
+        el.addEventListener('change', function() {
+            var group = this.closest('.filter-group');
+            if (group && group.classList.contains('single-select') && this.checked) {
+                group.querySelectorAll('.filter-check').forEach(function(sib) {
+                    if (sib !== el) sib.checked = false;
+                });
+            }
+            applyCurrentFilters();
+        });
     });
 
     // Apply incoming URL filter, e.g. /products/?filter=amihan
     var initialFilter = new URLSearchParams(window.location.search).get('filter');
-    var filterToSelector = {
-        amihan: '.amihan',
-        laon: '.laon',
-        aman: '.aman',
-        anitun: '.anitun'
-    };
-    if (initialFilter && filterToSelector[initialFilter]) {
-        var selector = filterToSelector[initialFilter];
-        $('.filter-group.single-select').each(function() {
-            var $group = $(this);
-            var $target = $group.find('.filter-check[value="' + selector + '"]');
-            if ($target.length) {
-                $group.find('.filter-check').prop('checked', false);
-                $target.prop('checked', true);
+    var filterMap = { amihan: 'amihan', laon: 'laon', aman: 'aman', anitun: 'anitun' };
+    if (initialFilter && filterMap[initialFilter]) {
+        var targetClass = filterMap[initialFilter];
+        document.querySelectorAll('.filter-group.single-select').forEach(function(group) {
+            var target = group.querySelector('.filter-check[value=".' + targetClass + '"]');
+            if (target) {
+                group.querySelectorAll('.filter-check').forEach(function(sib) { sib.checked = false; });
+                target.checked = true;
             }
         });
-        applyCurrentFilters();
     }
 
-    // Sort Dropdown
-    $('#sort-by').on('change', function() {
-        var sortValue = $(this).val();
-        if(sortValue === 'name') {
-             $grid.isotope({ sortBy: 'name', sortAscending: true });
-        } else if (sortValue === 'name-desc') {
-             $grid.isotope({ sortBy: 'name', sortAscending: false });
-        } else {
-             $grid.isotope({ sortBy: 'original-order' });
-        }
-    });
-
-    // Sidebar Slide Toggle
-    $('#toggle-sidebar-btn').on('click', function() {
-        var $shop = $('.bagani-nike-shop');
-        if (window.innerWidth < 992) {
-            // Mobile: slide in drawer
-            $shop.toggleClass('mobile-sidebar-open');
-        } else {
-            // Desktop: collapse sidebar
-            $shop.toggleClass('sidebar-hidden');
-            if ($shop.hasClass('sidebar-hidden')) {
-                $('#toggle-filter-text').text('Show Filters');
+    // ── Sort ────────────────────────────────────────────────────────────────
+    var sortEl = document.getElementById('sort-by');
+    if (sortEl) {
+        sortEl.addEventListener('change', function() {
+            if (!grid) return;
+            var sortValue = this.value;
+            var items = Array.from(grid.querySelectorAll('.project-item-box'));
+            if (sortValue === 'name' || sortValue === 'name-desc') {
+                items.sort(function(a, b) {
+                    var na = (a.querySelector('.bagani-product-name') || {}).textContent || '';
+                    var nb = (b.querySelector('.bagani-product-name') || {}).textContent || '';
+                    return sortValue === 'name' ? na.localeCompare(nb) : nb.localeCompare(na);
+                });
             } else {
-                $('#toggle-filter-text').text('Hide Filters');
+                items.sort(function(a, b) { return (parseInt(a.dataset.idx) || 0) - (parseInt(b.dataset.idx) || 0); });
             }
-            // Trigger Isotope layout recalculation
-            setTimeout(function() { $grid.isotope('layout'); }, 300);
-        }
-    });
+            items.forEach(function(item) { grid.appendChild(item); });
+        });
+    }
 
-    // Mobile Close Action
-    $('#mobile-close-sidebar, #mobile-overlay').on('click', function() {
-        $('.bagani-nike-shop').removeClass('mobile-sidebar-open');
-    });
+    // ── Sidebar Toggle ──────────────────────────────────────────────────────
+    var toggleBtn = document.getElementById('toggle-sidebar-btn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            var shop = document.querySelector('.bagani-nike-shop');
+            if (window.innerWidth < 992) {
+                shop.classList.toggle('mobile-sidebar-open');
+            } else {
+                shop.classList.toggle('sidebar-hidden');
+                var textEl = document.getElementById('toggle-filter-text');
+                if (textEl) textEl.textContent = shop.classList.contains('sidebar-hidden') ? 'Show Filters' : 'Hide Filters';
+            }
+        });
+    }
 
-    // Accordion Logic
-    $('.filter-title').on('click', function() {
-        var $group = $(this).parent('.filter-group');
-        $group.toggleClass('expanded');
-        var $icon = $(this).find('.toggle-icon');
-        if($group.hasClass('expanded')) {
-            $group.find('.filter-body').slideDown(300);
-            $icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
-        } else {
-            $group.find('.filter-body').slideUp(300);
-            $icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
-        }
+    // ── Mobile Close ────────────────────────────────────────────────────────
+    function closeMobile() { document.querySelector('.bagani-nike-shop').classList.remove('mobile-sidebar-open'); }
+    var mClose = document.getElementById('mobile-close-sidebar');
+    var mOverlay = document.getElementById('mobile-overlay');
+    if (mClose) mClose.addEventListener('click', closeMobile);
+    if (mOverlay) mOverlay.addEventListener('click', closeMobile);
+
+    // ── Accordion ───────────────────────────────────────────────────────────
+    document.querySelectorAll('.filter-title').forEach(function(title) {
+        title.addEventListener('click', function() {
+            var group = this.closest('.filter-group');
+            var body = group.querySelector('.filter-body');
+            var icon = this.querySelector('.toggle-icon');
+            group.classList.toggle('expanded');
+            if (group.classList.contains('expanded')) {
+                body.style.display = '';
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                body.style.display = 'none';
+                icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        });
     });
 });
 </script>
