@@ -7,51 +7,28 @@
   "shortDesc": "Best performance semi-synthetic motorcycle engine oil. Specially made for scooters.",
   "image": "/images/products/amihan-gale.png",
   "description": "A semi-synthetic, multi-grade engine oil developed for 4-stroke motorcycles, formulated according to Japanese and U.S. performance standards. Produced using high-quality base oils combined with advanced additive technology to deliver reliable engine protection and performance.",
-  "description2": "Recognized and trusted by motorcycle enthusiasts and professional riders worldwide. JASO MB certified — optimized for modern scooters and CVT-equipped motorcycles.",
-  "specs": {
-    "Oil Type": "Semi-Synthetic Motorcycle Engine Oil",
-    "Viscosity Grade": "SAE 10W-40",
-    "API Service": "SL",
-    "JASO": "MB",
-    "Flash Point": "234°C",
-    "Pour Point": "-36°C",
-    "Viscosity @ 40°C": "101 cSt",
-    "Viscosity @ 100°C": "14.5 cSt",
-    "Viscosity Index": "155",
-    "Color (ASTM)": "3.5",
-    "TBN": "9.6 mgKOH/g",
-    "Specific Gravity @ 15.6°C": "0.8674"
+  "benefits": [
+    { "title": "Performance Enhancement", "desc": "Designed to support stronger engine performance and smoother acceleration for an improved riding experience." },
+    { "title": "Reliable Engine Protection", "desc": "Helps guard against rust, abrasion, and mechanical wear, extending engine life and maintaining optimal efficiency." },
+    { "title": "Engine Cleanliness", "desc": "Advanced detergent additives help prevent deposit formation and keep internal engine components clean." },
+    { "title": "Smooth Cold Start & Extended Oil Life", "desc": "Provides dependable cold-start lubrication while supporting longer oil service intervals." }
+  ],
+  "applicationText": "BAGANI AMIHAN 4T GALE is specifically designed for modern four-stroke scooter engines and compatible motorcycles requiring a semi-synthetic lubricant.",
+  "approvalsText": "This product meets the requirements of API Service Classification SL and complies with JASO T903 MB specifications, making it suitable for various Japanese and European motorcycle models.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X800ML BOX"],
+  "typicalProperties": {
+    "grades": [],
+    "rows": [
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.8674"] },
+      { "property": "Flash Point, °C", "values": ["234"] },
+      { "property": "Pour Point, °C", "values": ["-36"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["101"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["14.5"] },
+      { "property": "Viscosity Index", "values": ["155"] },
+      { "property": "Color, ASTM", "values": ["3.5"] },
+      { "property": "TBN, mgKOH/g", "values": ["9.6"] }
+    ]
   },
-  "features": [
-    {
-      "title": "Performance Enhancement",
-      "desc": "Designed to support stronger engine performance and smoother acceleration for modern scooters.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "Reliable Engine Protection",
-      "desc": "Guards against rust, abrasion, and mechanical wear, extending engine life.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Engine Cleanliness",
-      "desc": "Advanced detergent additives prevent deposit formation and keep internal components clean.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Smooth Cold Start & Extended Oil Life",
-      "desc": "Provides dependable cold-start lubrication with a pour point of -36°C, while supporting longer oil service intervals.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Modern four-stroke scooter engines",
-    "CVT-equipped motorcycles",
-    "Compatible motorcycles requiring semi-synthetic lubricant",
-    "Various Japanese and European motorcycle models"
-  ],
-  "approvals": [],
-  "availableSizes": ["200L Drum", "20L Pail", "12x800ML Box"],
   "faqs": [
     {
       "q": "Is Bagani Amihan 4T Gale good for my scooter?",

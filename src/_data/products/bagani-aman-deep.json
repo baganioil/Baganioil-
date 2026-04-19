@@ -6,64 +6,34 @@
   "spec": "SAE 90 / 140 | API GL-4 | Gear Oil",
   "shortDesc": "Multi-purpose automotive gear lubricant. Superior load-carrying capacity for manual transmissions and differentials.",
   "image": "/images/products/aman-deep.png",
-  "description": "A multi-purpose gear lubricant developed to satisfy the performance requirements of API GL-4 service applications. Manufactured using carefully selected base oils combined with a specialized additive system that delivers reliable performance including strong load-carrying capability, resistance to oxidation and foaming, protection against oil thickening, and effective defense against rust and corrosion.",
-  "description2": "Available in SAE 90 and SAE 140 grades to suit a wide range of gear applications including manual transmissions, axles, differentials, and steering gear units.",
-  "specs": {
-    "Oil Type": "Automotive Gear Oil",
-    "Viscosity Grade": "SAE 90 / SAE 140",
-    "API Service": "GL-4",
-    "Flash Point": "220°C (SAE 90) / 231°C (SAE 140)",
-    "Pour Point": "-12°C (SAE 90) / -9°C (SAE 140)",
-    "Viscosity @ 40°C": "188 cSt (SAE 90) / 438 cSt (SAE 140)",
-    "Viscosity @ 100°C": "17.4 cSt (SAE 90) / 28.9 cSt (SAE 140)",
-    "Viscosity Index": "93 (SAE 90) / 95 (SAE 140)",
-    "Specific Gravity @ 15.6°C": "0.899 (SAE 90) / 0.910 (SAE 140)"
+  "description": "A multi-purpose gear lubricant developed to satisfy the performance requirements of API GL-4 service applications. Manufactured using carefully selected base oils combined with a specialized additive system that delivers reliable performance including strong load-carrying capability, resistance to oxidation and foaming, and effective defense against rust and corrosion.",
+  "benefits": [
+    { "title": "", "desc": "Specifically designed for API GL-4 service requirements." },
+    { "title": "", "desc": "High thermal stability helps maintain proper viscosity across a wide temperature range." },
+    { "title": "", "desc": "Extreme pressure and anti-wear additives help reduce direct metal-to-metal contact between gear components." }
+  ],
+  "applicationText": "BAGANI AMAN DEEP is recommended for use in manual transmissions, axles, differentials, steering gear units, and other gear housings found in passenger cars, jeeps, trucks, and various utility vehicles.",
+  "approvalsText": "BAGANI AMAN DEEP complies with the following standards: MIL-L-2105, Ford M2C 83A, Ford M2C 85A, Mercedes-Benz DB 235.1, ZF TE-ML 02 | TE-ML 07 | TE-ML 08, API Classification GL-4.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X1L BOX", "4X4L BOX"],
+  "typicalProperties": {
+    "grades": ["SAE 90", "SAE 140"],
+    "rows": [
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.899", "0.910"] },
+      { "property": "Flash Point, °C", "values": ["220", "231"] },
+      { "property": "Pour Point, °C", "values": ["-12", "-9"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["188", "438"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["17.4", "28.9"] },
+      { "property": "Viscosity Index", "values": ["93", "95"] }
+    ]
   },
-  "features": [
-    {
-      "title": "API GL-4 Performance",
-      "desc": "Specifically designed for API GL-4 service requirements, meeting the demands of modern manual transmissions and axles.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "High Thermal Stability",
-      "desc": "Maintains proper viscosity across a wide temperature range, ensuring reliable gear protection under varying operating conditions.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Extreme Pressure & Anti-Wear",
-      "desc": "EP and anti-wear additives reduce direct metal-to-metal contact between gear components, minimizing wear.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Rust & Corrosion Defense",
-      "desc": "Specialized additive system provides effective defense against rust, corrosion, and foaming.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Manual transmissions in passenger cars, jeeps, trucks, and utility vehicles",
-    "Axles and differentials",
-    "Steering gear units",
-    "Other gear housings requiring API GL-4 lubricant"
-  ],
-  "approvals": [
-    "API GL-4",
-    "MIL-L-2105",
-    "Ford M2C 83A",
-    "Ford M2C 85A",
-    "Mercedes-Benz DB 235.1",
-    "ZF TE-ML 02 | TE-ML 07 | TE-ML 08"
-  ],
-  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "4x4L Box"],
   "faqs": [
     {
       "q": "What is API GL-4 and when do I need it?",
-      "a": "API GL-4 is a gear oil service category suitable for manual transmissions, axles, and differentials operating under moderate to severe conditions. Check your vehicle owner's manual to confirm if GL-4 is the required specification."
+      "a": "API GL-4 is a gear oil service category suitable for manual transmissions, axles, and differentials operating under moderate to severe conditions. Check your vehicle owner's manual to confirm if GL-4 is required."
     },
     {
       "q": "Can I use SAE 90 and SAE 140 interchangeably?",
-      "a": "No. SAE 90 is for most standard applications (manual gearboxes, axles). SAE 140 is thicker and intended for heavily loaded differentials and gears operating at high temperatures. Always follow your vehicle's specifications."
+      "a": "No. SAE 90 is for most standard applications. SAE 140 is thicker, intended for heavily loaded differentials operating at high temperatures. Always follow your vehicle's specifications."
     },
     {
       "q": "Is Aman Deep suitable for my jeepney or truck?",

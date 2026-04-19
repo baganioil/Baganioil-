@@ -6,55 +6,29 @@
   "spec": "SAE 20W-50 | API SL/CF | Gasoline Engine Oil",
   "shortDesc": "High speed top choice premium gasoline engine oil. Dependable protection for passenger cars and light-duty trucks.",
   "image": "/images/products/hanan-raze.png",
-  "description": "A premium multi-grade motor oil designed to deliver dependable performance in various driving conditions. Blended from highly refined paraffinic base oils known for their strong stability and high viscosity index. The formulation includes a carefully balanced additive package featuring advanced detergents, dispersants, viscosity modifiers, and performance enhancers.",
-  "description2": "Helps extend oil service life and supports optimum engine efficiency while reducing the possibility of harmful pre-ignition. Compliant with CCMC G5 and ACEA A3/B3 standards.",
-  "specs": {
-    "Oil Type": "Premium Gasoline Engine Oil",
-    "Viscosity Grade": "SAE 20W-50",
-    "API Service": "SL/CF",
-    "Flash Point": "230°C",
-    "Pour Point": "-20°C",
-    "Viscosity @ 40°C": "176 cSt",
-    "Viscosity @ 100°C": "18.8 cSt",
-    "Viscosity Index": "125",
-    "Color (ASTM)": "3.5",
-    "TBN": "10.0 mgKOH/g",
-    "Specific Gravity @ 15.6°C": "0.882"
+  "description": "A premium multi-grade motor oil designed to deliver dependable performance in various driving conditions. Blended from highly refined paraffinic base oils known for their strong stability and high viscosity index, with a carefully balanced additive package featuring advanced detergents, dispersants, viscosity modifiers, and performance enhancers.",
+  "benefits": [
+    { "title": "Enhanced Protection from Wear and Corrosion", "desc": "Helps safeguard engine components against rust formation and corrosive damage." },
+    { "title": "Reliable Sludge Control", "desc": "Designed to resist sludge accumulation and maintain cleaner engine internals." },
+    { "title": "High Resistance to Heat Breakdown", "desc": "Provides strong thermal stability to prevent oil degradation under high operating temperatures." },
+    { "title": "Advanced Deposit Control", "desc": "Powerful cleaning agents minimize deposit buildup and promote smoother engine operation." }
+  ],
+  "applicationText": "BAGANI HANAN RAZE PRO 20W-50 is developed for year-round use in a wide range of vehicles. Made with high-quality mineral base oils and modern additive technology, it delivers excellent engine cleanliness and dependable protection against wear, corrosion, deposits, and sludge under different driving environments. It has demonstrated strong performance in turbocharged and multi-valve engines and is also suitable for CRDi diesel engines meeting API CF specifications.",
+  "approvalsText": "This product surpasses the warranty requirements of most passenger cars and light-duty trucks where API SL/CF performance levels are specified. It is also compliant with European standards including CCMC G5 and ACEA A3/B3.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X1L BOX", "4X4L BOX"],
+  "typicalProperties": {
+    "grades": ["BAGANI HANAN RAZE 20W-50"],
+    "rows": [
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.882"] },
+      { "property": "Flash Point, °C", "values": ["230"] },
+      { "property": "Pour Point, °C", "values": ["-20"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["176"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["18.8"] },
+      { "property": "Viscosity Index", "values": ["125"] },
+      { "property": "Color, ASTM", "values": ["3.5"] },
+      { "property": "TBN, mgKOH/g", "values": ["10.0"] }
+    ]
   },
-  "features": [
-    {
-      "title": "Wear & Corrosion Protection",
-      "desc": "Safeguards engine components against rust formation and corrosive damage, extending engine service life.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "Reliable Sludge Control",
-      "desc": "Designed to resist sludge accumulation and maintain cleaner engine internals under all driving conditions.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "High Resistance to Heat Breakdown",
-      "desc": "Strong thermal stability prevents oil degradation under high operating temperatures, maintaining consistent protection.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Advanced Deposit Control",
-      "desc": "Powerful cleaning agents minimize deposit buildup on pistons and valves, promoting smoother engine operation.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Passenger cars and light-duty trucks where API SL/CF is specified",
-    "Turbocharged and multi-valve gasoline engines",
-    "CRDi diesel engines meeting API CF specifications",
-    "Year-round use in a wide range of vehicles"
-  ],
-  "approvals": [
-    "API SL/CF",
-    "CCMC G5",
-    "ACEA A3/B3"
-  ],
-  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "4x4L Box"],
   "faqs": [
     {
       "q": "Can Hanan Raze be used in both gasoline and diesel engines?",

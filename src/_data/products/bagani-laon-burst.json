@@ -6,59 +6,26 @@
   "spec": "SAE 15W-40 | API CI-4/SL | Heavy Duty",
   "shortDesc": "Peak power top choice diesel engine oil. For light and heavy-duty diesel and gasoline engines.",
   "image": "/images/products/laon-burst.png",
-  "description": "A high-quality commercial multi-grade engine oil suitable for both light and heavy-duty diesel and gasoline engines. Specifically formulated for the lubrication of commercial vehicle engines, including those operating on high-sulfur diesel fuels. Meets the performance requirements of modern low-emission diesel engines as well as high-performance gasoline engines, making it ideal for mixed-fleet operations.",
-  "description2": "Engineered to provide excellent thermal and oxidation stability, high levels of detergency and dispersancy, effective corrosion protection, and superior load-carrying capacity. Meets major OEM approvals including Mercedes-Benz 228.3, MAN 3275, Volvo VDS-2, and Cummins.",
-  "specs": {
-    "Oil Type": "Heavy Duty Diesel / Gasoline Engine Oil",
-    "Viscosity Grade": "SAE 15W-40",
-    "API Service": "CI-4/SL",
-    "Flash Point": "238°C",
-    "Viscosity @ 40°C": "112 cSt",
-    "Viscosity @ 100°C": "14.35 cSt",
-    "Viscosity Index": "136",
-    "TBN": "11 mgKOH/g",
-    "Specific Gravity @ 15.6°C": "0.880"
+  "description": "A high-quality commercial multi-grade engine oil suitable for both light and heavy-duty diesel and gasoline engines. Specifically formulated for the lubrication of commercial vehicle engines, including those operating on high-sulfur diesel fuels. Meets the performance requirements of modern low-emission diesel engines as well as high-performance gasoline engines.",
+  "benefits": [
+    { "title": "", "desc": "Engineered to provide excellent thermal and oxidation stability, high levels of detergency and dispersancy, effective corrosion protection, and superior load-carrying capacity." },
+    { "title": "", "desc": "These properties help keep engines clean under both high and low temperature conditions." },
+    { "title": "", "desc": "The advanced additive package also reduces wear on cylinder bores and piston rings, extending engine life." }
+  ],
+  "applicationText": "This multi-grade oil is designed for high-speed turbocharged or naturally aspirated diesel and gasoline engines operating under severe service conditions, such as those encountered in commercial transport and heavy construction equipment. Its versatility makes it suitable for mixed-fleet applications commonly used in these industries.",
+  "approvalsText": "BAGANI LAON BURST 15W-40 meets the following industry standards: API CI-4 / CH-4 / CG-4 / SJ / SL; ACEA E3-96 Issue 3, E5-99, B3-98, A3-98; Mercedes-Benz 228.1 & 228.3; MAN 3275; MACK EO-M Plus; Volvo VDS-2; RVI RLD 99; Cummins 20072, 20076, 20077.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "18L PAIL", "12X1L BOX", "4X4L BOX"],
+  "typicalProperties": {
+    "grades": ["BAGANI LAON BURST 15W-40"],
+    "rows": [
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.880"] },
+      { "property": "Flash Point, °C", "values": ["238"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["112"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["14.35"] },
+      { "property": "Viscosity Index", "values": ["136"] },
+      { "property": "TBN, mgKOH/g", "values": ["11"] }
+    ]
   },
-  "features": [
-    {
-      "title": "Excellent Thermal & Oxidation Stability",
-      "desc": "Maintains oil integrity under extreme heat and oxidative stress, extending drain intervals.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "High Detergency & Dispersancy",
-      "desc": "Keeps engines clean under both high and low temperature conditions, preventing sludge and deposit buildup.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Superior Load-Carrying Capacity",
-      "desc": "Advanced additive package reduces wear on cylinder bores and piston rings, extending engine life in heavy-duty applications.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Effective Corrosion Protection",
-      "desc": "Protects all critical engine components from corrosive damage, even in engines running on high-sulfur diesel fuels.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "High-speed turbocharged or naturally aspirated diesel engines",
-    "High-performance gasoline engines in mixed-fleet operations",
-    "Commercial transport vehicles",
-    "Heavy construction equipment",
-    "Engines operating on high-sulfur diesel fuels"
-  ],
-  "approvals": [
-    "API CI-4 / CH-4 / CG-4 / SJ / SL",
-    "ACEA E3-96 Issue 3, E5-99, B3-98, A3-98",
-    "Mercedes-Benz 228.1 & 228.3",
-    "MAN 3275",
-    "MACK EO-M Plus",
-    "Volvo VDS-2",
-    "RVI RLD 99",
-    "Cummins 20072, 20076, 20077"
-  ],
-  "availableSizes": ["200L Drum", "20L Pail", "18L Pail", "12x1L Box", "4x4L Box"],
   "faqs": [
     {
       "q": "Can Laon Burst 15W-40 be used in both diesel and gasoline engines?",

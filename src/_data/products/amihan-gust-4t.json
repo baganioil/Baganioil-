@@ -7,51 +7,29 @@
   "shortDesc": "High mileage motorcycle engine oil for daily riders. Reliable protection for 4-stroke engines.",
   "image": "/images/products/amihan-gust.png",
   "description": "A high-quality multi-grade engine oil developed for four-stroke motorcycle engines, including both air-cooled and water-cooled systems. Advanced wear protection formulation helps maintain consistent engine protection, particularly in motorcycles operating under high power and demanding conditions.",
-  "description2": "JASO MA certified for excellent wet clutch compatibility. Suitable for both Japanese and European motorcycle models and small 4-stroke gasoline-powered equipment.",
-  "specs": {
-    "Oil Type": "High Mileage Motorcycle Engine Oil",
-    "Viscosity Grade": "SAE 40",
-    "API Service": "SG/CD",
-    "JASO": "MA",
-    "Flash Point": "237°C",
-    "Pour Point": "-11.5°C",
-    "Viscosity @ 40°C": "147.39 cSt",
-    "Viscosity @ 100°C": "15.8 cSt",
-    "Viscosity Index": "112",
-    "Color (ASTM)": "3.0",
-    "TBN": "6.0 mgKOH/g",
-    "Specific Gravity @ 15.6°C": "0.8707"
+  "benefits": [
+    { "title": "Enhanced Wear Protection", "desc": "Helps safeguard engine components against friction and premature wear." },
+    { "title": "Lower Oil Consumption", "desc": "Supports reduced oil usage while helping maintain cleaner engine internals." },
+    { "title": "Cost-Effective Maintenance", "desc": "Helps minimize engine deposits, contributing to reduced maintenance requirements." },
+    { "title": "Improved Fuel Efficiency", "desc": "Promotes efficient engine performance and optimized fuel consumption." }
+  ],
+  "applicationText": "BAGANI AMIHAN 4T GUST is suitable for modern Japanese and European motorcycles. It can also be used in small four-stroke gasoline-powered equipment such as generator sets, pumps, and garden machinery.",
+  "approvalsText": "This product meets the requirements of API Service Classification SG/CD.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X1L BOX", "60X200ML BOX"],
+  "typicalProperties": {
+    "grades": [],
+    "rows": [
+      { "property": "SAE Grade", "values": ["40"] },
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.8707"] },
+      { "property": "Flash Point, °C", "values": ["237"] },
+      { "property": "Pour Point, °C", "values": ["-11.5"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["147.39"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["15.8"] },
+      { "property": "Viscosity Index", "values": ["112"] },
+      { "property": "Color, ASTM", "values": ["3.0"] },
+      { "property": "TBN, mgKOH/g", "values": ["6.0"] }
+    ]
   },
-  "features": [
-    {
-      "title": "Enhanced Wear Protection",
-      "desc": "Safeguards engine components against friction and premature wear for high-mileage motorcycles.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "Lower Oil Consumption",
-      "desc": "Supports reduced oil usage while maintaining cleaner engine internals.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Cost-Effective Maintenance",
-      "desc": "Minimizes engine deposits, contributing to reduced maintenance requirements and longer engine life.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Improved Fuel Efficiency",
-      "desc": "Promotes efficient engine performance and optimized fuel consumption.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Modern Japanese and European motorcycles",
-    "4-stroke motorcycles with wet clutch systems",
-    "Underbone and daily commuter motorcycles",
-    "Small 4-stroke gasoline-powered equipment (generators, pumps, garden machinery)"
-  ],
-  "approvals": [],
-  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "60x200ML Box"],
   "faqs": [
     {
       "q": "Is Amihan 4T Gust good for daily commuting?",

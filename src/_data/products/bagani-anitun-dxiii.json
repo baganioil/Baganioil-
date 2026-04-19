@@ -7,58 +7,29 @@
   "shortDesc": "High-performance automatic transmission fluid. Excellent low-temperature flow, anti-wear protection, and friction control.",
   "image": "/images/products/anitun-dxiii.png",
   "description": "A high-performance automotive transmission fluid formulated from premium low-viscosity base oils and a complete additive package that includes viscosity index improvers, antioxidants, anti-wear agents, detergents, defoamants, and other specialized additives.",
-  "description2": "Compatible with most commonly used sealing materials. Offers excellent low-temperature flow, anti-wear protection, and friction control. Meets GM Dexron IIID/IIIG and Ford Mercon IV performance requirements.",
-  "specs": {
-    "Oil Type": "Automatic Transmission Fluid",
-    "Specification": "GM DEXRON III",
-    "Flash Point": "185°C",
-    "Pour Point": "-45°C",
-    "Viscosity @ 40°C": "37.59 cSt",
-    "Viscosity @ 100°C": "7.03 cSt",
-    "Viscosity Index": "151",
-    "Density": "0.8446"
+  "benefits": [
+    { "title": "", "desc": "Resistant to oxidation and thickening under high-temperature conditions." },
+    { "title": "", "desc": "Compatible with most commonly used sealing materials." },
+    { "title": "", "desc": "Offers excellent low-temperature flow, anti-wear protection, and friction control." }
+  ],
+  "applicationText": "This fluid is widely used in off-highway equipment and industrial systems, including power shift transmissions and hydraulic systems, where a Dexron III fluid is specified. It is also suitable for most power steering systems and Allison torque converters.\n\nIMPORTANT: Do NOT use Dexron III ATF in transmissions requiring Dexron IV/V/VI, ATF +2/+3/+4, or Mercon V/VI.",
+  "approvalsText": "BAGANI ANITUN DXIII meets or exceeds: GM Dexron IIID / IIIG, Ford Mercon IV, Allison C4, Caterpillar TO-2 / TO-4, Hagglunds Denison HF-O.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X1L BOX"],
+  "typicalProperties": {
+    "grades": [],
+    "rows": [
+      { "property": "Flash Point, °C", "values": ["185"] },
+      { "property": "Pour Point, °C", "values": ["-45"] },
+      { "property": "Base Oil Viscosity @ 40 °C, cSt", "values": ["37.59"] },
+      { "property": "Base Oil Viscosity @ 100 °C, cSt", "values": ["7.03"] },
+      { "property": "Viscosity Index", "values": ["151"] },
+      { "property": "Density", "values": ["0.8446"] }
+    ]
   },
-  "features": [
-    {
-      "title": "High-Temperature Oxidation Resistance",
-      "desc": "Resistant to oxidation and thickening under high-temperature conditions, maintaining fluid integrity over extended service.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "Excellent Low-Temperature Flow",
-      "desc": "Pour point of -45°C ensures smooth transmission operation even in cold weather conditions.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Anti-Wear & Friction Control",
-      "desc": "Advanced anti-wear agents and friction modifiers protect transmission components and ensure smooth shifting.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Seal Compatibility",
-      "desc": "Compatible with most commonly used transmission sealing materials, preventing leaks and premature seal degradation.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Automatic transmissions specifying Dexron III ATF",
-    "Power steering systems",
-    "Power shift transmissions and hydraulic systems",
-    "Allison torque converters",
-    "Off-highway equipment and industrial systems"
-  ],
-  "approvals": [
-    "GM Dexron IIID / IIIG",
-    "Ford Mercon IV",
-    "Allison C4",
-    "Caterpillar TO-2 / TO-4",
-    "Hagglunds Denison HF-O"
-  ],
-  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box"],
   "faqs": [
     {
       "q": "Can I use Anitun DXIII in my automatic transmission?",
-      "a": "Yes, if your vehicle specifies Dexron III ATF. Always consult your owner's manual to confirm the correct ATF specification for your vehicle."
+      "a": "Yes, if your vehicle specifies Dexron III ATF. Always consult your owner's manual to confirm the correct ATF specification."
     },
     {
       "q": "Is Dexron III compatible with Dexron VI?",

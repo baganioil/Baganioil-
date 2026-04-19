@@ -7,55 +7,34 @@
   "shortDesc": "High speed top choice motorcycle engine oil. Superior protection for high-power 4-stroke engines.",
   "image": "/images/products/amihan-tempest.png",
   "description": "A high-quality multi-grade engine oil developed for four-stroke motorcycle engines, including both air-cooled and water-cooled systems. Advanced wear protection formulation helps maintain consistent engine protection, particularly in motorcycles operating under high power and demanding conditions.",
-  "description2": "API SL / JASO MA-2 certified. Available in SAE 20W-50 and SAE 20W-40 grades. Suitable for both on-road motorcycles and off-road dirt bikes.",
-  "specs": {
-    "Oil Type": "High Speed Motorcycle Engine Oil",
-    "Viscosity Grade": "SAE 20W-50 / SAE 20W-40",
-    "API Service": "SL",
-    "JASO": "MA-2",
-    "Flash Point": "234°C",
-    "Pour Point": "-18.5°C",
-    "Viscosity @ 40°C": "173 cSt (20W-50) / 120 cSt (20W-40)",
-    "Viscosity @ 100°C": "18.6 cSt (20W-50) / 15.0 cSt (20W-40)",
-    "Viscosity Index": "122 (20W-50) / 128 (20W-40)",
-    "Color (ASTM)": "3.5",
-    "TBN": "10.0 mgKOH/g",
-    "Specific Gravity @ 15.6°C": "0.884 (20W-50) / 0.871 (20W-40)"
+  "benefits": [
+    { "title": "Excellent Wear Protection", "desc": "Helps reduce friction and protects critical engine components from premature wear." },
+    { "title": "Engine Cleanliness", "desc": "Formulated with effective detergent and dispersant additives to help keep internal engine parts clean and free from harmful deposits." },
+    { "title": "Deposit and Sludge Control", "desc": "Helps minimize sludge formation, manage soot accumulation, and reduce the risk of piston ring sticking." },
+    { "title": "Stable Viscosity Performance", "desc": "A high viscosity index combined with strong TBN reserves helps ensure reliable lubrication during cold starts and maintains protection at elevated operating temperatures." },
+    { "title": "Reduced Oil Consumption", "desc": "Supports controlled oil usage while helping extend oil service intervals." },
+    { "title": "Component Protection", "desc": "Maintains oil stability to protect critical parts such as the engine, clutch, and gear system." }
+  ],
+  "applicationText": "BAGANI 4T TEMPEST is recommended for modern four-stroke motorcycle engines, suitable for both on-road motorcycles and off-road dirt bikes. It is also appropriate for use in selected farm machinery and portable generator sets requiring similar lubricant specifications.",
+  "approvalsText": "This product meets the requirements of API Service Classification SL and complies with JASO T903 MA-2 specifications, making it suitable for many modern Japanese and European motorcycle models.",
+  "availableSizes": ["200L DRUM", "20L PAIL", "12X1L BOX", "12X800ML BOX", "60X200ML BOX"],
+  "typicalProperties": {
+    "grades": ["BAGANI 4T TEMPEST 20W-50", "BAGANI 4T TEMPEST 20W-40"],
+    "rows": [
+      { "property": "Specific Gravity @ 15.6 °C", "values": ["0.884", "0.871"] },
+      { "property": "Flash Point, °C", "values": ["234", "234"] },
+      { "property": "Pour Point, °C", "values": ["-18.5", "-18.5"] },
+      { "property": "Viscosity @ 40 °C, cSt", "values": ["173", "120"] },
+      { "property": "Viscosity @ 100 °C, cSt", "values": ["18.6", "15.0"] },
+      { "property": "Viscosity Index", "values": ["122", "128"] },
+      { "property": "Color, ASTM", "values": ["3.5", "3.5"] },
+      { "property": "TBN, mgKOH/g", "values": ["10.0", "10.0"] }
+    ]
   },
-  "features": [
-    {
-      "title": "Excellent Wear Protection",
-      "desc": "Reduces friction and protects critical engine components from premature wear under high-power conditions.",
-      "icon": "/images/icon-service-6.svg"
-    },
-    {
-      "title": "Engine Cleanliness",
-      "desc": "Effective detergent and dispersant additives keep internal engine parts clean and free of deposits.",
-      "icon": "/images/icon-service-7.svg"
-    },
-    {
-      "title": "Stable Viscosity Performance",
-      "desc": "High viscosity index with strong TBN reserves ensures reliable lubrication during cold starts and at elevated temperatures.",
-      "icon": "/images/icon-service-5.svg"
-    },
-    {
-      "title": "Component Protection",
-      "desc": "Maintains oil stability to protect engine, clutch, and gear systems from wear and corrosion.",
-      "icon": "/images/icon-service-8.svg"
-    }
-  ],
-  "applications": [
-    "Modern four-stroke motorcycle engines (air-cooled and water-cooled)",
-    "On-road motorcycles and off-road dirt bikes",
-    "Both Japanese and European motorcycle models",
-    "Selected farm machinery and portable generator sets requiring similar lubricant specifications"
-  ],
-  "approvals": [],
-  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "12x800ML Box", "60x200ML Box"],
   "faqs": [
     {
       "q": "What is the difference between 20W-50 and 20W-40?",
-      "a": "The 20W-50 is thicker at operating temperature, better for high-heat or high-load conditions. The 20W-40 offers slightly better fuel efficiency and flow in moderate climates. Both provide excellent protection for high-power motorcycles."
+      "a": "The 20W-50 is thicker at operating temperature, better for high-heat or high-load conditions. The 20W-40 offers slightly better flow in moderate climates. Both provide excellent protection for high-power motorcycles."
     },
     {
       "q": "What does JASO MA-2 mean?",

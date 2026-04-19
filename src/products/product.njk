@@ -118,76 +118,80 @@ eleventyComputed:
                         </div>
 
                         <h2 class="wow fadeInUp">{{ product.name }}</h2>
-
                         <p class="wow fadeInUp">{{ product.description }}</p>
 
-                        {% if product.description2 %}
-                        <p class="wow fadeInUp" data-wow-delay="0.1s">{{ product.description2 }}</p>
+                        <!-- Product Benefits -->
+                        {% if product.benefits and product.benefits.length > 0 %}
+                        <span class="tds-section-label wow fadeInUp">Product Benefits</span>
+                        <ul class="tds-benefits-list wow fadeInUp">
+                            {% for b in product.benefits %}
+                            <li>{% if b.title %}<strong>{{ b.title }}</strong> – {% endif %}{{ b.desc }}</li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
 
-                        <!-- Product Specifications Table -->
-                        {% if product.specs %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Product <span>Specifications</span></h2>
-                        <table class="product-specs-table wow fadeInUp" data-wow-delay="0.3s">
-                            <tbody>
-                                {% for key, value in product.specs %}
-                                <tr>
-                                    <th>{{ key }}</th>
-                                    <td>{{ value }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <!-- Application -->
+                        {% if product.applicationText %}
+                        <span class="tds-section-label wow fadeInUp">Application</span>
+                        <div class="tds-text-block wow fadeInUp">
+                            {% set paras = product.applicationText.split('\n') %}
+                            {% for para in paras %}
+                            {% if para %}<p>{{ para }}</p>{% endif %}
+                            {% endfor %}
+                        </div>
                         {% endif %}
 
-                        <!-- Key Features -->
-                        {% if product.features and product.features.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Key <span>Features</span></h2>
-                        <div class="service-entry-box">
-                            {% for feature in product.features %}
-                            <div class="service-entry-item">
-                                {% if feature.icon %}
-                                <div class="icon-box">
-                                    <img src="{{ feature.icon }}" alt="">
-                                </div>
+                        <!-- Approvals & Available Sizes -->
+                        {% if product.approvalsText %}
+                        <span class="tds-section-label wow fadeInUp">Approvals</span>
+                        <div class="tds-text-block wow fadeInUp">
+                            <p>{{ product.approvalsText }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if product.availableSizes and product.availableSizes.length > 0 %}
+                        <span class="tds-section-label wow fadeInUp">Available Sizes</span>
+                        <div class="tds-sizes-grid wow fadeInUp">
+                            {% for size in product.availableSizes %}
+                            <div class="tds-size-item">
+                                {% if 'DRUM' in size %}
+                                <img src="/images/icon-pkg-drum.svg" alt="Drum">
+                                {% elif 'PAIL' in size %}
+                                <img src="/images/icon-pkg-pail.svg" alt="Pail">
+                                {% else %}
+                                <img src="/images/icon-pkg-box.svg" alt="Box">
                                 {% endif %}
-                                <div class="service-entry-item-content">
-                                    <h3>{{ feature.title }}</h3>
-                                    <p>{{ feature.desc }}</p>
-                                </div>
+                                <span class="size-label">{{ size }}</span>
                             </div>
                             {% endfor %}
                         </div>
                         {% endif %}
 
-                        <!-- Applications -->
-                        {% if product.applications and product.applications.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Recommended <span>Applications</span></h2>
-                        <ul class="wow fadeInUp" data-wow-delay="0.3s">
-                            {% for app in product.applications %}
-                            <li>{{ app }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-
-                        <!-- Approvals & Standards -->
-                        {% if product.approvals and product.approvals.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Approvals & <span>Standards</span></h2>
-                        <ul class="wow fadeInUp" data-wow-delay="0.3s">
-                            {% for approval in product.approvals %}
-                            <li>{{ approval }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-
-                        <!-- Available Sizes -->
-                        {% if product.availableSizes and product.availableSizes.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Available <span>Sizes</span></h2>
-                        <div class="wow fadeInUp" data-wow-delay="0.3s" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
-                            {% for size in product.availableSizes %}
-                            <span style="padding: 6px 16px; background: var(--accent-color); color: #121212; font-weight: 700; border-radius: 4px; font-size: 13px;">{{ size }}</span>
-                            {% endfor %}
-                        </div>
+                        <!-- Typical Properties -->
+                        {% if product.typicalProperties %}
+                        <span class="tds-section-label wow fadeInUp">Typical Properties</span>
+                        <table class="tds-props-table wow fadeInUp">
+                            {% if product.typicalProperties.grades and product.typicalProperties.grades.length > 0 %}
+                            <thead>
+                                <tr>
+                                    <th>Properties</th>
+                                    {% for grade in product.typicalProperties.grades %}
+                                    <th>{{ grade }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            {% endif %}
+                            <tbody>
+                                {% for row in product.typicalProperties.rows %}
+                                <tr>
+                                    <th>{{ row.property }}</th>
+                                    {% for val in row.values %}
+                                    <td>{{ val }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                         {% endif %}
 
                     </div>
@@ -218,21 +222,28 @@ eleventyComputed:
                     </div>
                     {% endif %}
 
-                    <!-- Product Image Lightbox Init -->
+                    <!-- Product Image Lightbox -->
+                    <div id="baganiLightbox" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;cursor:zoom-out;" onclick="this.style.display='none';document.body.style.overflow='';">
+                        <img id="baganiLightboxImg" src="" alt="" style="max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);pointer-events:none;">
+                        <button onclick="event.stopPropagation();document.getElementById('baganiLightbox').style.display='none';document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:22px;width:44px;height:44px;border-radius:50%;cursor:pointer;line-height:1;">&#x2715;</button>
+                    </div>
                     <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        if (typeof jQuery !== 'undefined' && jQuery.fn.magnificPopup) {
-                            jQuery('.bagani-img-lightbox').magnificPopup({ type: 'image', closeOnContentClick: true });
-                        } else {
-                            // Fallback: open image in new tab
-                            document.querySelectorAll('.bagani-img-lightbox').forEach(function(el) {
-                                el.addEventListener('click', function(e) {
-                                    e.preventDefault();
-                                    window.open(el.href, '_blank');
-                                });
+                    (function() {
+                        var lb = document.getElementById('baganiLightbox');
+                        var lbImg = document.getElementById('baganiLightboxImg');
+                        document.querySelectorAll('.bagani-img-lightbox').forEach(function(el) {
+                            el.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                lbImg.src = el.href;
+                                lbImg.alt = el.title || '';
+                                lb.style.display = 'flex';
+                                document.body.style.overflow = 'hidden';
                             });
-                        }
-                    });
+                        });
+                        document.addEventListener('keydown', function(e) {
+                            if (e.key === 'Escape') { lb.style.display = 'none'; document.body.style.overflow = ''; }
+                        });
+                    })();
                     </script>
 
                     <!-- Back to Products Button -->

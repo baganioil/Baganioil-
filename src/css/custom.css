@@ -8393,3 +8393,132 @@ body[data-page="home"] .hero.hero-video {
 }
 
 
+
+/* ── TDS Product Page Sections ────────────────────────────────────────────── */
+.tds-section-label {
+	display: inline-block;
+	background: var(--primary-color);
+	color: var(--accent-color);
+	font-family: var(--default-font);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	padding: 7px 36px 7px 16px;
+	margin-bottom: 18px;
+	clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+	min-width: 160px;
+}
+
+/* Product Benefits list */
+.tds-benefits-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 28px;
+}
+.tds-benefits-list li {
+	padding: 7px 0 7px 22px;
+	position: relative;
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+	line-height: 1.65;
+	font-size: 15px;
+}
+.tds-benefits-list li:last-child { border-bottom: none; }
+.tds-benefits-list li::before {
+	content: '•';
+	position: absolute;
+	left: 0;
+	top: 7px;
+	color: var(--accent-color);
+	font-size: 20px;
+	line-height: 1.3;
+}
+.tds-benefits-list li strong {
+	color: var(--primary-color);
+}
+
+/* Application / Approvals paragraphs */
+.tds-text-block {
+	margin-bottom: 28px;
+	line-height: 1.75;
+	font-size: 15px;
+}
+.tds-text-block p { margin-bottom: 12px; }
+.tds-text-block p:last-child { margin-bottom: 0; }
+
+/* Available Sizes grid */
+.tds-sizes-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 28px;
+}
+.tds-size-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	background: var(--primary-color);
+	border: 1px solid var(--accent-color);
+	padding: 14px 12px 10px;
+	border-radius: 4px;
+	min-width: 72px;
+	text-align: center;
+}
+.tds-size-item img {
+	width: 34px;
+	height: 42px;
+	filter: invert(75%) sepia(60%) saturate(600%) hue-rotate(5deg) brightness(1.1);
+}
+.tds-size-item .size-label {
+	font-family: var(--default-font);
+	font-size: 10px;
+	font-weight: 700;
+	color: var(--accent-color);
+	text-transform: uppercase;
+	line-height: 1.3;
+	letter-spacing: 0.5px;
+}
+
+/* Typical Properties table with optional multi-grade header */
+.tds-props-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 28px;
+	font-size: 14px;
+}
+.tds-props-table thead tr {
+	background: var(--primary-color);
+	color: var(--accent-color);
+}
+.tds-props-table thead th {
+	padding: 10px 14px;
+	font-weight: 700;
+	font-size: 13px;
+	text-align: left;
+	border: 1px solid rgba(200,160,0,0.3);
+}
+.tds-props-table tbody tr:nth-child(odd) { background: rgba(184,150,12,0.06); }
+.tds-props-table tbody tr:nth-child(even) { background: rgba(184,150,12,0.12); }
+.tds-props-table tbody th {
+	padding: 9px 14px;
+	font-weight: 600;
+	color: var(--primary-color);
+	border: 1px solid rgba(0,0,0,0.08);
+	text-align: left;
+	width: 45%;
+}
+.tds-props-table tbody td {
+	padding: 9px 14px;
+	border: 1px solid rgba(0,0,0,0.08);
+	color: var(--primary-color);
+	text-align: center;
+}
+
+@media (max-width: 576px) {
+	.tds-sizes-grid { gap: 8px; }
+	.tds-size-item { min-width: 60px; padding: 10px 8px 8px; }
+	.tds-size-item img { width: 28px; height: 34px; }
+	.tds-size-item .size-label { font-size: 9px; }
+	.tds-section-label { font-size: 11px; }
+}

@@ -92,7 +92,6 @@ permalink: "/products/detail/"
     var DATASET = 'production';
     var API_VER = '2024-01-01';
 
-    // Get slug from the URL path: /products/{slug}/ or /products/detail/?p={slug}
     var slug = '';
     var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
     var lastPart = pathParts[pathParts.length - 1];
@@ -108,19 +107,119 @@ permalink: "/products/detail/"
     }
 
     var query = '*[_type == "product" && slug.current == "' + slug.replace(/"/g, '') + '"][0]{' +
-        'name, line, description, description2,' +
+        'name, line, description,' +
         '"image": image.asset->url,' +
         '"video": video.asset->url,' +
-        '"specs": specs[]{key, value},' +
-        '"features": features[]{title, desc, "icon": icon.asset->url},' +
+        '"benefits": benefits[]{title, desc},' +
+        '"features": features[]{title, desc},' +
+        'applicationText,' +
         'applications,' +
+        'approvalsText,' +
         'approvals,' +
         'availableSizes,' +
+        '"typicalProperties": typicalProperties{grades, "rows": rows[]{property, values}},' +
+        '"specs": specs[]{key, value},' +
         '"faqs": faqs[]{q, a}' +
     '}';
 
     var url = 'https://' + PROJECT_ID + '.apicdn.sanity.io/v' + API_VER + '/data/query/' + DATASET +
               '?query=' + encodeURIComponent(query);
+
+    function getSizeIcon(size) {
+        var s = (size || '').toUpperCase();
+        if (s.indexOf('DRUM') > -1) return '/images/icon-pkg-drum.svg';
+        if (s.indexOf('PAIL') > -1) return '/images/icon-pkg-pail.svg';
+        return '/images/icon-pkg-box.svg';
+    }
+
+    function buildSizesHtml(sizes) {
+        if (!sizes || !sizes.length) return '';
+        return '<span class="tds-section-label">Available Sizes</span>' +
+            '<div class="tds-sizes-grid">' +
+            sizes.map(function (s) {
+                return '<div class="tds-size-item">' +
+                    '<img src="' + getSizeIcon(s) + '" alt="">' +
+                    '<span class="size-label">' + s + '</span>' +
+                '</div>';
+            }).join('') +
+            '</div>';
+    }
+
+    function buildPropsHtml(tp, specs) {
+        // Prefer new typicalProperties format, fall back to Sanity specs array
+        if (tp && tp.rows && tp.rows.length) {
+            var headerRow = '';
+            if (tp.grades && tp.grades.length) {
+                headerRow = '<thead><tr><th>Properties</th>' +
+                    tp.grades.map(function (g) { return '<th>' + g + '</th>'; }).join('') +
+                '</tr></thead>';
+            }
+            return '<span class="tds-section-label">Typical Properties</span>' +
+                '<table class="tds-props-table">' + headerRow + '<tbody>' +
+                tp.rows.map(function (r) {
+                    return '<tr><th>' + (r.property || '') + '</th>' +
+                        (r.values || []).map(function (v) { return '<td>' + v + '</td>'; }).join('') +
+                    '</tr>';
+                }).join('') +
+                '</tbody></table>';
+        }
+        if (specs && specs.length) {
+            return '<span class="tds-section-label">Typical Properties</span>' +
+                '<table class="tds-props-table"><tbody>' +
+                specs.map(function (s) {
+                    return '<tr><th>' + (s.key || '') + '</th><td>' + (s.value || '') + '</td></tr>';
+                }).join('') +
+                '</tbody></table>';
+        }
+        return '';
+    }
+
+    function buildBenefitsHtml(benefits, features) {
+        var items = (benefits && benefits.length) ? benefits : (features && features.length ? features : null);
+        if (!items) return '';
+        return '<span class="tds-section-label">Product Benefits</span>' +
+            '<ul class="tds-benefits-list">' +
+            items.map(function (b) {
+                var titlePart = (b.title) ? '<strong>' + b.title + '</strong> \u2013 ' : '';
+                return '<li>' + titlePart + (b.desc || '') + '</li>';
+            }).join('') +
+            '</ul>';
+    }
+
+    function buildApplicationHtml(applicationText, applications) {
+        var text = applicationText || (applications && applications.length ? applications.join('\n') : '');
+        if (!text) return '';
+        var paras = text.split('\n').filter(function (p) { return p.trim(); });
+        return '<span class="tds-section-label">Application</span>' +
+            '<div class="tds-text-block">' +
+            paras.map(function (p) { return '<p>' + p + '</p>'; }).join('') +
+            '</div>';
+    }
+
+    function buildApprovalsHtml(approvalsText, approvals) {
+        var text = approvalsText || (approvals && approvals.length ? approvals.join('; ') : '');
+        if (!text) return '';
+        return '<span class="tds-section-label">Approvals</span>' +
+            '<div class="tds-text-block"><p>' + text + '</p></div>';
+    }
+
+    function buildFaqsHtml(faqs) {
+        if (!faqs || !faqs.length) return '';
+        return '<div class="our-faq-section"><div class="section-title">' +
+            '<h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>' +
+            '</div><div class="faq-accordion" id="faqaccordion">' +
+            faqs.map(function (f, i) {
+                return '<div class="accordion-item wow fadeInUp"' + (i > 0 ? ' data-wow-delay="' + (i * 0.2) + 's"' : '') + '>' +
+                    '<h2 class="accordion-header" id="heading' + (i+1) + '">' +
+                    '<button class="accordion-button' + (i > 0 ? ' collapsed' : '') + '" type="button" ' +
+                    'data-bs-toggle="collapse" data-bs-target="#collapse' + (i+1) + '" ' +
+                    'aria-expanded="' + (i === 0 ? 'true' : 'false') + '">' + f.q + '</button></h2>' +
+                    '<div id="collapse' + (i+1) + '" class="accordion-collapse collapse' + (i === 0 ? ' show' : '') + '" ' +
+                    'data-bs-parent="#faqaccordion"><div class="accordion-body"><p>' + f.a + '</p></div></div>' +
+                '</div>';
+            }).join('') +
+            '</div></div>';
+    }
 
     fetch(url)
         .then(function (r) { return r.json(); })
@@ -132,104 +231,27 @@ permalink: "/products/detail/"
                 return;
             }
 
-            // Update page title and header
             document.title = p.name + ' | Bagani Oil';
             var heading = document.getElementById('detail-heading');
             if (heading) heading.innerHTML = p.name + (p.line ? ' <span>' + p.line + '</span>' : '');
             var bc = document.getElementById('detail-breadcrumb');
             if (bc) bc.textContent = p.name;
 
-            // Build specs table
-            var specsHtml = '';
-            if (p.specs && p.specs.length) {
-                specsHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.2s">Product <span>Specifications</span></h2>' +
-                    '<table class="product-specs-table wow fadeInUp" data-wow-delay="0.3s"><tbody>' +
-                    p.specs.map(function (s) {
-                        return '<tr><th>' + (s.key || '') + '</th><td>' + (s.value || '') + '</td></tr>';
-                    }).join('') +
-                    '</tbody></table>';
-            }
-
-            // Build features
-            var featuresHtml = '';
-            if (p.features && p.features.length) {
-                featuresHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.2s">Key <span>Features</span></h2>' +
-                    '<div class="service-entry-box">' +
-                    p.features.map(function (f) {
-                        return '<div class="service-entry-item">' +
-                            (f.icon ? '<div class="icon-box"><img src="' + f.icon + '" alt=""></div>' : '') +
-                            '<div class="service-entry-item-content"><h3>' + (f.title || '') + '</h3><p>' + (f.desc || '') + '</p></div>' +
-                        '</div>';
-                    }).join('') +
-                    '</div>';
-            }
-
-            // Build applications
-            var appsHtml = '';
-            if (p.applications && p.applications.length) {
-                appsHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.2s">Recommended <span>Applications</span></h2>' +
-                    '<ul class="wow fadeInUp" data-wow-delay="0.3s">' +
-                    p.applications.map(function (a) { return '<li>' + a + '</li>'; }).join('') +
-                    '</ul>';
-            }
-
-            // Build approvals
-            var approvalsHtml = '';
-            if (p.approvals && p.approvals.length) {
-                approvalsHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.2s">Approvals & <span>Standards</span></h2>' +
-                    '<ul class="wow fadeInUp" data-wow-delay="0.3s">' +
-                    p.approvals.map(function (a) { return '<li>' + a + '</li>'; }).join('') +
-                    '</ul>';
-            }
-
-            // Build available sizes
-            var sizesHtml = '';
-            if (p.availableSizes && p.availableSizes.length) {
-                sizesHtml = '<h2 class="wow fadeInUp" data-wow-delay="0.2s">Available <span>Sizes</span></h2>' +
-                    '<div class="wow fadeInUp" data-wow-delay="0.3s" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;">' +
-                    p.availableSizes.map(function (s) {
-                        return '<span style="padding:6px 16px;background:var(--accent-color);color:#121212;font-weight:700;border-radius:4px;font-size:13px;">' + s + '</span>';
-                    }).join('') +
-                    '</div>';
-            }
-
-            // Build FAQs
-            var faqsHtml = '';
-            if (p.faqs && p.faqs.length) {
-                faqsHtml = '<div class="our-faq-section"><div class="section-title">' +
-                    '<h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>' +
-                    '</div><div class="faq-accordion" id="faqaccordion">' +
-                    p.faqs.map(function (f, i) {
-                        return '<div class="accordion-item wow fadeInUp"' + (i > 0 ? ' data-wow-delay="' + (i * 0.2) + 's"' : '') + '>' +
-                            '<h2 class="accordion-header" id="heading' + (i+1) + '">' +
-                            '<button class="accordion-button' + (i > 0 ? ' collapsed' : '') + '" type="button" ' +
-                            'data-bs-toggle="collapse" data-bs-target="#collapse' + (i+1) + '" ' +
-                            'aria-expanded="' + (i === 0 ? 'true' : 'false') + '">' + f.q + '</button></h2>' +
-                            '<div id="collapse' + (i+1) + '" class="accordion-collapse collapse' + (i === 0 ? ' show' : '') + '" ' +
-                            'data-bs-parent="#faqaccordion"><div class="accordion-body"><p>' + f.a + '</p></div></div>' +
-                        '</div>';
-                    }).join('') +
-                    '</div></div>';
-            }
-
             document.getElementById('detail-content').innerHTML =
                 '<div class="service-single-content">' +
                     (p.image ? '<div class="service-featured-image"><figure class="image-anime reveal" style="border-radius:10px;overflow:hidden;margin:0;"><img src="' + p.image + '" alt="' + p.name + '" style="width:100%;height:480px;object-fit:cover;display:block;"></figure></div>' : '') +
                     (p.video ? '<div class="product-video wow fadeInUp" style="margin-top:24px;"><video controls style="width:100%;border-radius:10px;background:#000;"><source src="' + p.video + '" type="video/mp4"></video></div>' : '') +
                     '<div class="service-entry">' +
-                        '<div style="margin-bottom:20px;">' +
-                            '<span class="product-line" style="font-size:13px;padding:4px 14px;background:#FFC107;color:#121212;font-weight:700;border-radius:3px;text-transform:uppercase;letter-spacing:1px;">' + (p.line || '') + '</span>' +
-                        '</div>' +
+                        '<div style="margin-bottom:20px;"><span class="product-line" style="font-size:13px;padding:4px 14px;background:#FFC107;color:#121212;font-weight:700;border-radius:3px;text-transform:uppercase;letter-spacing:1px;">' + (p.line || '') + '</span></div>' +
                         '<h2 class="wow fadeInUp">' + p.name + '</h2>' +
-                        '<p class="wow fadeInUp">' + (p.description || '') + '</p>' +
-                        (p.description2 ? '<p class="wow fadeInUp" data-wow-delay="0.1s">' + p.description2 + '</p>' : '') +
-                        specsHtml +
-                        featuresHtml +
-                        appsHtml +
-                        approvalsHtml +
-                        sizesHtml +
+                        (p.description ? '<p class="wow fadeInUp">' + p.description + '</p>' : '') +
+                        buildBenefitsHtml(p.benefits, p.features) +
+                        buildApplicationHtml(p.applicationText, p.applications) +
+                        buildApprovalsHtml(p.approvalsText, p.approvals) +
+                        buildSizesHtml(p.availableSizes) +
+                        buildPropsHtml(p.typicalProperties, p.specs) +
                     '</div>' +
-                    faqsHtml +
+                    buildFaqsHtml(p.faqs) +
                     '<div class="about-content-btn wow fadeInUp" style="margin-top:30px;">' +
                         '<a href="/products/" class="btn-default"><span>← Back to All Products</span></a>' +
                     '</div>' +
