@@ -1,0 +1,72 @@
+{
+  "slug": "bagani-hanan-raze",
+  "name": "Bagani Hanan Raze 20W-50",
+  "line": "Hanan",
+  "category": "hanan gasoline v20w50",
+  "spec": "SAE 20W-50 | API SL/CF | Gasoline Engine Oil",
+  "shortDesc": "High speed top choice premium gasoline engine oil. Dependable protection for passenger cars and light-duty trucks.",
+  "image": "/images/products/hanan-raze.png",
+  "description": "A premium multi-grade motor oil designed to deliver dependable performance in various driving conditions. Blended from highly refined paraffinic base oils known for their strong stability and high viscosity index. The formulation includes a carefully balanced additive package featuring advanced detergents, dispersants, viscosity modifiers, and performance enhancers.",
+  "description2": "Helps extend oil service life and supports optimum engine efficiency while reducing the possibility of harmful pre-ignition. Compliant with CCMC G5 and ACEA A3/B3 standards.",
+  "specs": {
+    "Oil Type": "Premium Gasoline Engine Oil",
+    "Viscosity Grade": "SAE 20W-50",
+    "API Service": "SL/CF",
+    "Flash Point": "230°C",
+    "Pour Point": "-20°C",
+    "Viscosity @ 40°C": "176 cSt",
+    "Viscosity @ 100°C": "18.8 cSt",
+    "Viscosity Index": "125",
+    "Color (ASTM)": "3.5",
+    "TBN": "10.0 mgKOH/g",
+    "Specific Gravity @ 15.6°C": "0.882"
+  },
+  "features": [
+    {
+      "title": "Wear & Corrosion Protection",
+      "desc": "Safeguards engine components against rust formation and corrosive damage, extending engine service life.",
+      "icon": "/images/icon-service-6.svg"
+    },
+    {
+      "title": "Reliable Sludge Control",
+      "desc": "Designed to resist sludge accumulation and maintain cleaner engine internals under all driving conditions.",
+      "icon": "/images/icon-service-7.svg"
+    },
+    {
+      "title": "High Resistance to Heat Breakdown",
+      "desc": "Strong thermal stability prevents oil degradation under high operating temperatures, maintaining consistent protection.",
+      "icon": "/images/icon-service-5.svg"
+    },
+    {
+      "title": "Advanced Deposit Control",
+      "desc": "Powerful cleaning agents minimize deposit buildup on pistons and valves, promoting smoother engine operation.",
+      "icon": "/images/icon-service-8.svg"
+    }
+  ],
+  "applications": [
+    "Passenger cars and light-duty trucks where API SL/CF is specified",
+    "Turbocharged and multi-valve gasoline engines",
+    "CRDi diesel engines meeting API CF specifications",
+    "Year-round use in a wide range of vehicles"
+  ],
+  "approvals": [
+    "API SL/CF",
+    "CCMC G5",
+    "ACEA A3/B3"
+  ],
+  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "4x4L Box"],
+  "faqs": [
+    {
+      "q": "Can Hanan Raze be used in both gasoline and diesel engines?",
+      "a": "Yes. The API SL/CF rating means it meets both gasoline (SL) and certain diesel (CF) engine requirements, though it is primarily formulated for gasoline engines."
+    },
+    {
+      "q": "Is this oil suitable for turbocharged engines?",
+      "a": "Yes, Bagani Hanan Raze 20W-50 is suitable for turbocharged and multi-valve gasoline engines."
+    },
+    {
+      "q": "How often should I change engine oil?",
+      "a": "Under normal driving conditions, every 5,000–7,500 km. For severe conditions (extreme heat, heavy loads, stop-and-go traffic), every 3,000–5,000 km. Always follow your vehicle manufacturer's recommendation."
+    }
+  ]
+}

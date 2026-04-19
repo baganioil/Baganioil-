@@ -47,6 +47,7 @@ eleventyComputed:
                             <li><a href="/products/?filter=laon">Laon — Engine Oils</a></li>
                             <li><a href="/products/?filter=aman">Aman — Gear Oils</a></li>
                             <li><a href="/products/?filter=anitun">Anitun — Transmission Fluids</a></li>
+                            <li><a href="/products/?filter=hanan">Hanan — Gasoline Engine Oils</a></li>
                         </ul>
                     </div>
 
@@ -58,7 +59,7 @@ eleventyComputed:
                         <div class="sidebar-cta-Body">
                             <div class="sidebar-cta-content">
                                 <h3>Need <span>help?</span></h3>
-                                <p>Looking for the right oil for your motorcycle? Contact us for assistance.</p>
+                                <p>Looking for the right oil for your vehicle? Contact us for assistance.</p>
                             </div>
                             <div class="sidebar-cta-contact-list">
                                 <div class="sidebar-cta-contact-item">
@@ -88,11 +89,13 @@ eleventyComputed:
                 <div class="service-single-content">
 
                     <!-- Product Image -->
+                    {% if product.image %}
                     <div class="service-featured-image">
                         <figure class="image-anime reveal" style="border-radius: 10px; overflow: hidden; margin: 0;">
-                            <img id="preview-product-img" src="{{ product.image }}" alt="Bagani {{ product.name }}" style="width: 100%; height: 480px; object-fit: cover; display: block;">
+                            <img src="{{ product.image }}" alt="Bagani {{ product.name }}" style="width: 100%; height: 480px; object-fit: cover; display: block;">
                         </figure>
                     </div>
+                    {% endif %}
 
                     <!-- Product Video -->
                     {% if product.video %}
@@ -106,35 +109,45 @@ eleventyComputed:
 
                     <!-- Product Info -->
                     <div class="service-entry">
-                        <!-- Product Badge & Title -->
+                        <!-- Product Badge -->
                         <div style="margin-bottom: 20px;">
-                            <span id="preview-product-line" class="product-line" style="font-size: 13px; padding: 4px 14px; background: #FFC107; color: #121212; font-weight: 700; border-radius: 3px; text-transform: uppercase; letter-spacing: 1px;">{{ product.line }}</span>
+                            <span class="product-line" style="font-size: 13px; padding: 4px 14px; background: #FFC107; color: #121212; font-weight: 700; border-radius: 3px; text-transform: uppercase; letter-spacing: 1px;">{{ product.line }}</span>
                         </div>
 
-                        <h2 id="preview-product-name" class="wow fadeInUp">{{ product.name }} — <span>{{ product.specs["Oil Type"] }}</span></h2>
+                        <h2 class="wow fadeInUp">{{ product.name }}</h2>
 
-                        <p id="preview-description" class="wow fadeInUp">{{ product.description }}</p>
+                        <p class="wow fadeInUp">{{ product.description }}</p>
 
-                        <p id="preview-description2" class="wow fadeInUp" data-wow-delay="0.2s">{{ product.description2 }}</p>
+                        {% if product.description2 %}
+                        <p class="wow fadeInUp" data-wow-delay="0.1s">{{ product.description2 }}</p>
+                        {% endif %}
 
                         <!-- Product Specifications Table -->
-                        <div id="specs-section" style="display:none;">
-                            <h2 class="wow fadeInUp" data-wow-delay="0.3s">Product <span>Specifications</span></h2>
-                            <table class="product-specs-table wow fadeInUp" data-wow-delay="0.4s">
-                                <tbody id="preview-specs-body"></tbody>
-                            </table>
-                        </div>
+                        {% if product.specs %}
+                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Product <span>Specifications</span></h2>
+                        <table class="product-specs-table wow fadeInUp" data-wow-delay="0.3s">
+                            <tbody>
+                                {% for key, value in product.specs %}
+                                <tr>
+                                    <th>{{ key }}</th>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
 
                         <!-- Key Features -->
                         {% if product.features and product.features.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.4s">Key <span>Features</span></h2>
-
-                        <div id="preview-features" class="service-entry-box">
+                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Key <span>Features</span></h2>
+                        <div class="service-entry-box">
                             {% for feature in product.features %}
                             <div class="service-entry-item">
+                                {% if feature.icon %}
                                 <div class="icon-box">
                                     <img src="{{ feature.icon }}" alt="">
                                 </div>
+                                {% endif %}
                                 <div class="service-entry-item-content">
                                     <h3>{{ feature.title }}</h3>
                                     <p>{{ feature.desc }}</p>
@@ -146,19 +159,38 @@ eleventyComputed:
 
                         <!-- Applications -->
                         {% if product.applications and product.applications.length > 0 %}
-                        <h2 class="wow fadeInUp" data-wow-delay="0.4s">Recommended <span>Applications</span></h2>
-
-                        <ul id="preview-applications">
+                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Recommended <span>Applications</span></h2>
+                        <ul class="wow fadeInUp" data-wow-delay="0.3s">
                             {% for app in product.applications %}
                             <li>{{ app }}</li>
                             {% endfor %}
                         </ul>
                         {% endif %}
 
+                        <!-- Approvals & Standards -->
+                        {% if product.approvals and product.approvals.length > 0 %}
+                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Approvals & <span>Standards</span></h2>
+                        <ul class="wow fadeInUp" data-wow-delay="0.3s">
+                            {% for approval in product.approvals %}
+                            <li>{{ approval }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <!-- Available Sizes -->
+                        {% if product.availableSizes and product.availableSizes.length > 0 %}
+                        <h2 class="wow fadeInUp" data-wow-delay="0.2s">Available <span>Sizes</span></h2>
+                        <div class="wow fadeInUp" data-wow-delay="0.3s" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
+                            {% for size in product.availableSizes %}
+                            <span style="padding: 6px 16px; background: var(--accent-color); color: #121212; font-weight: 700; border-radius: 4px; font-size: 13px;">{{ size }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
                     </div>
 
                     <!-- Product FAQ -->
-                    {% if product.faqs.length > 0 %}
+                    {% if product.faqs and product.faqs.length > 0 %}
                     <div class="our-faq-section">
                         <div class="section-title">
                             <h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>
@@ -194,69 +226,3 @@ eleventyComputed:
     </div>
 </div>
 <!-- Page Product Single End -->
-
-<script>
-// Product draft preview — only runs when ?preview=true is in the URL
-(function () {
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('preview') !== 'true') return;
-
-  var token = params.get('token') || '';
-  var slug = location.pathname.replace(/^\/products\//, '').replace(/\/$/, '');
-  if (!slug) return;
-
-  var PROJECT_ID = 'c7mgn6k7';
-  var DATASET = 'production';
-  var API_VER = '2024-01-01';
-  var query = '*[_type == "product" && slug.current == "' + slug + '"][0]{name,line,description,description2,"image":image.asset->url,"specs":specs[]{key,value},"features":features[]{title,desc,"icon":icon.asset->url},applications,"faqs":faqs[]{q,a}}';
-  var url = 'https://' + PROJECT_ID + '.api.sanity.io/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query) + '&perspective=previewDrafts';
-  var opts = token ? { headers: { 'Authorization': 'Bearer ' + token } } : {};
-
-  fetch(url, opts)
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      var p = d.result;
-      if (!p) return;
-
-      var nameEl = document.getElementById('preview-product-name');
-      if (nameEl) nameEl.innerHTML = p.name + (p.line ? ' — <span>' + p.line + '</span>' : '');
-
-      var lineEl = document.getElementById('preview-product-line');
-      if (lineEl && p.line) lineEl.textContent = p.line;
-
-      var imgEl = document.getElementById('preview-product-img');
-      if (imgEl && p.image) { imgEl.src = p.image; imgEl.alt = 'Bagani ' + (p.name || ''); }
-
-      var desc1 = document.getElementById('preview-description');
-      if (desc1 && p.description) desc1.textContent = p.description;
-
-      var desc2 = document.getElementById('preview-description2');
-      if (desc2 && p.description2) desc2.textContent = p.description2;
-
-      var specsBody = document.getElementById('preview-specs-body');
-      var specsSection = document.getElementById('specs-section');
-      if (specsBody && p.specs && p.specs.length) {
-        specsBody.innerHTML = p.specs.map(function (s) {
-          return '<tr><th>' + (s.key || '') + '</th><td>' + (s.value || '') + '</td></tr>';
-        }).join('');
-        if (specsSection) specsSection.style.display = '';
-      }
-
-      var featuresEl = document.getElementById('preview-features');
-      if (featuresEl && p.features && p.features.length) {
-        featuresEl.innerHTML = p.features.map(function (f) {
-          return '<div class="service-entry-item">' +
-            (f.icon ? '<div class="icon-box"><img src="' + f.icon + '" alt=""></div>' : '') +
-            '<div class="service-entry-item-content"><h3>' + (f.title || '') + '</h3><p>' + (f.desc || '') + '</p></div>' +
-          '</div>';
-        }).join('');
-      }
-
-      var appsEl = document.getElementById('preview-applications');
-      if (appsEl && p.applications && p.applications.length) {
-        appsEl.innerHTML = p.applications.map(function (a) { return '<li>' + a + '</li>'; }).join('');
-      }
-    })
-    .catch(function (err) { console.warn('[Preview] Could not load draft product:', err); });
-})();
-</script>

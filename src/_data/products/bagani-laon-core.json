@@ -1,0 +1,76 @@
+{
+  "slug": "bagani-laon-core",
+  "name": "Bagani Laon Core",
+  "line": "Laon",
+  "category": "laon diesel gasoline",
+  "spec": "SAE 10W / 30 / 40 / 50 | API CF/SF | Super Heavy Duty",
+  "shortDesc": "Super heavy duty engine oil. Premium protection for diesel and gasoline engines in multiple grades.",
+  "image": "/images/products/laon-core.png",
+  "description": "A high-performance motor oil designed to deliver premium protection for both diesel and gasoline engines. Especially formulated for heavy-duty operation in diesel engines used in on-highway and off-highway vehicles and equipment. Available in four grades — SAE 10W, 30, 40, and 50 — for maximum flexibility across different applications.",
+  "description2": "Advanced dispersant technology prevents oil thickening from soot and combustion byproducts. SAE 10W and SAE 30 grades meet GMC Allison C-3 requirements, making them suitable for automatic transmissions and torque converters.",
+  "specs": {
+    "Oil Type": "Super Heavy Duty Engine Oil",
+    "Viscosity Grade": "SAE 10/10W, 30, 40, 50",
+    "API Service": "CF/SF (CF-2)",
+    "Flash Point": "213°C (10W) / 230°C (30) / 238°C (40) / 240°C (50)",
+    "Pour Point": "-12°C (all grades)",
+    "Viscosity @ 40°C": "44 cSt (10W) / 118 cSt (30) / 147 cSt (40) / 218 cSt (50)",
+    "Viscosity @ 100°C": "6.96 cSt (10W) / 11.9 cSt (30) / 14.5 cSt (40) / 19 cSt (50)",
+    "Viscosity Index": "115 (10W) / 96 (30) / 99 (40) / 99 (50)",
+    "TBN": "9.0 mgKOH/g",
+    "Specific Gravity @ 15.6°C": "0.875 (10W) / 0.890 (30) / 0.893 (40) / 0.895 (50)"
+  },
+  "features": [
+    {
+      "title": "Advanced Dispersant Technology",
+      "desc": "Prevents oil thickening caused by incomplete combustion and soot formation, keeping particles suspended and extending filter life.",
+      "icon": "/images/icon-service-6.svg"
+    },
+    {
+      "title": "Multi-Grade Flexibility",
+      "desc": "Available in SAE 10W, 30, 40, and 50 for fleet operators who prefer grade simplification across different equipment.",
+      "icon": "/images/icon-service-7.svg"
+    },
+    {
+      "title": "Diesel & Gasoline Compatible",
+      "desc": "Suitable for both diesel and gasoline engines, giving mixed-fleet operators the convenience of a single engine oil.",
+      "icon": "/images/icon-service-5.svg"
+    },
+    {
+      "title": "Transmission System Capable",
+      "desc": "SAE 10W and 30 grades meet GMC Allison C-3 requirements, suitable for automatic transmissions, torque converters, and hydraulic systems.",
+      "icon": "/images/icon-service-8.svg"
+    }
+  ],
+  "applications": [
+    "Crankcase lubrication for diesel engines in automotive and industrial equipment",
+    "Both naturally aspirated and turbocharged diesel engines",
+    "Gasoline engines in passenger cars and trucks",
+    "On-highway and off-highway heavy construction equipment",
+    "Automatic transmissions and torque converters (SAE 10W and 30 grades)",
+    "Fleet operations where grade simplification is preferred"
+  ],
+  "approvals": [
+    "API CF / CF-2 / SF",
+    "ACEA E1-96",
+    "Mercedes-Benz p.227.0",
+    "Caterpillar TO2 & TO4",
+    "MIL L-2104D, L-46152B",
+    "Allison C-3 / C-4"
+  ],
+  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box"],
+  "faqs": [
+    {
+      "q": "Which SAE grade of Laon Core should I use?",
+      "a": "SAE 30 and 40 are the most common for standard operating temperatures. SAE 10W is used for colder climates or equipment requiring a lighter viscosity. SAE 50 is for very high temperatures or heavily loaded engines. Always follow your engine manufacturer's recommendations."
+    },
+    {
+      "q": "Can Laon Core be used in automatic transmissions?",
+      "a": "Yes. The SAE 10W and SAE 30 grades of Laon Core meet GMC Allison C-3 requirements and can be used in automatic transmissions, torque converters, and hydraulic systems where such specifications apply."
+    },
+    {
+      "q": "Is Laon Core suitable for heavy construction equipment?",
+      "a": "Yes. Laon Core is designed for heavy-duty operation in both on-highway and off-highway vehicles and equipment, including construction machinery."
+    }
+  ]
+}

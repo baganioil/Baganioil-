@@ -1,63 +1,69 @@
 {
-  "slug": "amihan-gale-4t",
-  "name": "Amihan Gale 4T",
+  "slug": "bagani-amihan-4t-gale",
+  "name": "Bagani Amihan 4T Gale",
   "line": "Amihan",
-  "category": "amihan",
-  "spec": "10W-40 | JASO MB | 1 Liter",
-  "shortDesc": "Semi-synthetic motorcycle engine oil. Superior protection for modern scooters and motorcycles.",
+  "category": "amihan motorcycle-scooter v10w40",
+  "spec": "SAE 10W-40 | Semi-Synthetic | JASO MB",
+  "shortDesc": "Best performance semi-synthetic motorcycle engine oil. Specially made for scooters.",
   "image": "/images/products/amihan-gale.png",
-  "description": "The Bagani Amihan Gale 4T is a semi-synthetic motorcycle engine oil engineered for modern scooters and motorcycles. The 10W-40 viscosity ensures smooth cold starts and reliable hot-weather performance.",
-  "description2": "Proudly made in the Philippines — Gawang Pilipino, Para sa Pilipino! — the Amihan Gale meets JASO MB standards, making it ideal for scooters with CVT transmissions.",
+  "description": "A semi-synthetic, multi-grade engine oil developed for 4-stroke motorcycles, formulated according to Japanese and U.S. performance standards. Produced using high-quality base oils combined with advanced additive technology to deliver reliable engine protection and performance.",
+  "description2": "Recognized and trusted by motorcycle enthusiasts and professional riders worldwide. JASO MB certified — optimized for modern scooters and CVT-equipped motorcycles.",
   "specs": {
-    "Product Name": "Amihan Gale 4T",
-    "Brand": "Bagani",
     "Oil Type": "Semi-Synthetic Motorcycle Engine Oil",
-    "Viscosity Grade": "10W-40",
-    "API Standard": "JASO MB",
-    "Engine Type": "4-Stroke Motorcycles & Scooters",
-    "Volume": "1 Liter",
-    "Origin": "Made in the Philippines"
+    "Viscosity Grade": "SAE 10W-40",
+    "API Service": "SL",
+    "JASO": "MB",
+    "Flash Point": "234°C",
+    "Pour Point": "-36°C",
+    "Viscosity @ 40°C": "101 cSt",
+    "Viscosity @ 100°C": "14.5 cSt",
+    "Viscosity Index": "155",
+    "Color (ASTM)": "3.5",
+    "TBN": "9.6 mgKOH/g",
+    "Specific Gravity @ 15.6°C": "0.8674"
   },
   "features": [
     {
-      "title": "Semi-Synthetic Formula",
-      "desc": "Blend of synthetic and mineral base oils for enhanced performance and protection.",
+      "title": "Performance Enhancement",
+      "desc": "Designed to support stronger engine performance and smoother acceleration for modern scooters.",
       "icon": "/images/icon-service-6.svg"
     },
     {
-      "title": "JASO MB Certified",
-      "desc": "Optimized for scooters and CVT-equipped motorcycles.",
+      "title": "Reliable Engine Protection",
+      "desc": "Guards against rust, abrasion, and mechanical wear, extending engine life.",
       "icon": "/images/icon-service-7.svg"
     },
     {
-      "title": "Multi-Grade Viscosity",
-      "desc": "10W-40 provides smooth starts in any weather and consistent protection in heat.",
+      "title": "Engine Cleanliness",
+      "desc": "Advanced detergent additives prevent deposit formation and keep internal components clean.",
       "icon": "/images/icon-service-5.svg"
     },
     {
-      "title": "Filipino-Made Quality",
-      "desc": "Proudly manufactured in the Philippines for local riding conditions.",
+      "title": "Smooth Cold Start & Extended Oil Life",
+      "desc": "Provides dependable cold-start lubrication with a pour point of -36°C, while supporting longer oil service intervals.",
       "icon": "/images/icon-service-8.svg"
     }
   ],
   "applications": [
-    "Modern automatic scooters",
+    "Modern four-stroke scooter engines",
     "CVT-equipped motorcycles",
-    "4-stroke motorcycles requiring 10W-40",
-    "Urban commuter bikes"
+    "Compatible motorcycles requiring semi-synthetic lubricant",
+    "Various Japanese and European motorcycle models"
   ],
+  "approvals": [],
+  "availableSizes": ["200L Drum", "20L Pail", "12x800ML Box"],
   "faqs": [
     {
-      "q": "Is this oil good for my scooter?",
-      "a": "Yes! The Amihan Gale 4T with JASO MB certification is specifically designed for scooters and CVT-equipped motorcycles."
+      "q": "Is Bagani Amihan 4T Gale good for my scooter?",
+      "a": "Yes! The Amihan 4T Gale is JASO MB certified and specifically designed for scooters and CVT-equipped motorcycles."
     },
     {
-      "q": "What's the difference between JASO MA and MB?",
-      "a": "JASO MA is for motorcycles with wet clutches, while JASO MB is optimized for scooters and bikes with CVT transmissions."
+      "q": "What does JASO MB mean?",
+      "a": "JASO MB is a Japanese standard optimized for scooters and motorcycles with CVT transmissions, where reduced friction between the clutch plates is needed."
     },
     {
-      "q": "Where can I buy Bagani products?",
-      "a": "Bagani oils are available at authorized motorcycle shops, auto parts stores, and online marketplaces across the Philippines."
+      "q": "What makes this oil semi-synthetic?",
+      "a": "It is blended from high-quality synthetic and mineral base oils, offering better protection and performance than conventional mineral oils at a more accessible price than full synthetics."
     }
   ]
 }

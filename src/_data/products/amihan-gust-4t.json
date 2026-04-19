@@ -1,63 +1,69 @@
 {
-  "slug": "amihan-gust-4t",
-  "name": "Amihan Gust 4T",
+  "slug": "bagani-amihan-4t-gust",
+  "name": "Bagani Amihan 4T Gust",
   "line": "Amihan",
-  "category": "amihan",
-  "spec": "SAE 40 | JASO MA | 1 Liter",
-  "shortDesc": "High grade 4-stroke motorcycle engine oil. Reliable protection for daily riders.",
+  "category": "amihan motorcycle-scooter vsae40",
+  "spec": "SAE 40 | JASO MA | SG/CD",
+  "shortDesc": "High mileage motorcycle engine oil for daily riders. Reliable protection for 4-stroke engines.",
   "image": "/images/products/amihan-gust.png",
-  "description": "The Bagani Amihan Gust 4T is a high-grade 4-stroke motorcycle engine oil formulated for reliable daily performance. SAE 40 viscosity provides consistent protection across a wide range of riding conditions.",
-  "description2": "Proudly made in the Philippines — Gawang Pilipino, Para sa Pilipino! — the Amihan Gust meets JASO MA standards for excellent wet clutch compatibility.",
+  "description": "A high-quality multi-grade engine oil developed for four-stroke motorcycle engines, including both air-cooled and water-cooled systems. Advanced wear protection formulation helps maintain consistent engine protection, particularly in motorcycles operating under high power and demanding conditions.",
+  "description2": "JASO MA certified for excellent wet clutch compatibility. Suitable for both Japanese and European motorcycle models and small 4-stroke gasoline-powered equipment.",
   "specs": {
-    "Product Name": "Amihan Gust 4T",
-    "Brand": "Bagani",
-    "Oil Type": "High Grade Motorcycle Engine Oil",
+    "Oil Type": "High Mileage Motorcycle Engine Oil",
     "Viscosity Grade": "SAE 40",
-    "API Standard": "JASO MA",
-    "Engine Type": "4-Stroke Motorcycles",
-    "Volume": "1 Liter",
-    "Origin": "Made in the Philippines"
+    "API Service": "SG/CD",
+    "JASO": "MA",
+    "Flash Point": "237°C",
+    "Pour Point": "-11.5°C",
+    "Viscosity @ 40°C": "147.39 cSt",
+    "Viscosity @ 100°C": "15.8 cSt",
+    "Viscosity Index": "112",
+    "Color (ASTM)": "3.0",
+    "TBN": "6.0 mgKOH/g",
+    "Specific Gravity @ 15.6°C": "0.8707"
   },
   "features": [
     {
-      "title": "Reliable Protection",
-      "desc": "SAE 40 viscosity provides dependable engine protection for daily riding.",
+      "title": "Enhanced Wear Protection",
+      "desc": "Safeguards engine components against friction and premature wear for high-mileage motorcycles.",
       "icon": "/images/icon-service-6.svg"
     },
     {
-      "title": "JASO MA Certified",
-      "desc": "Full compatibility with wet clutch systems in most motorcycles.",
+      "title": "Lower Oil Consumption",
+      "desc": "Supports reduced oil usage while maintaining cleaner engine internals.",
       "icon": "/images/icon-service-7.svg"
     },
     {
-      "title": "Anti-Wear Formula",
-      "desc": "Advanced additives reduce engine wear and extend engine life.",
+      "title": "Cost-Effective Maintenance",
+      "desc": "Minimizes engine deposits, contributing to reduced maintenance requirements and longer engine life.",
       "icon": "/images/icon-service-5.svg"
     },
     {
-      "title": "Filipino-Made Quality",
-      "desc": "Proudly manufactured in the Philippines for local riding conditions.",
+      "title": "Improved Fuel Efficiency",
+      "desc": "Promotes efficient engine performance and optimized fuel consumption.",
       "icon": "/images/icon-service-8.svg"
     }
   ],
   "applications": [
-    "4-stroke motorcycles and underbone bikes",
-    "Daily commuter motorcycles",
-    "Motorcycles with wet clutch systems",
-    "Engines requiring SAE 40 viscosity"
+    "Modern Japanese and European motorcycles",
+    "4-stroke motorcycles with wet clutch systems",
+    "Underbone and daily commuter motorcycles",
+    "Small 4-stroke gasoline-powered equipment (generators, pumps, garden machinery)"
   ],
+  "approvals": [],
+  "availableSizes": ["200L Drum", "20L Pail", "12x1L Box", "60x200ML Box"],
   "faqs": [
     {
-      "q": "Is Amihan Gust good for daily commuting?",
-      "a": "Yes, the Amihan Gust 4T is specifically formulated for daily riders who need reliable, consistent engine protection."
+      "q": "Is Amihan 4T Gust good for daily commuting?",
+      "a": "Yes, the Amihan 4T Gust is formulated for reliable daily performance. SAE 40 viscosity provides consistent protection across a wide range of riding conditions."
     },
     {
       "q": "How often should I change the oil?",
-      "a": "We recommend every 2,000-3,000 km under normal conditions, or every 1,500 km for heavy-duty use."
+      "a": "We recommend every 2,000–3,000 km under normal conditions, or every 1,500 km for heavy-duty use."
     },
     {
-      "q": "Where can I buy Bagani products?",
-      "a": "Bagani oils are available at authorized motorcycle shops, auto parts stores, and online marketplaces across the Philippines."
+      "q": "Can I use this for my generator or water pump?",
+      "a": "Yes. The Amihan 4T Gust is suitable for small 4-stroke gasoline-powered equipment such as generator sets, pumps, and garden machinery."
     }
   ]
 }
