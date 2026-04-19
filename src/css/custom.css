@@ -8018,6 +8018,7 @@ body[data-page="home"] .hero.hero-video {
    Product Grid & Cards
    ─────────────────────────────────────────────── */
 .nike-shop-grid { flex-grow: 1; width: 100%; }
+.row.project-item-boxes { min-height: 60vh; }
 .project-item-box { margin-bottom: 30px; }
 
 .product-card { background: transparent; border: none; height: 100%; perspective: 1000px; }
