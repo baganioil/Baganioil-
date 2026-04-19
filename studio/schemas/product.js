@@ -9,7 +9,8 @@ export default defineType({
   groups: [
     {name: 'basic', title: 'Basic Info', default: true},
     {name: 'content', title: 'Descriptions'},
-    {name: 'specs', title: 'Specs & Features'},
+    {name: 'tds', title: 'TDS Info'},
+    {name: 'specs', title: 'Legacy Specs'},
     {name: 'faqs', title: 'FAQs'},
   ],
   fields: [
@@ -81,8 +82,88 @@ export default defineType({
       rows: 3,
     }),
     defineField({
+      name: 'benefits',
+      title: 'Product Benefits',
+      type: 'array',
+      group: 'tds',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({name: 'title', title: 'Benefit Title', type: 'string', description: 'Optional bold label'}),
+            defineField({name: 'desc', title: 'Description', type: 'text', rows: 2}),
+          ],
+          preview: {
+            select: {title: 'title', subtitle: 'desc'},
+            prepare({title, subtitle}) { return {title: title || subtitle, subtitle: title ? subtitle : ''} },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'applicationText',
+      title: 'Application',
+      type: 'text',
+      group: 'tds',
+      rows: 5,
+      description: 'Use blank lines to separate paragraphs',
+    }),
+    defineField({
+      name: 'approvalsText',
+      title: 'Approvals',
+      type: 'text',
+      group: 'tds',
+      rows: 3,
+    }),
+    defineField({
+      name: 'availableSizes',
+      title: 'Available Sizes',
+      type: 'array',
+      group: 'tds',
+      description: 'e.g. 200L DRUM, 20L PAIL, 12X1L BOX',
+      of: [{type: 'string'}],
+    }),
+    defineField({
+      name: 'typicalProperties',
+      title: 'Typical Properties',
+      type: 'object',
+      group: 'tds',
+      fields: [
+        defineField({
+          name: 'grades',
+          title: 'Grade Columns',
+          type: 'array',
+          description: 'Column headers for multi-grade products. Leave empty for single-grade.',
+          of: [{type: 'string'}],
+        }),
+        defineField({
+          name: 'rows',
+          title: 'Property Rows',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                defineField({name: 'property', title: 'Property Name', type: 'string'}),
+                defineField({
+                  name: 'values',
+                  title: 'Values',
+                  type: 'array',
+                  description: 'One value per grade column',
+                  of: [{type: 'string'}],
+                }),
+              ],
+              preview: {
+                select: {title: 'property'},
+              },
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'specs',
-      title: 'Specifications Table',
+      title: 'Specifications Table (Legacy)',
       type: 'array',
       group: 'specs',
       of: [
@@ -100,7 +181,7 @@ export default defineType({
     }),
     defineField({
       name: 'features',
-      title: 'Key Features',
+      title: 'Key Features (Legacy)',
       type: 'array',
       group: 'specs',
       of: [
