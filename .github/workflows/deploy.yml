@@ -50,3 +50,4 @@ jobs:
           protocol: ftps
           security: loose
           timeout: 60000
+          dangerous-clean-slate: true

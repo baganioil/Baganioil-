@@ -187,32 +187,6 @@ permalink: false
 
                     </div>
 
-                    <!-- Product FAQ -->
-                    {% if product.faqs and product.faqs.length > 0 %}
-                    <div class="our-faq-section">
-                        <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>
-                        </div>
-
-                        <div class="faq-accordion" id="faqaccordion">
-                            {% for faq in product.faqs %}
-                            <div class="accordion-item wow fadeInUp"{% if not loop.first %} data-wow-delay="{{ loop.index0 * 0.2 }}s"{% endif %}>
-                                <h2 class="accordion-header" id="heading{{ loop.index }}">
-                                    <button class="accordion-button{% if not loop.first %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ loop.index }}">
-                                        {{ faq.q }}
-                                    </button>
-                                </h2>
-                                <div id="collapse{{ loop.index }}" class="accordion-collapse collapse{% if loop.first %} show{% endif %}" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#faqaccordion">
-                                    <div class="accordion-body">
-                                        <p>{{ faq.a }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-
                     <!-- Product Image Lightbox -->
                     <div id="baganiLightbox" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;cursor:zoom-out;" onclick="this.style.display='none';document.body.style.overflow='';">
                         <img id="baganiLightboxImg" src="" alt="" style="max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);pointer-events:none;">

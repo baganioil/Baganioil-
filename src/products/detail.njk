@@ -118,8 +118,7 @@ permalink: "/products/detail/"
         'approvals,' +
         'availableSizes,' +
         '"typicalProperties": typicalProperties{grades, "rows": rows[]{property, values}},' +
-        '"specs": specs[]{key, value},' +
-        '"faqs": faqs[]{q, a}' +
+        '"specs": specs[]{key, value}' +
     '}';
 
     var url = 'https://' + PROJECT_ID + '.api.sanity.io/v' + API_VER + '/data/query/' + DATASET +
@@ -203,24 +202,6 @@ permalink: "/products/detail/"
             '<div class="tds-text-block"><p>' + text + '</p></div>';
     }
 
-    function buildFaqsHtml(faqs) {
-        if (!faqs || !faqs.length) return '';
-        return '<div class="our-faq-section"><div class="section-title">' +
-            '<h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked <span>questions</span></h2>' +
-            '</div><div class="faq-accordion" id="faqaccordion">' +
-            faqs.map(function (f, i) {
-                return '<div class="accordion-item wow fadeInUp"' + (i > 0 ? ' data-wow-delay="' + (i * 0.2) + 's"' : '') + '>' +
-                    '<h2 class="accordion-header" id="heading' + (i+1) + '">' +
-                    '<button class="accordion-button' + (i > 0 ? ' collapsed' : '') + '" type="button" ' +
-                    'data-bs-toggle="collapse" data-bs-target="#collapse' + (i+1) + '" ' +
-                    'aria-expanded="' + (i === 0 ? 'true' : 'false') + '">' + f.q + '</button></h2>' +
-                    '<div id="collapse' + (i+1) + '" class="accordion-collapse collapse' + (i === 0 ? ' show' : '') + '" ' +
-                    'data-bs-parent="#faqaccordion"><div class="accordion-body"><p>' + f.a + '</p></div></div>' +
-                '</div>';
-            }).join('') +
-            '</div></div>';
-    }
-
     fetch(url, { cache: 'no-store' })
         .then(function (r) { return r.json(); })
         .then(function (d) {
@@ -251,7 +232,6 @@ permalink: "/products/detail/"
                         buildSizesHtml(p.availableSizes) +
                         buildPropsHtml(p.typicalProperties, p.specs) +
                     '</div>' +
-                    buildFaqsHtml(p.faqs) +
                     '<div class="about-content-btn wow fadeInUp" style="margin-top:30px;">' +
                         '<a href="/products/" class="btn-default"><span>← Back to All Products</span></a>' +
                     '</div>' +
