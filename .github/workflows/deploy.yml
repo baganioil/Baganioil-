@@ -47,7 +47,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./_site/
           server-dir: /public_html/
-          protocol: ftps
-          security: loose
+          protocol: ftp
           timeout: 300000
           retry-count: 3
