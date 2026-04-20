@@ -197,11 +197,10 @@ body {
 
 .bagani-product-img-wrap {
 	display: block;
-	background: #f5f5f5;
-	aspect-ratio: 1 / 1;
+	background: transparent;
+	height: 220px;
 	overflow: hidden;
 	flex-shrink: 0;
-	max-height: 300px;
 }
 
 .bagani-product-img-wrap img {
@@ -240,12 +239,19 @@ body {
 	margin-bottom: 4px;
 	line-height: 1.3;
 	font-family: "Manrope", sans-serif;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .bagani-product-spec {
 	font-size: 14px;
 	color: #757575;
 	margin-bottom: 4px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .bagani-product-desc {
@@ -270,7 +276,8 @@ body {
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	transition: gap 0.3s ease;
-	margin-top: 12px;
+	margin-top: auto;
+	padding-top: 14px;
 }
 
 .bagani-product-link:hover {
@@ -792,7 +799,7 @@ body{
 }
 
 .about-content .section-title h2{
-	color: #FFC107;
+	color: var(--primary-color);
 }
 
 .section-title h3{
@@ -2188,19 +2195,24 @@ body[data-page="home"] .hero.hero-video {
 /* Icon Box */
 .services-list-swiper .service-item .icon-box {
 	margin-bottom: 24px;
-	width: 80px;
-	height: 80px;
+	width: 100px;
+	height: 100px;
 	border-radius: 12px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
     transition: all 0.3s ease;
 }
 
 .services-list-swiper .service-item .icon-box img {
-	max-width: 60px;
-	height: 60px;
+	max-width: 80px;
+	height: 80px;
 	object-fit: contain;
+	transition: transform 0.3s ease;
+}
+
+.services-list-swiper .service-item:hover .icon-box img {
+	transform: scale(1.15);
 }
 
 /* Service Body */
@@ -8080,25 +8092,16 @@ body[data-page="home"] .hero.hero-video {
 /* ───────────────────────────────────────────────
    Product Grid & Cards
    ─────────────────────────────────────────────── */
-.nike-shop-grid { flex-grow: 1; width: 100%; min-width: 0; }
+.nike-shop-grid { display: block; width: 100%; min-width: 0; }
 
-.row.project-item-boxes {
-    display: grid !important;
+.project-item-boxes {
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    min-height: 60vh;
 }
 
-/* Reset Bootstrap col-* overrides so CSS Grid controls sizing */
 .project-item-box {
-    width: auto !important;
-    max-width: none !important;
-    flex: none !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-bottom: 0 !important;
+    overflow: hidden;
 }
 
 .product-card { background: transparent; border: none; height: 100%; perspective: 1000px; }
@@ -8171,19 +8174,18 @@ body[data-page="home"] .hero.hero-video {
     }
 
     /* 2-column product grid on mobile */
-    .row.project-item-boxes {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    .project-item-boxes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
+    .bagani-product-img-wrap { height: 160px; background: transparent; }
     .project-item-box { padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 0 !important; }
     .bagani-product-info { padding: 10px 2px 0; }
-    .bagani-product-name { font-size: 13px; }
+    .bagani-product-name { font-size: 13px; min-height: auto; }
     .bagani-product-spec { font-size: 12px; margin-bottom: 2px; }
     .bagani-product-desc { display: none; }
     .bagani-product-line { font-size: 11px; margin-bottom: 2px; }
-    .bagani-product-link { font-size: 12px; margin-top: 8px; }
+    .bagani-product-link { font-size: 12px; }
 }
 
 /* =====================================================================
@@ -9035,4 +9037,68 @@ body[data-page="home"] .hero.hero-video {
 	.tds-size-item img { width: 28px; height: 34px; }
 	.tds-size-item .size-label { font-size: 9px; }
 	.tds-section-label { font-size: 11px; }
+}
+
+/* ── Product grid override (highest specificity — must stay last) ──────────
+   Forces 3-column grid on desktop, 2-column on mobile, regardless of any
+   Bootstrap or legacy rules that could override .project-item-boxes.
+   ─────────────────────────────────────────────────────────────────────── */
+#sanity-products-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 30px !important;
+    width: 100% !important;
+}
+
+#sanity-products-grid > .project-item-box {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#sanity-products-grid > .project-item-box .bagani-product-item {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+#sanity-products-grid > .project-item-box .bagani-product-img-wrap {
+    height: 220px !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+}
+
+#sanity-products-grid > .project-item-box .bagani-product-img-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+#sanity-products-grid > .project-item-box .bagani-product-info {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    padding: 14px 4px 0 !important;
+}
+
+#sanity-products-grid > .project-item-box .bagani-product-link {
+    margin-top: auto !important;
+    padding-top: 14px !important;
+}
+
+@media (max-width: 991px) {
+    #sanity-products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    #sanity-products-grid > .project-item-box .bagani-product-img-wrap {
+        height: 160px !important;
+    }
 }
