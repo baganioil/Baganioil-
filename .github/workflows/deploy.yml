@@ -39,7 +39,7 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy via FTP to Hostinger
+      - name: Deploy via SFTP to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -47,6 +47,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./_site/
           server-dir: /public_html/
-          protocol: ftp
+          protocol: sftp
+          port: 22
           timeout: 300000
           retry-count: 3
