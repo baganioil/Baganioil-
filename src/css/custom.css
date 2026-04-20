@@ -201,6 +201,7 @@ body {
 	aspect-ratio: 1 / 1;
 	overflow: hidden;
 	flex-shrink: 0;
+	max-height: 300px;
 }
 
 .bagani-product-img-wrap img {
@@ -7987,24 +7988,28 @@ body[data-page="home"] .hero.hero-video {
    Main Layout Grid
    ─────────────────────────────────────────────── */
 .nike-shop-main {
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 250px 1fr;
     gap: 40px;
     position: relative;
+}
+
+.bagani-nike-shop.sidebar-hidden .nike-shop-main {
+    grid-template-columns: 0px 1fr;
+    gap: 0;
 }
 
 /* ───────────────────────────────────────────────
    Sidebar
    ─────────────────────────────────────────────── */
 .nike-shop-sidebar {
-    width: 250px;
-    flex-shrink: 0;
     position: sticky;
     top: 100px;
     height: auto;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
-    transition: width 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
+    align-self: start;
+    transition: opacity 0.3s ease;
 }
 .nike-shop-sidebar::-webkit-scrollbar { width: 6px; }
 .nike-shop-sidebar::-webkit-scrollbar-track { background: transparent; }
@@ -8012,8 +8017,6 @@ body[data-page="home"] .hero.hero-video {
 .nike-shop-sidebar::-webkit-scrollbar-thumb:hover { background: #555; }
 
 .bagani-nike-shop.sidebar-hidden .nike-shop-sidebar {
-    width: 0;
-    margin-right: -40px;
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
