@@ -436,39 +436,72 @@
 	}
 	/* Contact form validation end */
 
-	/* Our Project (filtering) Start */
-	$window.on( "load", function(){
-		if( $(".project-item-boxes").length ) {
-				
-			/* Init Isotope */
-			var $menuitem = $(".project-item-boxes").isotope({
-				itemSelector: ".project-item-box",
-				layoutMode: "masonry",
-				masonry: {
-					// use outer width of grid-sizer for columnWidth
-					columnWidth: 1,
-				}
-			});
-				
-			/* Filter items on click */
-			var $menudisesnav = $(".our-Project-nav li a");
-				$menudisesnav.on('click', function (e) { 
-			
-				var filterValue = $(this).attr('data-filter');
-				$menuitem.isotope({
-					filter: filterValue
-				}); 
-				
-				$menudisesnav.removeClass("active-btn"); 
-				$(this).addClass("active-btn");
-				e.preventDefault();
-			});		
-			$menuitem.isotope({ filter: "*" });
-		}			
-	});
-	/* Our Project (filtering) End */
+	/* Our Project (filtering) Isotope removed to prevent CSS Grid conflict */
 
-	/* Animated Wow Js */	
+	/* ── Site Search ── */
+	var searchIndex = [
+		{ title: 'Home', desc: 'Bagani main page', url: '/' },
+		{ title: 'About Us', desc: 'Our story, mission, and vision', url: '/about/' },
+		{ title: 'Products', desc: 'All Bagani engine oils', url: '/products/' },
+		{ title: 'Amihan — Motorcycle Oils', desc: 'Motorcycle & scooter engine oils', url: '/products/?filter=amihan' },
+		{ title: 'Laon — Diesel Engine Oil', desc: 'Heavy-duty diesel engine oil', url: '/products/?filter=laon' },
+		{ title: 'Aman — Gear Oils', desc: 'Gear protection oils', url: '/products/?filter=aman' },
+		{ title: 'Anitun — Transmission Fluid', desc: 'ATF transmission fluids', url: '/products/?filter=anitun' },
+		{ title: 'Hilaya — Fork Oil', desc: 'Motorcycle fork / suspension oil', url: '/products/?filter=hilaya' },
+		{ title: 'Hanan — Gasoline Engine Oil', desc: 'Gasoline car engine oil', url: '/products/?filter=hanan' },
+		{ title: 'Gale — Motorcycle Oil', desc: 'Motorcycle engine oil', url: '/products/?filter=gale' },
+		{ title: 'News & Updates', desc: 'Latest Bagani announcements', url: '/news/' },
+		{ title: 'Contact Us', desc: 'Get in touch with Bagani', url: '/contact/' },
+	];
+
+	var searchInput = document.getElementById('site-search-input');
+	var mostSearched = document.getElementById('search-most-searched');
+	var resultsPane = document.getElementById('search-results-pane');
+
+	function buildSearchResults(query) {
+		var q = query.trim().toLowerCase();
+		if (!q) {
+			mostSearched.style.display = '';
+			resultsPane.style.display = 'none';
+			return;
+		}
+		mostSearched.style.display = 'none';
+		resultsPane.style.display = '';
+
+		var matches = searchIndex.filter(function(item) {
+			return (item.title + ' ' + item.desc).toLowerCase().indexOf(q) > -1;
+		}).slice(0, 3);
+
+		if (!matches.length) {
+			resultsPane.innerHTML = '<div class="search-no-results">No results found for &ldquo;' + query.replace(/</g,'&lt;') + '&rdquo;</div>';
+			return;
+		}
+
+		resultsPane.innerHTML = matches.map(function(item) {
+			return '<div class="search-result-item">' +
+				'<a href="' + item.url + '">' +
+					'<span class="search-result-title">' + item.title + '</span>' +
+					'<span class="search-result-desc">' + item.desc + '</span>' +
+				'</a>' +
+			'</div>';
+		}).join('');
+	}
+
+	if (searchInput) {
+		searchInput.addEventListener('input', function() {
+			buildSearchResults(this.value);
+		});
+
+		// Submit on Enter
+		searchInput.addEventListener('keydown', function(e) {
+			if (e.key === 'Enter') {
+				var q = this.value.trim();
+				if (q) window.location.href = '/products/?search=' + encodeURIComponent(q);
+			}
+		});
+	}
+
+	/* Animated Wow Js */
 	new WOW().init();
 
 	/* Popup Video */

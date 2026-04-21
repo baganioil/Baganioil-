@@ -385,6 +385,9 @@ module.exports = function (eleventyConfig) {
 		return [];
 	});
 
+	// Groq API key — injected from env var at build time so chat works on static hosting
+	eleventyConfig.addGlobalData("groqApiKey", () => process.env.GROQ_API_KEY || '');
+
 	// Cache-busting: unique version per build so browsers always fetch fresh assets
 	eleventyConfig.addGlobalData("buildVersion", () => Date.now());
 

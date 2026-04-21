@@ -25,28 +25,23 @@
 
                 <!-- Right: Action Icons (Nike-style) -->
                 <div class="nike-nav-actions">
-                    <!-- Social icons (compact) -->
-                    {% if site.social.facebook and site.social.facebook != "#" %}
-                    <a href="{{ site.social.facebook }}" class="nike-nav-icon" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
-                    {% endif %}
-                    {% if site.social.instagram and site.social.instagram != "#" %}
-                    <a href="{{ site.social.instagram }}" class="nike-nav-icon" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
-                    {% endif %}
-
                     <!-- Expandable Search -->
                     <div class="expandable-search" style="margin-left: 8px;">
-                        <input type="text" class="expandable-search-input" placeholder="Search...">
+                        <input type="text" id="site-search-input" class="expandable-search-input" placeholder="Search..." autocomplete="off">
                         <button class="expandable-search-btn" aria-label="Search" tabindex="-1">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
-                        <!-- Most Searched Dropdown -->
                         <div class="search-dropdown">
-                            <div class="search-dropdown-title">Most Searched</div>
-                            <ul class="search-dropdown-list">
-                                <li><a href="/products/">Performance Engine Oil</a></li>
-                                <li><a href="/about/">About Bagani</a></li>
-                                {# <li><a href="/store-locator/">Find a Store</a></li> #}
-                            </ul>
+                            <!-- Shown when input is empty -->
+                            <div class="search-most-searched" id="search-most-searched">
+                                <div class="search-dropdown-title">Most Searched</div>
+                                <ul class="search-dropdown-list">
+                                    <li><a href="/products/">Performance Engine Oil</a></li>
+                                    <li><a href="/about/">About Bagani</a></li>
+                                </ul>
+                            </div>
+                            <!-- Shown when user types -->
+                            <div class="search-results-pane" id="search-results-pane" style="display:none"></div>
                         </div>
                     </div>
 
