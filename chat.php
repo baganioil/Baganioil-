@@ -2,7 +2,7 @@
 // Bagani AI Chat Proxy — routes requests to Groq API
 // API key is injected at deploy time via GitHub Actions secret GROQ_API_KEY
 
-$GROQ_API_KEY = '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';
+$GROQ_API_KEY = '__GROQ_API_KEY__';
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-if (!$GROQ_API_KEY || $GROQ_API_KEY === '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') {
+if (!$GROQ_API_KEY || $GROQ_API_KEY === '__GROQ_API_KEY__') {
     http_response_code(500);
     echo json_encode(['error' => 'API key not configured']);
     exit;

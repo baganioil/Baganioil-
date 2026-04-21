@@ -664,7 +664,7 @@
     var grid = document.querySelector('.project-item-boxes');
     if (!grid) return;
 
-    sanityFetch('*[_type == "product"] | order(line asc, name asc) { "slug": slug.current, name, line, category, spec, shortDesc, "image": image.asset->url, "viscosity": specs[key match "Viscosity*"][0].value, "engineType": specs[key match "Engine*"][0].value }')
+    sanityFetch('*[_type == "product"] | order(line asc, name asc) { "slug": slug.current, name, line, category, spec, shortDesc, "image": image.asset->url, "viscosity": specs[key match "Viscosity*"][0].value, "engineType": specs[key match "Engine*"][0].value, "pdfUrl": pdfFile.asset->url }')
       .then(function (products) {
         if (!products || !products.length) return;
 
@@ -681,12 +681,14 @@
           if (v.indexOf('0w-20') > -1) cls += ' v0w20';
           if (v.indexOf('sae 90') > -1 || v.indexOf('sae 140') > -1) cls += ' vsae90';
           if (v.indexOf('sae 40') > -1 && v.indexOf('10w-40') === -1 && v.indexOf('15w-40') === -1 && v.indexOf('20w-40') === -1) cls += ' vsae40';
+          // Engine type: use spec field first, then fall back to product line
           var e = (p.engineType || '').toLowerCase();
-          if (e.indexOf('diesel') > -1) cls += ' diesel';
-          if (e.indexOf('motorcycle') > -1 || e.indexOf('scooter') > -1) cls += ' motorcycle-scooter';
-          if (e.indexOf('gasoline') > -1) cls += ' gasoline';
-          if (e.indexOf('gear') > -1) cls += ' gear-oil';
-          if (e.indexOf('transmission') > -1 || e.indexOf('atf') > -1) cls += ' transmission';
+          var line = (p.line || '').toLowerCase();
+          if (e.indexOf('diesel') > -1 || line === 'laon') cls += ' diesel';
+          if (e.indexOf('motorcycle') > -1 || e.indexOf('scooter') > -1 || line === 'amihan' || line === 'hilaya') cls += ' motorcycle-scooter';
+          if (e.indexOf('gasoline') > -1 || line === 'hanan') cls += ' gasoline';
+          if (e.indexOf('gear') > -1 || line === 'aman') cls += ' gear-oil';
+          if (e.indexOf('transmission') > -1 || e.indexOf('atf') > -1 || line === 'anitun') cls += ' transmission';
           return cls;
         }
 
@@ -701,7 +703,10 @@
                 '<h3 class="bagani-product-name">' + p.name + '</h3>' +
                 '<p class="bagani-product-spec">' + (p.spec || '') + '</p>' +
                 '<p class="bagani-product-desc">' + (p.shortDesc || '') + '</p>' +
-                '<a href="/products/' + p.slug + '/" class="bagani-product-link">View Details <i class="fa-solid fa-arrow-right"></i></a>' +
+                '<div class="bagani-product-footer">' +
+                    '<button class="card-dl-link" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">Download PDF</button>' +
+                    '<a href="/products/' + p.slug + '/" class="bagani-product-link">VIEW DETAILS <i class="fa-solid fa-arrow-right"></i></a>' +
+                '</div>' +
               '</div>' +
             '</div></div>';
         }).join('');
