@@ -34,6 +34,17 @@ jobs:
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
+      - name: Inject API key into chat.php
+        run: |
+          if [ -n "$GROQ_API_KEY" ]; then
+            sed -i "s|__GROQ_API_KEY__|${GROQ_API_KEY}|g" _site/chat.php
+            echo "chat.php key injected."
+          else
+            echo "Warning: GROQ_API_KEY not set, chat.php will use direct browser API."
+          fi
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
       - name: Push built site to deploy branch
         uses: peaceiris/actions-gh-pages@v4
         with:

@@ -517,57 +517,62 @@
         sendBtn.disabled = true;
         var typing = addTyping();
 
-        var GROQ_KEY = '{{ groqApiKey }}';
+        var GROQ_KEY = '{{ groqApiKey }}'.trim();
         var SYSTEM_PROMPT = 'You are Bagani AI, the helpful assistant for Bagani Oil \u2014 a premium Filipino lubricants brand made in the Philippines.\n\nYour job:\n- Answer questions about Bagani Oil products, usage, and compatibility\n- Help customers pick the right oil for their motorcycle or vehicle\n- Share info about dealers, availability, and where to buy\n- Answer general lubricant/engine oil questions\n\nBagani Oil product lines:\n- AMIHAN (Motorcycle Oils): Amihan 4T Gale 10W-40 (scooters, JASO MB), Amihan 4T Gust SAE 40 (JASO MA), Amihan 4T Tempest 20W-50/20W-40 (JASO MA-2)\n- LAON (Engine Oils): Laon Burst 15W-40 (diesel/gasoline, API CI-4/SL), Laon Core SAE 10W/30/40/50 (API CF/SF, heavy duty)\n- AMAN (Gear Oils): Aman Deep SAE 90/140 (API GL-4, manual transmissions)\n- ANITUN (Transmission Fluids): Anitun DXIII (GM Dexron III ATF)\n- HANAN (Gasoline Engine Oils): Hanan Raze 20W-50 (API SL/CF, gasoline engines)\n\nRules:\n- Be friendly, short, and helpful. Use a warm Filipino-friendly tone.\n- If asked about pricing, say prices vary by dealer and recommend checking with a local store.\n- NEVER make up product specs you are unsure about.\n- If the customer needs personalized help, pricing, bulk orders, complaints, or wants to talk to a real person \u2014 end your reply with exactly: SUGGEST_MESSENGER\n- Do not include SUGGEST_MESSENGER unless genuinely needed.\n- Keep replies to 2-4 sentences maximum.';
 
-        if (!GROQ_KEY) {
-          removeTyping();
-          addBotMessage("Chat is not configured yet. Please visit us on Facebook for assistance.", true);
-          isBusy = false;
-          sendBtn.disabled = false;
-          input.focus();
-          return;
-        }
-
-        fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + GROQ_KEY
-          },
-          body: JSON.stringify({
-            model: 'llama-3.1-8b-instant',
-            messages: [
-              { role: 'system', content: SYSTEM_PROMPT },
-              { role: 'user', content: text }
-            ],
-            max_tokens: 300,
-            temperature: 0.7
-          })
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          removeTyping();
+        function handleGroqResponse(data) {
           var reply = (data.choices && data.choices[0] && data.choices[0].message)
-            ? (data.choices[0].message.content || '').trim()
-            : '';
+            ? (data.choices[0].message.content || '').trim() : '';
           if (!reply) {
-            addBotMessage("Sorry, I'm having trouble right now. Please try again or visit us on Facebook.", true);
+            console.error('[Bagani Chat] API error response:', JSON.stringify(data));
+            addBotMessage("Sorry, I\u2019m having trouble right now. Please try again or visit us on Facebook.", true);
             return;
           }
-          var suggestMessenger = reply.indexOf('SUGGEST_MESSENGER') !== -1;
-          reply = reply.replace(/SUGGEST_MESSENGER/g, '').trim();
-          addBotMessage(reply || "Let me connect you with our team.", suggestMessenger);
+          var sm = reply.indexOf('SUGGEST_MESSENGER') !== -1;
+          addBotMessage(reply.replace(/SUGGEST_MESSENGER/g, '').trim() || 'Let me connect you with our team.', sm);
+        }
+
+        function callGroqDirect() {
+          if (!GROQ_KEY) {
+            addBotMessage('Chat is not configured. Please visit us on Facebook.', true);
+            isBusy = false; sendBtn.disabled = false; input.focus();
+            return;
+          }
+          fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+            body: JSON.stringify({ model: 'llama-3.1-8b-instant', messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: text }], max_tokens: 300, temperature: 0.7 })
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) { removeTyping(); handleGroqResponse(data); })
+          .catch(function(err) {
+            console.error('[Bagani Chat] Direct API error:', err);
+            removeTyping();
+            addBotMessage("Sorry, I\u2019m having trouble right now. Please visit us on Facebook.", true);
+          })
+          .finally(function() { isBusy = false; sendBtn.disabled = false; input.focus(); });
+        }
+
+        /* Try PHP proxy first — if unavailable or returns non-JSON, fall back to direct API */
+        fetch('/chat.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        })
+        .then(function(r) {
+          var ct = r.headers.get('content-type') || '';
+          if (!r.ok || ct.indexOf('application/json') === -1) throw new Error('php_unavailable');
+          return r.json();
+        })
+        .then(function(data) {
+          if (data.error) throw new Error('php_error: ' + data.error);
+          removeTyping();
+          handleGroqResponse({ choices: [{ message: { content: data.reply + (data.suggestMessenger ? ' SUGGEST_MESSENGER' : '') } }] });
+          isBusy = false; sendBtn.disabled = false; input.focus();
         })
         .catch(function(err) {
-          console.error('Chat error:', err.message);
-          removeTyping();
-          addBotMessage("Sorry, I'm having trouble right now. Please try again or visit us on Facebook.", true);
-        })
-        .finally(function() {
-          isBusy = false;
-          sendBtn.disabled = false;
-          input.focus();
+          console.warn('[Bagani Chat] PHP proxy unavailable, trying direct API:', err.message);
+          callGroqDirect();
         });
       }
 
@@ -650,7 +655,13 @@
         modal.classList.remove('active');
         document.body.style.overflow = '';
         var form = document.getElementById('dlForm');
-        if (form) { form.reset(); form.classList.remove('was-validated'); }
+        if (form) {
+            form.reset();
+            form.querySelectorAll('.dl-field-error').forEach(function(f) { f.classList.remove('dl-field-error'); });
+            form.querySelectorAll('.dl-field-msg').forEach(function(m) { m.remove(); });
+            var submitBtn = form.querySelector('.dl-submit-btn');
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-2H4v2z"/></svg> Download PDF'; }
+        }
         var formArea = document.getElementById('dlFormArea');
         var successMsg = document.getElementById('dlSuccessMsg');
         if (formArea) formArea.style.display = '';
@@ -662,37 +673,80 @@
     document.addEventListener('DOMContentLoaded', function() {
         var form = document.getElementById('dlForm');
         if (!form) return;
+
+        // Clear error on each field when user starts typing
+        form.querySelectorAll('.dl-field').forEach(function(field) {
+            field.addEventListener('input', function() {
+                this.classList.remove('dl-field-error');
+                var errEl = this.parentNode.querySelector('.dl-field-msg');
+                if (errEl) errEl.remove();
+            });
+        });
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // Validate all required fields
+            var isValid = true;
+            form.querySelectorAll('.dl-field[required]').forEach(function(field) {
+                var val = field.value.trim();
+                var isEmpty = !val;
+                var isEmailInvalid = field.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+
+                field.classList.remove('dl-field-error');
+                var existing = field.parentNode.querySelector('.dl-field-msg');
+                if (existing) existing.remove();
+
+                if (isEmpty || isEmailInvalid) {
+                    field.classList.add('dl-field-error');
+                    var msg = document.createElement('span');
+                    msg.className = 'dl-field-msg';
+                    msg.textContent = isEmpty ? 'This field is required.' : 'Enter a valid email address.';
+                    field.parentNode.appendChild(msg);
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) return;
+
+            // Disable submit button to prevent double-submit
+            var submitBtn = form.querySelector('.dl-submit-btn');
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
             var modal = document.getElementById('dlModal');
             var pdfUrl = modal.dataset.pdfUrl;
             var data = {
-                name:       form.dl_name.value,
-                email:      form.dl_email.value,
-                phone:      form.dl_phone.value,
-                store_name: form.dl_store.value,
-                location:   form.dl_location.value,
-                inquiry:    form.dl_inquiry.value,
+                name:       form.dl_name.value.trim(),
+                email:      form.dl_email.value.trim(),
+                phone:      form.dl_phone.value.trim(),
+                store_name: form.dl_store.value.trim(),
+                location:   form.dl_location.value.trim(),
+                inquiry:    form.dl_inquiry.value.trim(),
                 _subject:   'Product PDF Download Request — Bagani Oil',
                 product:    document.title
             };
+
+            // Send lead data to email, then download PDF
             fetch('https://formsubmit.co/ajax/baganioilph@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(data)
-            }).catch(function(){});
-            if (pdfUrl) {
-                var a = document.createElement('a');
-                a.href = pdfUrl;
-                a.download = '';
-                a.target = '_blank';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
-            document.getElementById('dlFormArea').style.display = 'none';
-            document.getElementById('dlSuccessMsg').style.display = 'flex';
-            setTimeout(window.closeDlModal, 2500);
+            })
+            .catch(function(){})
+            .finally(function() {
+                if (pdfUrl) {
+                    var a = document.createElement('a');
+                    a.href = pdfUrl;
+                    a.download = '';
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+                document.getElementById('dlFormArea').style.display = 'none';
+                document.getElementById('dlSuccessMsg').style.display = 'flex';
+                setTimeout(window.closeDlModal, 2500);
+            });
         });
     });
     </script>
