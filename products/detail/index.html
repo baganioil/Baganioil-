@@ -17,21 +17,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 	<!-- Bootstrap Css -->
-	<link href="/css/bootstrap.min.css?v=1776779656516" rel="stylesheet" media="screen">
+	<link href="/css/bootstrap.min.css?v=1776780782123" rel="stylesheet" media="screen">
 	<!-- SlickNav Css -->
-	<link href="/css/slicknav.min.css?v=1776779656516" rel="stylesheet">
+	<link href="/css/slicknav.min.css?v=1776780782123" rel="stylesheet">
 	<!-- Swiper Css -->
-	<link rel="stylesheet" href="/css/swiper-bundle.min.css?v=1776779656516">
+	<link rel="stylesheet" href="/css/swiper-bundle.min.css?v=1776780782123">
 	<!-- Font Awesome Icon Css-->
-	<link href="/css/all.css?v=1776779656516" rel="stylesheet" media="screen">
+	<link href="/css/all.css?v=1776780782123" rel="stylesheet" media="screen">
 	<!-- Animated Css -->
-	<link href="/css/animate.css?v=1776779656516" rel="stylesheet">
+	<link href="/css/animate.css?v=1776780782123" rel="stylesheet">
     <!-- Magnific Popup Core Css File -->
-	<link rel="stylesheet" href="/css/magnific-popup.css?v=1776779656516">
+	<link rel="stylesheet" href="/css/magnific-popup.css?v=1776780782123">
 	<!-- Mouse Cursor Css File -->
-	<link rel="stylesheet" href="/css/mousecursor.css?v=1776779656516">
+	<link rel="stylesheet" href="/css/mousecursor.css?v=1776780782123">
 	<!-- Main Custom Css -->
-	<link href="/css/custom.css?v=1776779656516" rel="stylesheet" media="screen">
+	<link href="/css/custom.css?v=1776780782123" rel="stylesheet" media="screen">
 	<!-- Leaflet CSS (loaded globally so map container is sized correctly) -->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 	<!-- Preload page header background if set -->
@@ -501,38 +501,38 @@
 
 
     <!-- Jquery Library File -->
-    <script src="/js/jquery-3.7.1.min.js?v=1776779656516" defer></script>
+    <script src="/js/jquery-3.7.1.min.js?v=1776780782123" defer></script>
     <!-- Bootstrap js file -->
-    <script src="/js/bootstrap.min.js?v=1776779656516" defer></script>
+    <script src="/js/bootstrap.min.js?v=1776780782123" defer></script>
     <!-- Validator js file -->
-    <script src="/js/validator.min.js?v=1776779656516" defer></script>
+    <script src="/js/validator.min.js?v=1776780782123" defer></script>
     <!-- SlickNav js file -->
-    <script src="/js/jquery.slicknav.js?v=1776779656516" defer></script>
+    <script src="/js/jquery.slicknav.js?v=1776780782123" defer></script>
     <!-- Swiper js file -->
-    <script src="/js/swiper-bundle.min.js?v=1776779656516" defer></script>
+    <script src="/js/swiper-bundle.min.js?v=1776780782123" defer></script>
     <!-- Counter js file -->
-    <script src="/js/jquery.waypoints.min.js?v=1776779656516" defer></script>
-    <script src="/js/jquery.counterup.min.js?v=1776779656516" defer></script>
+    <script src="/js/jquery.waypoints.min.js?v=1776780782123" defer></script>
+    <script src="/js/jquery.counterup.min.js?v=1776780782123" defer></script>
     <!-- Isotop js file -->
-	<script src="/js/isotope.min.js?v=1776779656516" defer></script>
+	<script src="/js/isotope.min.js?v=1776780782123" defer></script>
     <!-- Magnific js file -->
-    <script src="/js/jquery.magnific-popup.min.js?v=1776779656516" defer></script>
+    <script src="/js/jquery.magnific-popup.min.js?v=1776780782123" defer></script>
     <!-- SmoothScroll -->
-    <script src="/js/SmoothScroll.js?v=1776779656516" defer></script>
+    <script src="/js/SmoothScroll.js?v=1776780782123" defer></script>
     <!-- Parallax js -->
-    <script src="/js/parallaxie.js?v=1776779656516" defer></script>
+    <script src="/js/parallaxie.js?v=1776780782123" defer></script>
     <!-- MagicCursor js file -->
-    <script src="/js/gsap.min.js?v=1776779656516" defer></script>
-    <script src="/js/magiccursor.js?v=1776779656516" defer></script>
+    <script src="/js/gsap.min.js?v=1776780782123" defer></script>
+    <script src="/js/magiccursor.js?v=1776780782123" defer></script>
     <!-- Text Effect js file -->
-    <script src="/js/SplitText.js?v=1776779656516" defer></script>
-    <script src="/js/ScrollTrigger.min.js?v=1776779656516" defer></script>
+    <script src="/js/SplitText.js?v=1776780782123" defer></script>
+    <script src="/js/ScrollTrigger.min.js?v=1776780782123" defer></script>
     <!-- YTPlayer js File -->
-    <script src="/js/jquery.mb.YTPlayer.min.js?v=1776779656516" defer></script>
+    <script src="/js/jquery.mb.YTPlayer.min.js?v=1776780782123" defer></script>
     <!-- Wow js file -->
-    <script src="/js/wow.min.js?v=1776779656516" defer></script>
+    <script src="/js/wow.min.js?v=1776780782123" defer></script>
     <!-- Main Custom js file -->
-    <script src="/js/function.js?v=1776779656516" defer></script>
+    <script src="/js/function.js?v=1776780782123" defer></script>
 
     <!-- Floating Navbar Script -->
     <script>
@@ -940,62 +940,48 @@
         var typing = addTyping();
 
         var GROQ_KEY = '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'.trim();
+        console.log('[Bagani Chat] Key loaded:', GROQ_KEY ? 'YES (starts with ' + GROQ_KEY.substring(0,7) + '...)' : 'EMPTY — secret not set');
+
         var SYSTEM_PROMPT = 'You are Bagani AI, the helpful assistant for Bagani Oil \u2014 a premium Filipino lubricants brand made in the Philippines.\n\nYour job:\n- Answer questions about Bagani Oil products, usage, and compatibility\n- Help customers pick the right oil for their motorcycle or vehicle\n- Share info about dealers, availability, and where to buy\n- Answer general lubricant/engine oil questions\n\nBagani Oil product lines:\n- AMIHAN (Motorcycle Oils): Amihan 4T Gale 10W-40 (scooters, JASO MB), Amihan 4T Gust SAE 40 (JASO MA), Amihan 4T Tempest 20W-50/20W-40 (JASO MA-2)\n- LAON (Engine Oils): Laon Burst 15W-40 (diesel/gasoline, API CI-4/SL), Laon Core SAE 10W/30/40/50 (API CF/SF, heavy duty)\n- AMAN (Gear Oils): Aman Deep SAE 90/140 (API GL-4, manual transmissions)\n- ANITUN (Transmission Fluids): Anitun DXIII (GM Dexron III ATF)\n- HANAN (Gasoline Engine Oils): Hanan Raze 20W-50 (API SL/CF, gasoline engines)\n\nRules:\n- Be friendly, short, and helpful. Use a warm Filipino-friendly tone.\n- If asked about pricing, say prices vary by dealer and recommend checking with a local store.\n- NEVER make up product specs you are unsure about.\n- If the customer needs personalized help, pricing, bulk orders, complaints, or wants to talk to a real person \u2014 end your reply with exactly: SUGGEST_MESSENGER\n- Do not include SUGGEST_MESSENGER unless genuinely needed.\n- Keep replies to 2-4 sentences maximum.';
 
-        function handleGroqResponse(data) {
-          var reply = (data.choices && data.choices[0] && data.choices[0].message)
-            ? (data.choices[0].message.content || '').trim() : '';
-          if (!reply) {
-            console.error('[Bagani Chat] API error response:', JSON.stringify(data));
-            addBotMessage("Sorry, I\u2019m having trouble right now. Please try again or visit us on Facebook.", true);
-            return;
-          }
-          var sm = reply.indexOf('SUGGEST_MESSENGER') !== -1;
-          addBotMessage(reply.replace(/SUGGEST_MESSENGER/g, '').trim() || 'Let me connect you with our team.', sm);
+        if (!GROQ_KEY) {
+          removeTyping();
+          addBotMessage('The AI chat is not set up yet. Please visit us on Facebook for help.', true);
+          isBusy = false; sendBtn.disabled = false; input.focus();
+          return;
         }
 
-        function callGroqDirect() {
-          if (!GROQ_KEY) {
-            addBotMessage('Chat is not configured. Please visit us on Facebook.', true);
-            isBusy = false; sendBtn.disabled = false; input.focus();
-            return;
-          }
-          fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
-            body: JSON.stringify({ model: 'llama-3.1-8b-instant', messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: text }], max_tokens: 300, temperature: 0.7 })
-          })
-          .then(function(r) { return r.json(); })
-          .then(function(data) { removeTyping(); handleGroqResponse(data); })
-          .catch(function(err) {
-            console.error('[Bagani Chat] Direct API error:', err);
-            removeTyping();
-            addBotMessage("Sorry, I\u2019m having trouble right now. Please visit us on Facebook.", true);
-          })
-          .finally(function() { isBusy = false; sendBtn.disabled = false; input.focus(); });
-        }
-
-        /* Try PHP proxy first — if unavailable or returns non-JSON, fall back to direct API */
-        fetch('/chat.php', {
+        fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+          body: JSON.stringify({ model: 'llama-3.1-8b-instant', messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: text }], max_tokens: 300, temperature: 0.7 })
         })
         .then(function(r) {
-          var ct = r.headers.get('content-type') || '';
-          if (!r.ok || ct.indexOf('application/json') === -1) throw new Error('php_unavailable');
+          console.log('[Bagani Chat] Groq status:', r.status);
           return r.json();
         })
         .then(function(data) {
-          if (data.error) throw new Error('php_error: ' + data.error);
           removeTyping();
-          handleGroqResponse({ choices: [{ message: { content: data.reply + (data.suggestMessenger ? ' SUGGEST_MESSENGER' : '') } }] });
-          isBusy = false; sendBtn.disabled = false; input.focus();
+          if (data.error) {
+            console.error('[Bagani Chat] Groq error:', data.error.message, '| code:', data.error.code);
+            var msg = data.error.code === 'invalid_api_key'
+              ? 'Invalid API key. Please contact us on Facebook.'
+              : "Sorry, I\u2019m having trouble right now. Please try again.";
+            addBotMessage(msg, true);
+            return;
+          }
+          var reply = (data.choices && data.choices[0] && data.choices[0].message)
+            ? (data.choices[0].message.content || '').trim() : '';
+          if (!reply) { addBotMessage("Sorry, I\u2019m having trouble right now.", true); return; }
+          var sm = reply.indexOf('SUGGEST_MESSENGER') !== -1;
+          addBotMessage(reply.replace(/SUGGEST_MESSENGER/g, '').trim() || 'Let me connect you with our team.', sm);
         })
         .catch(function(err) {
-          console.warn('[Bagani Chat] PHP proxy unavailable, trying direct API:', err.message);
-          callGroqDirect();
-        });
+          console.error('[Bagani Chat] Fetch failed (likely CORS):', err.message);
+          removeTyping();
+          addBotMessage("Sorry, I\u2019m having trouble right now. Please visit us on Facebook.", true);
+        })
+        .finally(function() { isBusy = false; sendBtn.disabled = false; input.focus(); });
       }
 
       if (sendBtn) sendBtn.addEventListener('click', sendMessage);
@@ -1174,6 +1160,6 @@
     </script>
 
     <!-- Sanity Live: client-side content fetching -->
-    <script src="/js/sanity-live.js?v=1776779656516" defer></script>
+    <script src="/js/sanity-live.js?v=1776780782123" defer></script>
 </body>
 </html>
