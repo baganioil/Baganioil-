@@ -121,8 +121,7 @@ permalink: "/products/detail/"
         '"pdfUrl": pdfFile.asset->url' +
     '}';
 
-    var url = 'https://' + PROJECT_ID + '.api.sanity.io/v' + API_VER + '/data/query/' + DATASET +
-              '?query=' + encodeURIComponent(query);
+    var url = '/.netlify/functions/sanity-query?query=' + encodeURIComponent(query);
 
     function getSizeIcon(size) {
         var s = (size || '').toUpperCase();

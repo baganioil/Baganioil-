@@ -27,18 +27,13 @@
       return r.json().then(function (d) { return d.result; });
     }
 
-    var host = IS_PREVIEW
-      ? 'https://' + PROJECT_ID + '.api.sanity.io'
-      : 'https://' + PROJECT_ID + '.apicdn.sanity.io';
-    var url = host + '/v' + API_VER + '/data/query/' + DATASET + '?query=' + encodeURIComponent(query);
-    if (IS_PREVIEW) url += '&perspective=previewDrafts';
-
-    var opts = { cache: 'no-store' };
-    if (IS_PREVIEW && PREVIEW_TOKEN) {
-      opts.headers = { 'Authorization': 'Bearer ' + PREVIEW_TOKEN };
+    var url = '/.netlify/functions/sanity-query?query=' + encodeURIComponent(query);
+    if (IS_PREVIEW) {
+      url += '&preview=true';
+      if (PREVIEW_TOKEN) url += '&token=' + encodeURIComponent(PREVIEW_TOKEN);
     }
 
-    return fetch(url, opts).then(parseResult);
+    return fetch(url, { cache: 'no-store' }).then(parseResult);
   }
 
   function reInitWow() {
@@ -186,7 +181,7 @@
       return Promise.resolve(cached.items);
     }
 
-    var endpoint = '/api/external-news.php' + (forceRefresh ? ('?refresh=' + Date.now()) : '');
+    var endpoint = '/.netlify/functions/external-news' + (forceRefresh ? ('?refresh=' + Date.now()) : '');
 
     return fetch(endpoint, { cache: forceRefresh ? 'no-store' : 'default' })
       .then(function (r) {

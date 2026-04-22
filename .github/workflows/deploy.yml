@@ -1,23 +1,23 @@
-name: Deploy to Hostinger
+name: Validate Build
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Cache npm
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -33,22 +33,3 @@ jobs:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-
-      - name: Push built site to deploy branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy
-          publish_dir: ./_site
-          commit_message: "Deploy built site"
-
-      - name: Trigger Hostinger Git pull
-        run: |
-          sleep 10
-          if [ -n "$HOSTINGER_WEBHOOK_URL" ]; then
-            curl -s -o /dev/null -w "Hostinger webhook status: %{http_code}\n" -X POST "$HOSTINGER_WEBHOOK_URL"
-          else
-            echo "HOSTINGER_WEBHOOK_URL secret not set — skipping"
-          fi
-        env:
-          HOSTINGER_WEBHOOK_URL: ${{ secrets.HOSTINGER_WEBHOOK_URL }}
