@@ -713,13 +713,54 @@
             '</div></div>';
         }).join('');
 
-        // Apply any pending URL filter and update count
-        if (typeof window.baganiApplyFilters === 'function') {
-          window.baganiApplyFilters();
-        } else {
-          var countEl = document.getElementById('product-count');
-          if (countEl) countEl.textContent = products.length;
+        // ── Filter logic — runs AFTER products are in the DOM ──────────────────
+        function applyFilters() {
+          var groupFilters = [];
+          document.querySelectorAll('.filter-group').forEach(function (group) {
+            var filterType = group.dataset.filter;
+            var checked = [];
+            group.querySelectorAll('.filter-check:checked').forEach(function (el) {
+              checked.push(el.value.replace('.', ''));
+            });
+            if (checked.length > 0) groupFilters.push({ type: filterType, values: checked });
+          });
+
+          var count = 0;
+          grid.querySelectorAll('.project-item-box').forEach(function (item) {
+            var show = groupFilters.length === 0 || groupFilters.every(function (gf) {
+              return gf.values.some(function (f) {
+                if (gf.type === 'line') return item.dataset.line === f;
+                if (gf.type === 'viscosity') return (' ' + (item.dataset.viscosity || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                if (gf.type === 'engine') return (' ' + (item.dataset.engine || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                return false;
+              });
+            });
+            item.style.display = show ? '' : 'none';
+            if (show) count++;
+          });
+          var cEl = document.getElementById('product-count');
+          if (cEl) cEl.textContent = count;
         }
+
+        // Override the global so products.njk change listeners call this version
+        // (which has products in DOM via closure — no timing gap)
+        window.baganiApplyFilters = applyFilters;
+
+        // Apply URL ?filter= param if present
+        var initialFilter = new URLSearchParams(window.location.search).get('filter');
+        if (initialFilter) {
+          var lineGroup = document.querySelector('.filter-group[data-filter="line"]');
+          if (lineGroup) {
+            var target = lineGroup.querySelector('.filter-check[value=".' + initialFilter + '"]');
+            if (target) {
+              lineGroup.querySelectorAll('.filter-check').forEach(function (sib) { sib.checked = false; });
+              target.checked = true;
+            }
+          }
+        }
+
+        // Apply current filter state (catches any boxes checked before products loaded)
+        applyFilters();
       });
   }
 
