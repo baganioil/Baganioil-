@@ -60,6 +60,14 @@ export default defineType({
       description: 'Max upload size: 10MB (Sanity free plan limit). Please compress large images before uploading.',
     }),
     defineField({
+      name: 'pdfFile',
+      title: 'Product TDS (PDF)',
+      type: 'file',
+      group: 'basic',
+      options: {accept: 'application/pdf'},
+      description: 'Technical Data Sheet — upload the product PDF here',
+    }),
+    defineField({
       name: 'shortDesc',
       title: 'Short Description',
       type: 'text',
