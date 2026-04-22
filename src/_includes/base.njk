@@ -645,9 +645,10 @@
         </div>
     </div>
     <script>
-    window.openDlModal = function(pdfUrl) {
+    window.openDlModal = function(pdfUrl, productName) {
         var modal = document.getElementById('dlModal');
         modal.dataset.pdfUrl = pdfUrl || '';
+        modal.dataset.productName = productName || document.title;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     };
@@ -716,6 +717,7 @@
 
             var modal = document.getElementById('dlModal');
             var pdfUrl = modal.dataset.pdfUrl;
+            var productName = modal.dataset.productName || document.title;
             var data = {
                 name:       form.dl_name.value.trim(),
                 email:      form.dl_email.value.trim(),
@@ -723,12 +725,12 @@
                 store_name: form.dl_store.value.trim(),
                 location:   form.dl_location.value.trim(),
                 inquiry:    form.dl_inquiry.value.trim(),
-                _subject:   'Product PDF Download Request — Bagani Oil',
-                product:    document.title
+                _subject:   'PDF Downloaded: ' + productName + ' — Bagani Oil',
+                product:    productName
             };
 
             // Send lead data to email, then download PDF
-            fetch('https://formsubmit.co/ajax/vincecarterdelostrico12@gmail.com', {
+            fetch('https://formsubmit.co/ajax/baganioilph@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(data)

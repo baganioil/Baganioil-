@@ -699,7 +699,7 @@
                 '<p class="bagani-product-spec">' + (p.spec || '') + '</p>' +
                 '<p class="bagani-product-desc">' + (p.shortDesc || '') + '</p>' +
                 '<div class="bagani-product-footer">' +
-                    '<button class="card-dl-link" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">Download PDF</button>' +
+                    '<button class="card-dl-link" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + (p.name || '').replace(/'/g,"\\'") + '\')">Download PDF</button>' +
                     '<a href="/products/' + p.slug + '/" class="bagani-product-link">VIEW DETAILS <i class="fa-solid fa-arrow-right"></i></a>' +
                 '</div>' +
               '</div>' +

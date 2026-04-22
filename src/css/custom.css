@@ -4774,6 +4774,7 @@ body[data-page="home"] .hero.hero-video {
 	font-weight: 600;
 	color: var(--white-color);
 	transition: all 0.3s ease-in-out;
+	text-transform: none;
 }
 
 .sidebar-cta-contact-item:hover .cta-contact-item-title h3{

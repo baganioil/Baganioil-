@@ -249,7 +249,7 @@ permalink: "/products/detail/"
                     '<div class="service-entry">' +
                         '<div style="margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
                             '<span class="product-line" style="font-size:13px;padding:4px 14px;background:#FFC107;color:#121212;font-weight:700;border-radius:3px;text-transform:uppercase;letter-spacing:1px;">' + (p.line || '') + '</span>' +
-                            '<button class="product-dl-btn" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
+                            '<button class="product-dl-btn" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + (p.name || '').replace(/'/g,"\\'") + '\')">' +
                                 '<span class="dl-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></span>' +
                                 '<span class="dl-text">Download PDF</span>' +
                             '</button>' +
