@@ -63,7 +63,10 @@
       "WebFetch(domain:sub.baganioil.ph)",
       "Bash(find 'C:/Users/vince/Downloads/bagani-oil - Copy/src' -name *.njk -o -name *.md -o -name *.html)",
       "Bash(find 'C:/Users/vince/Downloads/bagani-oil - Copy/src' -name *.json)",
-      "Bash(python3 -c \"import json; d=json.load\\(open\\(''$f''\\)\\); print\\(''faqs:'', len\\(d.get\\(''faqs'',[]\\) or []\\)\\)\")"
+      "Bash(python3 -c \"import json; d=json.load\\(open\\(''$f''\\)\\); print\\(''faqs:'', len\\(d.get\\(''faqs'',[]\\) or []\\)\\)\")",
+      "Bash(awk:*)",
+      "Bash(grep:*)",
+      "Bash(grep -o \"var GROQ_KEY = ''''[^'''']*''''\" \"C:\\\\Users\\\\vince\\\\Downloads\\\\bagani-oil - Copy\\\\_site\\\\index.html\")"
     ]
   }
 }
