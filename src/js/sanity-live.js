@@ -704,11 +704,6 @@
                 '<span class="bagani-product-line">' + (p.line || '') + '</span>' +
                 '<h3 class="bagani-product-name">' + p.name + '</h3>' +
                 '<p class="bagani-product-spec">' + (p.spec || '') + '</p>' +
-                '<p class="bagani-product-desc">' + (p.shortDesc || '') + '</p>' +
-                '<div class="bagani-product-footer">' +
-                    '<button class="card-dl-link" onclick="window.openDlModal(\'' + (p.pdfUrl || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + (p.name || '').replace(/'/g,"\\'") + '\')">Download PDF</button>' +
-                    '<a href="/products/' + p.slug + '/" class="bagani-product-link">VIEW DETAILS <i class="fa-solid fa-arrow-right"></i></a>' +
-                '</div>' +
               '</div>' +
             '</div></div>';
         }).join('');
@@ -743,8 +738,22 @@
         }
 
         // Override the global so products.njk change listeners call this version
-        // (which has products in DOM via closure — no timing gap)
         window.baganiApplyFilters = applyFilters;
+
+        // Re-bind change listeners directly — removes dependency on products.njk load timing
+        document.querySelectorAll('.filter-check').forEach(function (el) {
+          if (el._baganiHandler) el.removeEventListener('change', el._baganiHandler);
+          el._baganiHandler = function () {
+            var grp = this.closest('.filter-group');
+            if (grp && grp.classList.contains('single-select') && this.checked) {
+              grp.querySelectorAll('.filter-check').forEach(function (sib) {
+                if (sib !== el) sib.checked = false;
+              });
+            }
+            applyFilters();
+          };
+          el.addEventListener('change', el._baganiHandler);
+        });
 
         // Apply URL ?filter= param if present
         var initialFilter = new URLSearchParams(window.location.search).get('filter');
