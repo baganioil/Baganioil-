@@ -666,29 +666,36 @@
         var countEl = document.getElementById('product-count');
         if (countEl) countEl.textContent = products.length;
 
-        function getFilterClasses(p) {
-          var cls = (p.line || '').toLowerCase();
+        function getViscosityKeys(p) {
+          var keys = [];
           var v = ((p.viscosity || p.spec || '')).toLowerCase();
-          if (v.indexOf('10w-40') > -1) cls += ' v10w40';
-          if (v.indexOf('15w-40') > -1) cls += ' v15w40';
-          if (v.indexOf('20w-40') > -1) cls += ' v20w40';
-          if (v.indexOf('20w-50') > -1) cls += ' v20w50';
-          if (v.indexOf('0w-20') > -1) cls += ' v0w20';
-          if (v.indexOf('sae 90') > -1 || v.indexOf('sae 140') > -1) cls += ' vsae90';
-          if (v.indexOf('sae 40') > -1 && v.indexOf('10w-40') === -1 && v.indexOf('15w-40') === -1 && v.indexOf('20w-40') === -1) cls += ' vsae40';
-          // Engine type: use spec field first, then fall back to product line
+          if (v.indexOf('10w-40') > -1) keys.push('v10w40');
+          if (v.indexOf('15w-40') > -1) keys.push('v15w40');
+          if (v.indexOf('20w-40') > -1) keys.push('v20w40');
+          if (v.indexOf('20w-50') > -1) keys.push('v20w50');
+          if (v.indexOf('0w-20') > -1) keys.push('v0w20');
+          if (v.indexOf('sae 90') > -1 || v.indexOf('sae 140') > -1) keys.push('vsae90');
+          if (v.indexOf('sae 40') > -1 && v.indexOf('10w-40') === -1 && v.indexOf('15w-40') === -1 && v.indexOf('20w-40') === -1) keys.push('vsae40');
+          return keys.join(' ');
+        }
+
+        function getEngineKeys(p) {
+          var keys = [];
           var e = (p.engineType || '').toLowerCase();
-          var line = (p.line || '').toLowerCase();
-          if (e.indexOf('diesel') > -1 || line === 'laon') cls += ' diesel';
-          if (e.indexOf('motorcycle') > -1 || e.indexOf('scooter') > -1 || line === 'amihan' || line === 'hilaya') cls += ' motorcycle-scooter';
-          if (e.indexOf('gasoline') > -1 || line === 'hanan') cls += ' gasoline';
-          if (e.indexOf('gear') > -1 || line === 'aman') cls += ' gear-oil';
-          if (e.indexOf('transmission') > -1 || e.indexOf('atf') > -1 || line === 'anitun') cls += ' transmission';
-          return cls;
+          var line = (p.line || '').toLowerCase().trim();
+          if (e.indexOf('diesel') > -1 || line === 'laon') keys.push('diesel');
+          if (e.indexOf('motorcycle') > -1 || e.indexOf('scooter') > -1 || line === 'amihan' || line === 'hilaya') keys.push('motorcycle-scooter');
+          if (e.indexOf('gasoline') > -1 || line === 'hanan') keys.push('gasoline');
+          if (e.indexOf('gear') > -1 || line === 'aman') keys.push('gear-oil');
+          if (e.indexOf('transmission') > -1 || e.indexOf('atf') > -1 || line === 'anitun') keys.push('transmission');
+          return keys.join(' ');
         }
 
         grid.innerHTML = products.map(function (p, i) {
-          return '<div class="project-item-box ' + getFilterClasses(p) + '" data-idx="' + i + '">' +
+          var lineKey = (p.line || '').toLowerCase().trim();
+          var viscKeys = getViscosityKeys(p);
+          var engKeys = getEngineKeys(p);
+          return '<div class="project-item-box" data-line="' + lineKey + '" data-viscosity="' + viscKeys + '" data-engine="' + engKeys + '" data-idx="' + i + '">' +
             '<div class="bagani-product-item">' +
               '<a href="/products/' + p.slug + '/" class="bagani-product-img-wrap">' +
                 '<img src="' + (p.image || '') + '" alt="Bagani ' + p.name + '" loading="lazy">' +

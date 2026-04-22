@@ -44,7 +44,7 @@ pageHeaderBg: /images/our-products.jpg
                 <button id="mobile-close-sidebar" class="mobile-close-btn d-lg-none"><i class="fa-solid fa-xmark"></i></button>
                 
                 <!-- Group 1: Category / Line -->
-                <div class="filter-group expanded single-select">
+                <div class="filter-group expanded single-select" data-filter="line">
                     <h4 class="filter-title">Category / Line <i class="fa-solid fa-chevron-up toggle-icon"></i></h4>
                     <div class="filter-body">
                         <label class="filter-checkbox">
@@ -79,7 +79,7 @@ pageHeaderBg: /images/our-products.jpg
                 </div>
 
                 <!-- Group 2: Viscosity Grade (Placeholders based on spec) -->
-                <div class="filter-group single-select">
+                <div class="filter-group single-select" data-filter="viscosity">
                     <h4 class="filter-title">Viscosity Grade <i class="fa-solid fa-chevron-down toggle-icon"></i></h4>
                     <div class="filter-body" style="display:none">
                         <label class="filter-checkbox">
@@ -110,7 +110,7 @@ pageHeaderBg: /images/our-products.jpg
                 </div>
                 
                 <!-- Group 3: Engine Type (Placeholders based on spec) -->
-                <div class="filter-group single-select">
+                <div class="filter-group single-select" data-filter="engine">
                     <h4 class="filter-title">Engine Type <i class="fa-solid fa-chevron-down toggle-icon"></i></h4>
                     <div class="filter-body" style="display:none">
                         <label class="filter-checkbox">
@@ -157,20 +157,31 @@ window.addEventListener('load', function() {
 
     // ── Filter ──────────────────────────────────────────────────────────────
     function applyCurrentFilters() {
-        // Collect active filters grouped by filter-group (AND across groups, OR within group)
         var groupFilters = [];
         document.querySelectorAll('.filter-group').forEach(function(group) {
+            var filterType = group.dataset.filter;
             var checked = [];
             group.querySelectorAll('.filter-check:checked').forEach(function(el) {
                 checked.push(el.value.replace('.', ''));
             });
-            if (checked.length > 0) groupFilters.push(checked);
+            if (checked.length > 0) groupFilters.push({ type: filterType, values: checked });
         });
 
         var count = 0;
         document.querySelectorAll('#sanity-products-grid .project-item-box').forEach(function(item) {
-            var show = groupFilters.length === 0 || groupFilters.every(function(group) {
-                return group.some(function(f) { return item.classList.contains(f); });
+            var show = groupFilters.length === 0 || groupFilters.every(function(gf) {
+                return gf.values.some(function(f) {
+                    if (gf.type === 'line') {
+                        return item.dataset.line === f;
+                    }
+                    if (gf.type === 'viscosity') {
+                        return (' ' + (item.dataset.viscosity || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                    }
+                    if (gf.type === 'engine') {
+                        return (' ' + (item.dataset.engine || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                    }
+                    return false;
+                });
             });
             item.style.display = show ? '' : 'none';
             if (show) count++;
@@ -196,16 +207,15 @@ window.addEventListener('load', function() {
 
     // Apply incoming URL filter, e.g. /products/?filter=amihan
     var initialFilter = new URLSearchParams(window.location.search).get('filter');
-    var filterMap = { amihan: 'amihan', laon: 'laon', aman: 'aman', anitun: 'anitun' };
-    if (initialFilter && filterMap[initialFilter]) {
-        var targetClass = filterMap[initialFilter];
-        document.querySelectorAll('.filter-group.single-select').forEach(function(group) {
-            var target = group.querySelector('.filter-check[value=".' + targetClass + '"]');
+    if (initialFilter) {
+        var lineGroup = document.querySelector('.filter-group[data-filter="line"]');
+        if (lineGroup) {
+            var target = lineGroup.querySelector('.filter-check[value=".' + initialFilter + '"]');
             if (target) {
-                group.querySelectorAll('.filter-check').forEach(function(sib) { sib.checked = false; });
+                lineGroup.querySelectorAll('.filter-check').forEach(function(sib) { sib.checked = false; });
                 target.checked = true;
             }
-        });
+        }
     }
 
     // ── Sort ────────────────────────────────────────────────────────────────
