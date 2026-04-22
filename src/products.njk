@@ -152,46 +152,37 @@ pageHeaderBg: /images/our-products.jpg
 <!-- Product Shop End -->
 
 <script>
+// Define immediately so sanity-live.js can call it as soon as products render
+window.baganiApplyFilters = function() {
+    var groupFilters = [];
+    document.querySelectorAll('.filter-group').forEach(function(group) {
+        var filterType = group.dataset.filter;
+        var checked = [];
+        group.querySelectorAll('.filter-check:checked').forEach(function(el) {
+            checked.push(el.value.replace('.', ''));
+        });
+        if (checked.length > 0) groupFilters.push({ type: filterType, values: checked });
+    });
+
+    var count = 0;
+    document.querySelectorAll('#sanity-products-grid .project-item-box').forEach(function(item) {
+        var show = groupFilters.length === 0 || groupFilters.every(function(gf) {
+            return gf.values.some(function(f) {
+                if (gf.type === 'line') return item.dataset.line === f;
+                if (gf.type === 'viscosity') return (' ' + (item.dataset.viscosity || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                if (gf.type === 'engine') return (' ' + (item.dataset.engine || '') + ' ').indexOf(' ' + f + ' ') > -1;
+                return false;
+            });
+        });
+        item.style.display = show ? '' : 'none';
+        if (show) count++;
+    });
+    var countEl = document.getElementById('product-count');
+    if (countEl) countEl.textContent = count;
+};
+
 window.addEventListener('load', function() {
     var grid = document.getElementById('sanity-products-grid');
-
-    // ── Filter ──────────────────────────────────────────────────────────────
-    function applyCurrentFilters() {
-        var groupFilters = [];
-        document.querySelectorAll('.filter-group').forEach(function(group) {
-            var filterType = group.dataset.filter;
-            var checked = [];
-            group.querySelectorAll('.filter-check:checked').forEach(function(el) {
-                checked.push(el.value.replace('.', ''));
-            });
-            if (checked.length > 0) groupFilters.push({ type: filterType, values: checked });
-        });
-
-        var count = 0;
-        document.querySelectorAll('#sanity-products-grid .project-item-box').forEach(function(item) {
-            var show = groupFilters.length === 0 || groupFilters.every(function(gf) {
-                return gf.values.some(function(f) {
-                    if (gf.type === 'line') {
-                        return item.dataset.line === f;
-                    }
-                    if (gf.type === 'viscosity') {
-                        return (' ' + (item.dataset.viscosity || '') + ' ').indexOf(' ' + f + ' ') > -1;
-                    }
-                    if (gf.type === 'engine') {
-                        return (' ' + (item.dataset.engine || '') + ' ').indexOf(' ' + f + ' ') > -1;
-                    }
-                    return false;
-                });
-            });
-            item.style.display = show ? '' : 'none';
-            if (show) count++;
-        });
-        var countEl = document.getElementById('product-count');
-        if (countEl) countEl.textContent = count;
-    }
-
-    // Expose so sanity-live.js can call it after products load
-    window.baganiApplyFilters = applyCurrentFilters;
 
     document.querySelectorAll('.filter-check').forEach(function(el) {
         el.addEventListener('change', function() {
@@ -201,7 +192,7 @@ window.addEventListener('load', function() {
                     if (sib !== el) sib.checked = false;
                 });
             }
-            applyCurrentFilters();
+            window.baganiApplyFilters();
         });
     });
 
