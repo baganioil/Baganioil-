@@ -66,7 +66,9 @@
       "Bash(python3 -c \"import json; d=json.load\\(open\\(''$f''\\)\\); print\\(''faqs:'', len\\(d.get\\(''faqs'',[]\\) or []\\)\\)\")",
       "Bash(awk:*)",
       "Bash(grep:*)",
-      "Bash(grep -o \"var GROQ_KEY = ''''[^'''']*''''\" \"C:\\\\Users\\\\vince\\\\Downloads\\\\bagani-oil - Copy\\\\_site\\\\index.html\")"
+      "Bash(grep -o \"var GROQ_KEY = ''''[^'''']*''''\" \"C:\\\\Users\\\\vince\\\\Downloads\\\\bagani-oil - Copy\\\\_site\\\\index.html\")",
+      "Bash(SANITY_API_TOKEN=sktM6s1JbfzKzbstloMbmAhYvd4mertKCYqIPGfNR7OdRuNXXPUWuhZcJ0a0hbpvE4D9pIEg1MwFF4DfBe4oVSPWoxSXmgEGUI0SbUGATOXSUELBPExGhApqAyw9hfoaFeQqXOs6xoiVNWXRTDQ4HFUjVZpSxF8rkKKE7Or18D3AK85nWZ8R node scripts/upload-pdfs.js)",
+      "Bash(node:*)"
     ]
   }
 }

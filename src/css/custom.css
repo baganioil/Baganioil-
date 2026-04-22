@@ -8326,17 +8326,40 @@ body[data-page="home"] .hero.hero-video {
         background: transparent; border: none; color: #111111; font-size: 24px; cursor: pointer;
     }
 
-    /* 2-column product grid on mobile */
+    /* Tighten shop container padding on mobile so grid fills viewport like Nike */
+    .bagani-nike-shop .nike-shop-container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .bagani-nike-shop {
+        padding: 20px 0 60px 0;
+    }
+
+    .nike-shop-main {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    /* 2-column product grid on mobile — edge-to-edge like Nike */
     .project-item-boxes {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 8px;
     }
     .bagani-product-img-wrap { height: 200px; background: transparent; }
     .project-item-box { padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 0 !important; }
     .bagani-product-info { padding: 10px 2px 0; }
     .bagani-product-name { font-size: 13px; min-height: auto; }
     .bagani-product-spec { font-size: 12px; margin-bottom: 2px; }
-    .bagani-product-desc { display: none; }
+    .bagani-product-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 2px;
+    }
     .bagani-product-line { font-size: 11px; margin-bottom: 2px; }
     .bagani-product-link { font-size: 12px; }
 }
@@ -9336,6 +9359,10 @@ body[data-page="home"] .hero.hero-video {
     margin-top: 16px;
 }
 
+/* Desktop: show full text, hide short icon labels */
+.dl-full { display: inline; }
+.dl-short { display: none; }
+
 .card-dl-link {
     background: none;
     border: none;
@@ -9545,11 +9572,23 @@ body[data-page="home"] .hero.hero-video {
         display: none;
     }
 
-    /* Product listing cards: hide Download PDF + View Details footer on mobile */
-    /* Users tap the product image/card to view details */
+    /* Product listing cards: compact footer on mobile */
     .bagani-product-footer {
-        display: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        gap: 0;
     }
+    .card-dl-link {
+        font-size: 12px;
+    }
+    .bagani-product-footer .bagani-product-link {
+        font-size: 12px;
+    }
+    /* Toggle labels: hide full text, show short icon text on mobile */
+    .dl-full { display: none !important; }
+    .dl-short { display: inline !important; }
 
     /* Product listing cards: make image fill the full card (Nike-style) */
     .bagani-product-img-wrap {
