@@ -406,18 +406,31 @@
 	});
 
 	function submitForm(){
-		/* Ajax call to submit form */
-		$.ajax({
-			type: "POST",
-			url: "form-process.php",
-			data: $contactform.serialize(),
-			success : function(text){
-				if (text === "success"){
-					formSuccess();
-				} else {
-					submitMSG(false,text);
-				}
+		var data = {
+			fname:      ($contactform.find('[name="fname"]').val() || '').trim(),
+			lname:      ($contactform.find('[name="lname"]').val() || '').trim(),
+			email:      ($contactform.find('[name="email"]').val() || '').trim(),
+			phone:      ($contactform.find('[name="phone"]').val() || '').trim(),
+			store_name: ($contactform.find('[name="store_name"]').val() || '').trim(),
+			message:    ($contactform.find('[name="message"]').val() || '').trim(),
+			_subject:   'New Message from Bagani Website',
+			_captcha:   'false'
+		};
+		fetch('https://formsubmit.co/ajax/info@baganioil.ph', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+			body: JSON.stringify(data)
+		})
+		.then(function(res) { return res.json(); })
+		.then(function(json) {
+			if (json.success === 'true' || json.success === true) {
+				formSuccess();
+			} else {
+				submitMSG(false, json.message || 'Something went wrong. Please try again.');
 			}
+		})
+		.catch(function() {
+			submitMSG(false, 'Something went wrong. Please try again.');
 		});
 	}
 
