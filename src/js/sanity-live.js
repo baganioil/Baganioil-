@@ -693,6 +693,13 @@
 
         grid.innerHTML = products.map(function (p, i) {
           var lineKey = (p.line || '').toLowerCase().trim();
+          var nameLower = (p.name || '').toLowerCase();
+          var filterKeywords = ['amihan', 'laon', 'aman', 'anitun', 'hilaya', 'gale', 'hanan'];
+          filterKeywords.forEach(function (kw) {
+            if (nameLower.indexOf(kw) > -1 && (' ' + lineKey + ' ').indexOf(' ' + kw + ' ') === -1) {
+              lineKey += ' ' + kw;
+            }
+          });
           var viscKeys = getViscosityKeys(p);
           var engKeys = getEngineKeys(p);
           return '<div class="project-item-box" data-line="' + lineKey + '" data-viscosity="' + viscKeys + '" data-engine="' + engKeys + '" data-idx="' + i + '">' +
@@ -729,7 +736,7 @@
           grid.querySelectorAll('.project-item-box').forEach(function (item) {
             var show = groupFilters.length === 0 || groupFilters.every(function (gf) {
               return gf.values.some(function (f) {
-                if (gf.type === 'line') return item.dataset.line === f;
+                if (gf.type === 'line') return (' ' + item.dataset.line + ' ').indexOf(' ' + f + ' ') > -1;
                 if (gf.type === 'viscosity') return (' ' + (item.dataset.viscosity || '') + ' ').indexOf(' ' + f + ' ') > -1;
                 if (gf.type === 'engine') return (' ' + (item.dataset.engine || '') + ' ').indexOf(' ' + f + ' ') > -1;
                 return false;
