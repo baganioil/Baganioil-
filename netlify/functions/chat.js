@@ -188,10 +188,13 @@ exports.handler = async function(event) {
 
   const OUT_OF_SCOPE = 'Sorry, your question is outside the information available on this website. You can reach us on Facebook or call us for more help.';
 
-  // Greeting shortcut — no Sanity search needed
+  // Greeting shortcut — only for short messages (≤3 words) that are just a greeting
+  // "Hello what type of oil should I use" must NOT trigger this — it has a real question
   const GREETINGS = ['hello','hi','hey','sup','good morning','good afternoon','good evening','kumusta','kamusta','musta','magandang','ola','helo','howdy'];
   const msgLower = userMessage.toLowerCase().trim();
-  if (GREETINGS.some(g => msgLower === g || msgLower.startsWith(g + ' ') || msgLower.startsWith(g + '!'))) {
+  const wordCount = msgLower.split(/\s+/).length;
+  const isJustGreeting = wordCount <= 3 && GREETINGS.some(g => msgLower === g || msgLower.startsWith(g + ' ') || msgLower.startsWith(g + '!') || msgLower.startsWith(g + ','));
+  if (isJustGreeting) {
     const reply = "Hi! Welcome to Bagani Oil! I'm here to help you find the right oil for your vehicle, locate a store, or answer any questions about our products. What can I help you with?";
     saveChatLog(sessionId, userMessage, reply, [], false, pageUrl);
     return { statusCode: 200, headers, body: JSON.stringify({ reply, suggestMessenger: false }) };
