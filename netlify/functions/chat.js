@@ -181,9 +181,23 @@ exports.handler = async function(event) {
 
   if (!userMessage) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Empty message' }) };
 
-  const keywords = extractKeywords(userMessage);
+  // Guard: message too short to be a real question
+  if (userMessage.length < 3) {
+    return { statusCode: 200, headers, body: JSON.stringify({ reply: 'Maaari mo bang i-type ang iyong buong tanong? (Please type your full question.)', suggestMessenger: false }) };
+  }
 
   const OUT_OF_SCOPE = 'Sorry, your question is outside the information available on this website. You can reach us on Facebook or call us for more help.';
+
+  // Greeting shortcut — no Sanity search needed
+  const GREETINGS = ['hello','hi','hey','sup','good morning','good afternoon','good evening','kumusta','kamusta','musta','magandang','ola','helo','howdy'];
+  const msgLower = userMessage.toLowerCase().trim();
+  if (GREETINGS.some(g => msgLower === g || msgLower.startsWith(g + ' ') || msgLower.startsWith(g + '!'))) {
+    const reply = "Hi! Welcome to Bagani Oil! I'm here to help you find the right oil for your vehicle, locate a store, or answer any questions about our products. What can I help you with?";
+    saveChatLog(sessionId, userMessage, reply, [], false, pageUrl);
+    return { statusCode: 200, headers, body: JSON.stringify({ reply, suggestMessenger: false }) };
+  }
+
+  const keywords = extractKeywords(userMessage);
 
   // ── 1. Retrieve relevant content from Sanity ───────────────────────────
   let products = [], faqs = [], stores = [], articles = [], site = null;
@@ -227,7 +241,30 @@ exports.handler = async function(event) {
     console.warn('[Chat] Sanity fetch error:', e.message);
   }
 
-  const totalResults = products.length + faqs.length + stores.length + articles.length;
+  let totalResults = products.length + faqs.length + stores.length + articles.length;
+
+  // ── 2. Fallback: generic product/FAQ context when keywords matched nothing ─
+  // This lets Groq answer general questions like "what is the best product?"
+  if (totalResults === 0) {
+    try {
+      const [fallbackProducts, fallbackFaqs] = await Promise.all([
+        readClient.fetch(
+          `*[_type == "product"] | order(name asc) [0..3] {name, line, spec, shortDesc, applicationText, approvalsText, availableSizes, "faqs": faqs[]{q,a}}`,
+          {}
+        ).catch(() => []),
+        readClient.fetch(
+          `*[_type == "faq"] | order(order asc) [0..3] {question, answer}`,
+          {}
+        ).catch(() => []),
+      ]);
+      products = fallbackProducts;
+      faqs = fallbackFaqs;
+      totalResults = products.length + faqs.length;
+    } catch (e) {
+      console.warn('[Chat] Fallback fetch error:', e.message);
+    }
+  }
+
   const retrievedTypes = [
     ...(products.length  ? ['product'] : []),
     ...(faqs.length      ? ['faq']     : []),
@@ -235,8 +272,7 @@ exports.handler = async function(event) {
     ...(articles.length  ? ['article'] : []),
   ];
 
-  // ── 2. Primary relevance threshold ────────────────────────────────────
-  // If nothing matched (and no contact info), skip Groq entirely
+  // Hard out-of-scope only when Sanity is completely empty or unreachable
   if (totalResults === 0 && !site) {
     saveChatLog(sessionId, userMessage, OUT_OF_SCOPE, [], true, pageUrl);
     return { statusCode: 200, headers, body: JSON.stringify({ reply: OUT_OF_SCOPE, suggestMessenger: false }) };
