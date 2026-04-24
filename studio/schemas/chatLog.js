@@ -34,7 +34,7 @@ export default defineType({
       title: 'Content Types Retrieved',
       type: 'array',
       of: [{type: 'string'}],
-      description: 'Which content types from Sanity matched the user's question (product, faq, store, article). Empty means no match was found.',
+      description: "Which content types from Sanity matched the user's question (product, faq, store, article). Empty means no match was found.",
     }),
     defineField({
       name: 'noContentFound',
