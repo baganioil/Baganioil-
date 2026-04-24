@@ -455,7 +455,7 @@ activePage: home
                     }
                     var html = '';
                     articles.forEach(function(a) {
-                        var href = '/news/' + a.slug + '/';
+                        var href = '/news/article/?s=' + encodeURIComponent(a.slug);
                         var title = (a.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
                         var img = a.image
                             ? '<img src="' + a.image + '" alt="' + title + '" loading="lazy">'
