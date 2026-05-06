@@ -27,7 +27,7 @@
       return r.json().then(function (d) { return d.result; });
     }
 
-    var url = 'https://api.baganioil.ph/sanity-query?query=' + encodeURIComponent(query);
+    var url = '/sanity-query?query=' + encodeURIComponent(query);
     if (IS_PREVIEW) {
       url += '&preview=true';
       if (PREVIEW_TOKEN) url += '&token=' + encodeURIComponent(PREVIEW_TOKEN);
@@ -181,7 +181,7 @@
       return Promise.resolve(cached.items);
     }
 
-    var endpoint = 'https://api.baganioil.ph/external-news' + (forceRefresh ? ('?refresh=' + Date.now()) : '');
+    var endpoint = '/external-news' + (forceRefresh ? ('?refresh=' + Date.now()) : '');
 
     return fetch(endpoint, { cache: forceRefresh ? 'no-store' : 'default' })
       .then(function (r) {

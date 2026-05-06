@@ -1,11 +1,12 @@
 // Bagani Oil API Server
-// Replaces Netlify Functions on Hostinger
-// Routes: /ping  /chat  /sanity-query  /external-news
+// Serves static site + API routes — all on baganioil.ph, no subdomain needed
+// Routes: /ping  /chat  /sanity-query  /external-news  + static _site/
 
 'use strict';
 
 const express = require('express');
 const cors    = require('cors');
+const path    = require('path');
 const {createClient} = require('@sanity/client');
 
 const app  = express();
@@ -509,6 +510,17 @@ app.get('/external-news', async (req, res) => {
 });
 
 // ════════════════════════════════════════════════════════════════════════════
+// STATIC SITE — serve the 11ty _site/ build (must be AFTER API routes)
+// ════════════════════════════════════════════════════════════════════════════
+const SITE_DIR = path.join(__dirname, '..', '_site');
+app.use(express.static(SITE_DIR));
+
+// SPA-style fallback: unknown routes → 404.html
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(SITE_DIR, '404.html'));
+});
+
+// ════════════════════════════════════════════════════════════════════════════
 app.listen(PORT, () => {
-  console.log(`Bagani API running on port ${PORT}`);
+  console.log(`Bagani API + static site running on port ${PORT}`);
 });
