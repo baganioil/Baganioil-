@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: bagani-oil
+    runtime: node
+    rootDir: .
+    buildCommand: npm install && npm run build && cd api-server && npm install
+    startCommand: node api-server/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SANITY_PROJECT_ID
+        value: c7mgn6k7
+      - key: SANITY_DATASET
+        value: production
+      - key: SANITY_WRITE_TOKEN
+        sync: false
