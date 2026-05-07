@@ -510,22 +510,15 @@ app.get('/external-news', async (req, res) => {
 });
 
 // ════════════════════════════════════════════════════════════════════════════
-// STATIC SITE — serve the 11ty _site/ build only if it exists locally
+// STATIC SITE — serve the 11ty _site/ build (must be AFTER API routes)
 // ════════════════════════════════════════════════════════════════════════════
-const fs = require('fs');
 const SITE_DIR = path.join(__dirname, '..', '_site');
-const siteExists = fs.existsSync(SITE_DIR);
+app.use(express.static(SITE_DIR));
 
-if (siteExists) {
-  app.use(express.static(SITE_DIR));
-  app.use((req, res) => {
-    res.status(404).sendFile(path.join(SITE_DIR, '404.html'));
-  });
-} else {
-  app.use((req, res) => {
-    res.status(404).json({ error: 'Not found' });
-  });
-}
+// SPA-style fallback: unknown routes → 404.html
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(SITE_DIR, '404.html'));
+});
 
 // ════════════════════════════════════════════════════════════════════════════
 app.listen(PORT, () => {
